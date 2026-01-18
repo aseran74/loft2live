@@ -16,6 +16,118 @@
           </button>
         </div>
 
+        <!-- Filtros + mapa -->
+        <div v-if="proyectos.length > 0" class="mb-6 space-y-4">
+          <div class="bg-white rounded-2xl shadow p-5">
+            <div class="flex items-center justify-between gap-4">
+              <h2 class="text-lg font-bold" style="color:#0D0D0D">Filtros</h2>
+              <button
+                type="button"
+                class="text-sm font-semibold hover:opacity-80"
+                style="color:#79358D"
+                @click="resetFilters"
+              >
+                Limpiar filtros
+              </button>
+            </div>
+
+            <!-- Precio por loft (pantalla completa) -->
+            <div class="mt-4 rounded-2xl border p-5" style="border-color:#DFDCF2">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <h3 class="text-base font-bold" style="color:#0D0D0D">Precio por loft</h3>
+                  <p class="text-xs text-gray-500 mt-0.5">
+                    Rango disponible: {{ formatCurrency(priceRangeMin) }} – {{ formatCurrency(priceRangeMax) }}
+                  </p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:#F7F7FB; color:#0D0D0D; border:1px solid #DFDCF2">
+                    {{ formatCurrency(precioMinValue) }} – {{ formatCurrency(precioMaxValue) }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <!-- Doble slider (min/max) -->
+                <div class="relative h-10">
+                  <input
+                    v-model.number="precioMinValue"
+                    type="range"
+                    class="absolute inset-0 w-full"
+                    :min="priceRangeMin"
+                    :max="priceRangeMax"
+                    :step="priceStep"
+                    aria-label="Precio mínimo por loft"
+                  />
+                  <input
+                    v-model.number="precioMaxValue"
+                    type="range"
+                    class="absolute inset-0 w-full"
+                    :min="priceRangeMin"
+                    :max="priceRangeMax"
+                    :step="priceStep"
+                    aria-label="Precio máximo por loft"
+                  />
+                </div>
+
+                <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+                  <span>{{ formatCurrency(priceRangeMin) }}</span>
+                  <span>{{ formatCurrency(priceRangeMax) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 text-sm text-gray-600">
+              Mostrando <span class="font-semibold" style="color:#0D0D0D">{{ filteredProyectos.length }}</span>
+              de {{ proyectos.length }} proyectos.
+            </div>
+          </div>
+
+          <!-- Mapa proyectos filtrados -->
+          <div class="bg-white rounded-2xl shadow p-5">
+            <div class="flex items-center justify-between gap-4 mb-3">
+              <h2 class="text-lg font-bold" style="color:#0D0D0D">Mapa</h2>
+              <span v-if="mapErrorMessage" class="text-xs text-gray-500">({{ mapErrorMessage }})</span>
+            </div>
+
+            <div class="rounded-xl overflow-hidden border" style="border-color:#DFDCF2">
+              <div class="relative">
+                <!-- Fallback: lista de enlaces -->
+                <div
+                  v-show="mapState !== 'ready'"
+                  class="w-full h-72 sm:h-80 md:h-96 bg-gray-50 p-4 overflow-auto"
+                >
+                  <div class="text-sm text-gray-700">
+                    <span v-if="mapState === 'loading'">Cargando mapa…</span>
+                    <span v-else>Mapa interactivo no disponible. Usa los enlaces:</span>
+                  </div>
+                  <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      v-for="p in filteredProyectos"
+                      :key="p.id"
+                      class="text-sm font-semibold hover:opacity-80"
+                      style="color:#79358D"
+                      :href="getMapsOpenUrl(p.localizacion)"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {{ p.nombre_proyecto }} — {{ p.localizacion }}
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Mapa interactivo -->
+                <div
+                  ref="mapListContainer"
+                  class="w-full h-72 sm:h-80 md:h-96"
+                  v-show="mapState === 'ready'"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       <!-- Formulario Modal -->
       <div
         v-if="showForm"
@@ -60,9 +172,13 @@
         <p style="color: #0D0D0D">No hay proyectos disponibles. Crea tu primer proyecto.</p>
       </div>
 
+      <div v-else-if="filteredProyectos.length === 0" class="text-center py-12">
+        <p style="color: #0D0D0D">No hay proyectos que coincidan con los filtros.</p>
+      </div>
+
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
-          v-for="proyecto in proyectos"
+          v-for="proyecto in filteredProyectos"
           :key="proyecto.id"
           class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
         >
@@ -117,6 +233,10 @@
                 <span style="color: #0D0D0D">Lofts:</span>
                 <span class="font-semibold" style="color: #0D0D0D">{{ proyecto.num_lofts }}</span>
               </div>
+              <div class="flex justify-between">
+                <span style="color: #0D0D0D">Precio/loft:</span>
+                <span class="font-semibold" style="color: #0D0D0D">{{ formatCurrency(Number(proyecto.precio_unidad || 0)) }}</span>
+              </div>
             </div>
 
             <!-- Progress Bar -->
@@ -149,13 +269,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch, nextTick, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useProyectos } from '@/composables/useProyectos'
 import ProyectoForm from '@/components/proyectos/ProyectoForm.vue'
 import type { Proyecto } from '@/types/proyecto'
 import { supabase } from '@/config/supabase'
 import AdminLayout from '@/components/layout/AdminLayout.vue'
+import { loadGoogleMapsPlaces } from '@/utils/loadGoogleMaps'
 
 const router = useRouter()
 const route = useRoute()
@@ -164,6 +285,169 @@ const { proyectos, loading, error, fetchProyectos, createProyecto, updateProyect
 
 const showForm = ref(false)
 const selectedProyecto = ref<Proyecto | undefined>(undefined)
+
+// Filtros
+const precioMinValue = ref<number>(0)
+const precioMaxValue = ref<number>(0)
+
+const priceRangeMin = computed(() => {
+  const values = proyectos.value.map((p) => Number(p.precio_unidad || 0)).filter((n) => Number.isFinite(n) && n > 0)
+  return values.length ? Math.min(...values) : 0
+})
+const priceRangeMax = computed(() => {
+  const values = proyectos.value.map((p) => Number(p.precio_unidad || 0)).filter((n) => Number.isFinite(n) && n > 0)
+  return values.length ? Math.max(...values) : 0
+})
+
+const priceStep = computed(() => {
+  // Escalón “bonito” para sliders, evitando pasos demasiado pequeños
+  const span = Math.max(0, priceRangeMax.value - priceRangeMin.value)
+  if (span <= 0) return 1000
+  return 1000
+})
+
+const filteredProyectos = computed(() => {
+  const min = Number.isFinite(precioMinValue.value) ? precioMinValue.value : null
+  const max = Number.isFinite(precioMaxValue.value) ? precioMaxValue.value : null
+
+  return (proyectos.value || []).filter((p) => {
+    const price = Number(p.precio_unidad || 0)
+    if (min != null && Number.isFinite(min) && price && price < min) return false
+    if (max != null && Number.isFinite(max) && price && price > max) return false
+
+    return true
+  })
+})
+
+const resetFilters = () => {
+  precioMinValue.value = priceRangeMin.value
+  precioMaxValue.value = priceRangeMax.value
+}
+
+// Mapa (lista)
+const mapListContainer = ref<HTMLDivElement | null>(null)
+const mapState = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
+const mapErrorMessage = ref<string | null>(null)
+let map: any = null
+let geocoder: any = null
+let markers: any[] = []
+const geocodeCache = new Map<string, { lat: number; lng: number }>()
+
+const getMapsOpenUrl = (localizacion: string) => {
+  const q = encodeURIComponent(localizacion || '')
+  return `https://www.google.com/maps/search/?api=1&query=${q}`
+}
+
+const clearMarkers = () => {
+  for (const m of markers) {
+    try {
+      m.setMap(null)
+    } catch {}
+  }
+  markers = []
+}
+
+const initListMap = async () => {
+  if (!mapListContainer.value) return
+
+  mapState.value = 'loading'
+  mapErrorMessage.value = null
+
+  try {
+    await loadGoogleMapsPlaces()
+    const g = (window as any).google
+    if (!g?.maps) throw new Error('Google Maps no cargó')
+
+    geocoder = new g.maps.Geocoder()
+    map = new g.maps.Map(mapListContainer.value, {
+      zoom: 6,
+      center: { lat: 40.4168, lng: -3.7038 },
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+      styles: [
+        { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+      ],
+    })
+
+    mapState.value = 'ready'
+    await updateMarkers()
+  } catch (e: any) {
+    console.warn('No se pudo cargar el mapa de proyectos:', e)
+    mapState.value = 'error'
+    mapErrorMessage.value = e?.message || 'Mapa no disponible'
+  }
+}
+
+const geocodeAddress = async (address: string): Promise<{ lat: number; lng: number } | null> => {
+  const key = (address || '').trim()
+  if (!key) return null
+  if (geocodeCache.has(key)) return geocodeCache.get(key)!
+
+  const g = (window as any).google
+  if (!geocoder || !g?.maps) return null
+
+  const result = await new Promise<{ lat: number; lng: number } | null>((resolve) => {
+    geocoder.geocode({ address: key }, (results: any, status: any) => {
+      if (status === 'OK' && results && results[0]) {
+        const loc = results[0].geometry.location
+        const pos = { lat: loc.lat(), lng: loc.lng() }
+        resolve(pos)
+      } else {
+        resolve(null)
+      }
+    })
+  })
+
+  if (result) geocodeCache.set(key, result)
+  return result
+}
+
+const updateMarkers = async () => {
+  if (mapState.value !== 'ready' || !map) return
+
+  clearMarkers()
+
+  const g = (window as any).google
+  const bounds = new g.maps.LatLngBounds()
+
+  // Geocode secuencial (pocos proyectos) para evitar límites agresivos
+  for (const p of filteredProyectos.value) {
+    const pos = await geocodeAddress(p.localizacion)
+    if (!pos) continue
+
+    const marker = new g.maps.Marker({
+      map,
+      position: pos,
+      title: p.nombre_proyecto,
+    })
+
+    const infoWindow = new g.maps.InfoWindow({
+      content: `
+        <div style="padding:10px; max-width:260px;">
+          <div style="font-weight:700; margin-bottom:6px;">${p.nombre_proyecto}</div>
+          <div style="color:#666; font-size:12px; margin-bottom:6px;">${p.localizacion}</div>
+          <div style="font-size:12px;"><b>Precio/loft:</b> ${formatCurrency(Number(p.precio_unidad || 0))}</div>
+        </div>
+      `,
+    })
+    marker.addListener('click', () => infoWindow.open(map, marker))
+
+    markers.push(marker)
+    bounds.extend(pos as any)
+  }
+
+  if (markers.length > 0) {
+    map.fitBounds(bounds)
+    // Un pequeño zoom-out para que no quede demasiado cerca
+    window.setTimeout(() => {
+      try {
+        const z = map.getZoom()
+        if (typeof z === 'number' && z > 14) map.setZoom(14)
+      } catch {}
+    }, 200)
+  }
+}
 
 onMounted(() => {
   fetchProyectos()
@@ -177,6 +461,57 @@ onMounted(() => {
       editProyecto(proyectoToEdit)
     }
   }
+})
+
+watch(
+  () => [filteredProyectos.value.length, precioMinValue.value, precioMaxValue.value],
+  async () => {
+    if (!mapListContainer.value) return
+    if (mapState.value === 'idle') {
+      await nextTick()
+      await initListMap()
+    } else {
+      await updateMarkers()
+    }
+  },
+  { immediate: true }
+)
+
+// Inicializar y mantener consistencia del rango (min <= max)
+watch(
+  () => [priceRangeMin.value, priceRangeMax.value],
+  ([min, max]) => {
+    if (min === 0 && max === 0) return
+    if (!precioMinValue.value && !precioMaxValue.value) {
+      precioMinValue.value = min
+      precioMaxValue.value = max
+      return
+    }
+    // Clamp al rango disponible
+    precioMinValue.value = Math.min(Math.max(precioMinValue.value, min), max)
+    precioMaxValue.value = Math.min(Math.max(precioMaxValue.value, min), max)
+    if (precioMinValue.value > precioMaxValue.value) {
+      const mid = Math.round((precioMinValue.value + precioMaxValue.value) / 2)
+      precioMinValue.value = Math.min(mid, precioMaxValue.value)
+      precioMaxValue.value = Math.max(mid, precioMinValue.value)
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => [precioMinValue.value, precioMaxValue.value],
+  ([min, max]) => {
+    if (min > max) {
+      // Si el usuario cruza los sliders, reordenamos
+      precioMinValue.value = max
+      precioMaxValue.value = min
+    }
+  }
+)
+
+onUnmounted(() => {
+  clearMarkers()
 })
 
 const editProyecto = (proyecto: Proyecto) => {
