@@ -15,19 +15,27 @@
       <!-- Stats Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         <div class="rounded-xl p-5 text-center" style="background-color: #DFDCF2">
-          <div class="text-3xl font-bold mb-2" style="color: #79358d">5,500+</div>
+          <div class="text-3xl font-bold mb-2" style="color: #79358d">
+            {{ statsLoading ? '—' : inversoresLabel }}
+          </div>
           <div class="font-medium" style="color: #0D0D0D">Inversores y creciendo</div>
         </div>
         <div class="rounded-xl p-5 text-center" style="background-color: #CFCEF2">
-          <div class="text-3xl font-bold mb-2" style="color: #79358d">24M€</div>
+          <div class="text-3xl font-bold mb-2" style="color: #79358d">
+            {{ statsLoading ? '—' : elevadoLabel }}
+          </div>
           <div class="font-medium" style="color: #0D0D0D">Elevado</div>
         </div>
         <div class="rounded-xl p-5 text-center" style="background-color: #DFDCF2">
-          <div class="text-3xl font-bold mb-2" style="color: #79358d">200+</div>
+          <div class="text-3xl font-bold mb-2" style="color: #79358d">
+            {{ statsLoading ? '—' : proyectosFinanciadosLabel }}
+          </div>
           <div class="font-medium" style="color: #0D0D0D">Proyectos financiados</div>
         </div>
         <div class="rounded-xl p-5 text-center" style="background-color: #CFCEF2">
-          <div class="text-3xl font-bold mb-2" style="color: #79358d">77M€</div>
+          <div class="text-3xl font-bold mb-2" style="color: #79358d">
+            {{ statsLoading ? '—' : valorBrutoLabel }}
+          </div>
           <div class="font-medium" style="color: #0D0D0D">Valor bruto de desarrollo</div>
         </div>
       </div>
@@ -80,4 +88,135 @@
   </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import { supabase } from '@/config/supabase'
+
+type LandingStats = {
+  inversores: number
+  elevado: number
+  proyectosFinanciados: number
+  valorBruto: number
+}
+
+const statsLoading = ref(true)
+const statsError = ref<string | null>(null)
+const stats = ref<LandingStats>({
+  inversores: 0,
+  elevado: 0,
+  proyectosFinanciados: 0,
+  valorBruto: 0,
+})
+
+const formatInt = (n: number) => new Intl.NumberFormat('es-ES').format(Math.round(n))
+const formatCompactEur = (n: number) =>
+  new Intl.NumberFormat('es-ES', {
+    style: 'currency',
+    currency: 'EUR',
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 0,
+  }).format(n)
+
+const inversoresLabel = computed(() => formatInt(stats.value.inversores))
+const elevadoLabel = computed(() => formatCompactEur(stats.value.elevado))
+const proyectosFinanciadosLabel = computed(() => formatInt(stats.value.proyectosFinanciados))
+const valorBrutoLabel = computed(() => formatCompactEur(stats.value.valorBruto))
+
+async function fetchLandingStats() {
+  statsLoading.value = true
+  statsError.value = null
+
+  try {
+    // Conteos (persistentes)
+    const usersCountReq = supabase.from('users').select('id', { count: 'exact', head: true })
+    const usuariosProfileCountReq = supabase
+      .from('usuarios_profile')
+      .select('id', { count: 'exact', head: true })
+    const usuariosCompradoresCountReq = supabase
+      .from('usuarios_compradores')
+      .select('id', { count: 'exact', head: true })
+    const proyectosCountReq = supabase.from('proyectos').select('id', { count: 'exact', head: true })
+
+    // Datos de proyectos para cálculos (elevado / valor bruto)
+    const proyectosDataReq = supabase
+      .from('proyectos')
+      .select('objetivo_inversion_total, porcentaje_llegado, monto_restante')
+
+    const [
+      usersCountRes,
+      usuariosProfileCountRes,
+      usuariosCompradoresCountRes,
+      proyectosCountRes,
+      proyectosDataRes,
+    ] = await Promise.all([
+      usersCountReq,
+      usuariosProfileCountReq,
+      usuariosCompradoresCountReq,
+      proyectosCountReq,
+      proyectosDataReq,
+    ])
+
+    // Si alguna tabla no es accesible por RLS, no rompemos la landing: dejamos 0 y mostramos warning.
+    const inversores =
+      (usersCountRes.error ? 0 : usersCountRes.count ?? 0) +
+      (usuariosProfileCountRes.error ? 0 : usuariosProfileCountRes.count ?? 0) +
+      (usuariosCompradoresCountRes.error ? 0 : usuariosCompradoresCountRes.count ?? 0)
+
+    const proyectosFinanciados = proyectosCountRes.error ? 0 : proyectosCountRes.count ?? 0
+
+    const proyectos = proyectosDataRes.error ? [] : proyectosDataRes.data || []
+
+    const valorBruto = proyectos.reduce((acc: number, p: any) => acc + (Number(p.objetivo_inversion_total) || 0), 0)
+
+    // Elevado: objetivo * porcentaje_llegado (si existe), si no, derivamos de monto_restante si está.
+    const elevado = proyectos.reduce((acc: number, p: any) => {
+      const objetivo = Number(p.objetivo_inversion_total) || 0
+      const porcentaje = Number(p.porcentaje_llegado)
+      const restante = Number(p.monto_restante)
+
+      if (Number.isFinite(porcentaje) && porcentaje > 0) {
+        return acc + objetivo * (porcentaje / 100)
+      }
+
+      if (Number.isFinite(restante) && objetivo > 0) {
+        return acc + Math.max(0, objetivo - restante)
+      }
+
+      return acc
+    }, 0)
+
+    stats.value = {
+      inversores,
+      elevado,
+      proyectosFinanciados,
+      valorBruto,
+    }
+
+    if (
+      usersCountRes.error ||
+      usuariosProfileCountRes.error ||
+      usuariosCompradoresCountRes.error ||
+      proyectosCountRes.error ||
+      proyectosDataRes.error
+    ) {
+      console.warn('Landing stats: alguna consulta falló (posible RLS).', {
+        users: usersCountRes.error,
+        usuarios_profile: usuariosProfileCountRes.error,
+        usuarios_compradores: usuariosCompradoresCountRes.error,
+        proyectosCount: proyectosCountRes.error,
+        proyectosData: proyectosDataRes.error,
+      })
+    }
+  } catch (e: any) {
+    console.warn('Landing stats: error cargando métricas', e)
+    statsError.value = e?.message || 'Error cargando métricas'
+  } finally {
+    statsLoading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchLandingStats()
+})
+</script>
