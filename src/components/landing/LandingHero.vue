@@ -100,6 +100,8 @@ onUnmounted(() => {
   text-align: center;
   color: white;
   font-family: 'Outfit', sans-serif;
+  padding: 0 2rem;
+  max-width: 70rem;
 }
 
 .hero-title {
@@ -119,6 +121,19 @@ onUnmounted(() => {
   font-weight: 500;
   margin: 0 0 1rem 0;
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Móvil: más grande y con más margen lateral */
+@media (max-width: 640px) {
+  .hero-text {
+    padding: 0 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 2rem;
+    line-height: 1.25;
+    margin-bottom: 1.25rem;
+  }
 }
 
 .hero-description {
