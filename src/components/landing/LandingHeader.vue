@@ -13,6 +13,9 @@
 
         <!-- Navigation -->
         <nav class="hidden md:flex items-center space-x-6">
+          <router-link to="/inversiones" class="transition-colors font-medium text-gray-900 hover:opacity-70">
+            Inversiones
+          </router-link>
           <a href="#oportunidades" class="transition-colors font-medium text-gray-900 hover:opacity-70">
             Oportunidades de inversión
           </a>
@@ -118,6 +121,13 @@
       <!-- Mobile menu -->
       <div v-if="mobileMenuOpen" class="md:hidden py-3 border-t border-gray-200">
         <nav class="flex flex-col space-y-3">
+          <router-link
+            to="/inversiones"
+            class="transition-colors text-gray-900 hover:opacity-70"
+            @click="mobileMenuOpen = false"
+          >
+            Inversiones
+          </router-link>
           <a href="#oportunidades" class="transition-colors text-gray-900 hover:opacity-70">Oportunidades de inversión</a>
           <a href="#preguntas" class="transition-colors text-gray-900 hover:opacity-70">Preguntas frecuentes</a>
           <a href="#nosotros" class="transition-colors text-gray-900 hover:opacity-70">Quiénes somos</a>

@@ -1,227 +1,136 @@
-# TailAdmin Vue - Free Vue.js Tailwind CSS Admin Dashboard Template
+# Loft2live
 
-TailAdmin Vue is a free, open-source admin dashboard template **built on Vue.js**, popular and progressive JavaScript
-framework, and **Tailwind CSS**. This **powerful combination** provides developers with an extensive library of
-essential components, elements, and pages to launch a comprehensive and data-centric back-end, dashboard, or admin panel
-solution for any Vue.js based web projects.
+Plataforma para **comprar y vender lofts** y **maximizar ventajas fiscales** (Ley Startups) con un dashboard de gestión.
 
-![TailAdmin Vue.js Dashboard Preview](./banner.png)
+Incluye:
+- **Landing** pública con secciones animadas.
+- **Dashboard** (Proyectos / Usuarios).
+- **Proyectos**: CRUD, fotos (Supabase Storage), tipos de unidad (planos), vista detalle con mapa y simulador fiscal.
+- **Usuarios**: perfiles y compradores.
+- **Autenticación**: Firebase (Google Sign-In) + sincronización con Supabase.
 
-With TailAdmin Vue, you can leverage **Vue.js 3** features such as declarative rendering, component-based architecture,
-Vue Router for routing, and Pinia for state management. It also utilizes the power of Tailwind CSS for rapid UI
-development with its low-level utility classes and responsive design capabilities.
+## ¿Qué es Loft2live?
 
-## Overview
+**Loft2live** es una aplicación web orientada a inversión/operación inmobiliaria centrada en lofts. Combina una **landing**
+de marketing con un **dashboard** para gestionar proyectos, captación de usuarios y seguimiento, incorporando componentes
+de valor añadido como:
 
-TailAdmin provides essential UI components and layouts for building feature-rich, data-driven admin dashboards and control panels. It's built on:
+- **Mapa y localización**: visualización de proyectos y detalle con mapa.
+- **Gestión de documentación**: subida de fotos y planos por tipo de unidad.
+- **Simulación fiscal**: cálculo orientativo de desgravación (Ley Startups) a partir del precio de unidad y distribución por años.
 
-- Vue 3.x (Vite)
-- Tailwind CSS 4.x
-- TypeScript
+## Stack
 
-### Quick Links
+- **Vue 3** + **Vite** + **TypeScript**
+- **Tailwind CSS**
+- **Supabase** (DB + Storage + migrations en `supabase/migrations/`)
+- **Firebase Auth** (Google)
+- **Google Maps / Places** (autocomplete + mapas)
 
-- [✨ Visit Website](https://tailadmin.com)
-- [📄 Documentation](https://tailadmin.com/docs)
-- [⬇️ Download](https://tailadmin.com/download)
-- [🖌️ Figma Design File (Community Edition)](https://www.figma.com/community/file/1463141366275764364)
-- [⚡ Get PRO Version](https://tailadmin.com/pricing)
+## Arquitectura (alto nivel)
 
-### Demos
+- **Frontend**: Vue (SPA) con rutas para landing y dashboard.
+- **Backend**: Supabase como BaaS:
+  - **DB**: tablas para proyectos y usuarios.
+  - **Storage**: bucket `photos` para imágenes y planos.
+  - **RLS**: políticas de seguridad por tabla/bucket (revisar si algo “no carga”).
+- **Auth**: Firebase Google Sign-In en cliente + sincronización del usuario a Supabase (tabla `users`).
 
-- [Free Version](https://free-vue-demo.tailadmin.com/)
-- [Pro Version](https://vue-demo.tailadmin.com)
+## Requisitos
 
-### Other Versions
+- Node.js 18+ (recomendado 20+)
+- Supabase project + credenciales
+- Firebase project + credenciales
+- (Opcional) Google Maps/Places API key
 
-- [HTML Version](https://github.com/TailAdmin/tailadmin-free-tailwind-dashboard-template)
-- [Next.js Version](https://github.com/TailAdmin/free-nextjs-admin-dashboard)
-- [React Version](https://github.com/TailAdmin/free-react-tailwind-admin-dashboard)
-- [Angular Version](https://github.com/TailAdmin/free-angular-tailwind-dashboard)
-
-## Installation
-
-### Prerequisites
-
-To get started with TailAdmin, ensure you have the following prerequisites installed and set up:
-
-- Node.js 18.x or later (recommended to use Node.js 20.x or later)
-- Recommended IDE Setup: [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-#### Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-### Cloning the Repository
-
-Clone the repository using the following command:
+## Instalación
 
 ```bash
-git clone https://github.com/TailAdmin/vue-tailwind-admin-dashboard.git
+npm install
 ```
 
-> Windows Users: place the repository near the root of your drive if you face issues while cloning.
+## Variables de entorno
 
-1. Install dependencies:
+Crea un `.env` (no se sube a git) con:
 
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+```bash
+VITE_SUPABASE_URL=...
+VITE_SUPABASE_ANON_KEY=...
 
-2. Start the development server:
+# Google Maps / Places (opcional)
+VITE_GOOGLE_PLACES_API_KEY=...
 
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
+# Firebase (según tu configuración)
+VITE_FIREBASE_API_KEY=...
+VITE_FIREBASE_AUTH_DOMAIN=...
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_STORAGE_BUCKET=...
+VITE_FIREBASE_MESSAGING_SENDER_ID=...
+VITE_FIREBASE_APP_ID=...
+VITE_FIREBASE_MEASUREMENT_ID=...
+```
 
-3. Production build:
-   ```bash
-   npm run build
-   # or
-   yarn build
-   ```
+## Scripts
 
-## Feature Comparison
+```bash
+# desarrollo
+npm run dev
 
-### Free Version
+# build producción
+npm run build
+```
 
-- 1 Unique Dashboard
-- 50+ Dashboard UI components
-- Basic Figma design files
-- Community support
+## Desarrollo
 
-### Pro Version
+```bash
+npm run dev
+```
 
-- 7 Unique Dashboards: Analytics, Ecommerce, Marketing, CRM, Stocks (more coming soon)
-- 500+ dashboard components and UI elements
-- Complete Figma design file
-- Email support
+App: `http://localhost:5173`
 
-To learn more about pro version features and pricing, visit our [pricing page](https://tailadmin.com/pricing).
+## Build
 
-## Components
+```bash
+npm run build
+```
 
-TailAdmin is a pre-designed starting point for building a web-based dashboard using Vue.js and Tailwind CSS. The template includes:
+## Modelo de datos (Supabase)
 
-- Sophisticated and accessible sidebar
-- Data visualization components
-- Prebuilt profile management and 404 page
-- Tables and Charts(Line and Bar)
-- Authentication forms and input elements
-- Alerts, Dropdowns, Modals, Buttons and more
-- Can't forget Dark Mode 🕶️
+Tablas principales:
 
-All components are built with Vue and styled using Tailwind CSS for easy customization.
+- **`proyectos`**
+  - Campos típicos: `nombre_proyecto`, `localizacion`, `num_lofts`, `precio_unidad`, `objetivo_inversion_total`,
+    `fotos` (array), `comodidades` (array), `unidades_tipos` (jsonb).
+- **`users`**
+  - Perfil sincronizado desde Firebase: `firebase_uid`, `email`, `name`, `photo_url`, `role`.
+- **`usuarios_profile`**
+  - Perfiles gestionados desde el módulo de Usuarios (CRM).
+- **`usuarios_compradores`**
+  - Compradores vinculables a `proyectos` (FK `proyecto_id`).
 
-## Features
+Storage:
 
-**💎 High-quality, Premium Modern Design:**
-A thoughtfully designed dashboard template with a deep focus on UX/UI, already trusted and utilized by over 10K+ web apps worldwide.
+- **Bucket `photos`**: imágenes de proyecto y planos por tipo de unidad.
 
-**✨ Vue 3:**
-Get enhanced performance with the latest Vue version.
+## Autenticación (Firebase + Supabase)
 
-**⚡ Vite Build System:**
-Enjoy quick development with Vite, ensuring fast code compilation.
+- El usuario inicia sesión con **Google (Firebase Auth)** en el cliente.
+- La app sincroniza/crea el registro del usuario en Supabase (tabla **`users`**).
+- Si algo falla, suele ser por:
+  - tabla inexistente/no accesible,
+  - **RLS** bloqueando lecturas/escrituras,
+  - políticas de **Storage** bloqueando subidas.
 
-**🔀 Vue Router:**
-Manage app navigation with ease using Vue Router for seamless transitions.
+## Estructura rápida
 
-**💡 Reactive Utilities:**
-Enhance component reactivity with @vueuse/core utilities.
+- `src/components/landing/`: landing
+- `src/views/Proyectos.vue`: listado / creación / edición (modal)
+- `src/views/ProyectoDetalle.vue`: detalle del proyecto (mapa, galerías, simulador)
+- `src/components/layout/`: layout del dashboard (sidebar/header)
+- `src/composables/`: `useAuth`, `useProyectos`, `useUsuarios`
+- `supabase/migrations/`: migraciones SQL (tablas, RLS, storage)
 
-**📊 Charting with ApexCharts:**
-Visualize data with ApexCharts for beautiful analytics.
+## Notas importantes
 
-**🗺️ Vector Maps with JSVectorMap:**
-Easily integrate interactive vector maps with JSVectorMap.
-
-**🖌️ UI with Tailwind CSS:**
-Frontend UI built on the powerful and versatile Tailwind CSS framework.
-
-**💫 TypeScript Support:**
-Write safer, maintainable code with TailAdmin Vue's TypeScript Support.
-
-**✅ Linting and Formatting:**
-Maintain a clean codebase with built-in linting and formatting.
-
-**🗃️ State Management with Pinia:**
-Handle your app's state with Pinia for clean, organized code.
-
-## Update Logs
-
-### Version 2.0.2 - [December 30, 2025]
-
-#### Enhancements
-
-- Added date range picker to Statistics Chart component.
-- Improved responsive design for chart header.
-
-### Version 2.0.1 - [February 27, 2025]
-
-#### Update Overview
-
-- Upgraded to Tailwind CSS v4 for better performance and efficiency.
-- Updated class usage to match the latest syntax and features.
-- Replaced deprecated class and optimized styles.
-
-#### Next Steps
-
-- Run npm install or yarn install to update dependencies.
-- Check for any style changes or compatibility issues.
-- Refer to the Tailwind CSS v4 [Migration Guide](https://tailwindcss.com/docs/upgrade-guide) on this release. if needed.
-- This update keeps the project up to date with the latest Tailwind improvements. 🚀
-
-### Version 2.0.0 - [February 2025]
-
-Major update with Vue 3 migration and comprehensive redesign.
-
-#### Major Improvements
-
-- Complete migration to Vue 3 Composition API
-- Updated to Vue Router 4
-- Enhanced user interface with new Vue 3 components
-- Improved performance with Vue 3's virtual DOM
-- Better accessibility and responsive design
-
-#### New Features
-
-- Redesigned dashboards (Ecommerce, Analytics, Marketing, CRM)
-- Collapsible sidebar with Vue 3 integration
-- Enhanced navigation with Vue Router 4
-- Real-time chat functionality
-- Full-featured calendar with drag-and-drop
-- Advanced table components
-- Updated data visualization with ApexCharts
-
-#### Breaking Changes
-
-- Requires Vue 3 and Vue Router 4
-- Chart components migrated to ApexCharts for Vue 3
-- Modified routing implementation
-- Updated component APIs for Vue 3 compatibility
-
-[Read more](https://tailadmin.com/docs/update-logs/vue) on this release.
-
-### Version 1.0.2 - [June 19, 2024]
-
-#### Issues
-
-- Fix Mobile Menu Hamburger Icon issue.
-
-### Version 1.0.1 - [Feb 08, 2024]
-
-#### Enhancements
-
-- Make it functional [Multiselect Dropdown/Form Elements].
-- Delete SelectGroup Components then create a SelectGroup folder and create two files under this
-  folder SelectGroupOne.vue SelectGroupTwo.vue [Select Group/Form Elements & Layout].
-- Update style.css file.
-
-### Version 1.0.0 - Initial Release - [Jan 22, 2024]
-
-- Initial release of TailAdmin Vue.
+- **No subas `.env`**: está ignorado por `.gitignore`.
+- Si no se ven métricas o no puedes escribir/leer datos, revisa **RLS** en Supabase y las políticas de Storage.

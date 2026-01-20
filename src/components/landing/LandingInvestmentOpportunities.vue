@@ -28,31 +28,56 @@
           @ver-detalles="handleVerDetalles"
         />
       </div>
+
+      <div v-if="!loading && proyectos.length > 0" class="mt-8 text-center">
+        <router-link
+          to="/inversiones"
+          class="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-white hover:opacity-90"
+          style="background-color:#79358D"
+        >
+          Ver todas las inversiones
+        </router-link>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useProyectos } from '@/composables/useProyectos'
+import { onMounted, ref } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
 import ProyectoCard from '@/components/proyectos/ProyectoCard.vue'
 import type { Proyecto } from '@/types/proyecto'
+import { fetchPublicProyectos } from '@/utils/publicProyectos'
 
-const { proyectos, loading, error, fetchProyectos } = useProyectos()
+const router = useRouter()
+
+const proyectos = ref<Proyecto[]>([])
+const loading = ref(false)
+const error = ref<string | null>(null)
 
 onMounted(() => {
-  fetchProyectos()
+  load()
 })
 
 const handleInvertir = (proyecto: Proyecto) => {
-  // Aquí puedes redirigir a una página de inversión o abrir un modal
-  console.log('Invertir en:', proyecto)
-  // Ejemplo: router.push(`/invertir/${proyecto.id}`)
+  // Público: pedimos login para invertir
+  router.push('/signin')
 }
 
 const handleVerDetalles = (proyecto: Proyecto) => {
-  // Aquí puedes redirigir a una página de detalles o abrir un modal
-  console.log('Ver detalles de:', proyecto)
-  // Ejemplo: router.push(`/proyectos/${proyecto.id}`)
+  if (!proyecto.id) return
+  router.push(`/inversiones/${proyecto.id}`)
+}
+
+async function load() {
+  loading.value = true
+  error.value = null
+  try {
+    proyectos.value = await fetchPublicProyectos()
+  } catch (e: any) {
+    error.value = e?.message || 'Error al cargar oportunidades'
+  } finally {
+    loading.value = false
+  }
 }
 </script>

@@ -15,6 +15,22 @@ const router = createRouter({
       },
     },
     {
+      path: '/inversiones',
+      name: 'Inversiones',
+      component: () => import('../views/Inversiones.vue'),
+      meta: {
+        title: 'Inversiones',
+      },
+    },
+    {
+      path: '/inversiones/:id',
+      name: 'InversionDetalle',
+      component: () => import('../views/InversionDetalle.vue'),
+      meta: {
+        title: 'Detalle inversión',
+      },
+    },
+    {
       path: '/dashboard',
       name: 'Ecommerce',
       component: () => import('../views/Ecommerce.vue'),
