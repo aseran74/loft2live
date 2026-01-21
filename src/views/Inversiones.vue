@@ -137,6 +137,59 @@
             @invertir="goSignin"
           />
         </div>
+
+        <!-- Preguntas frecuentes -->
+        <section id="preguntas" class="mt-12">
+          <div class="bg-white rounded-2xl shadow p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-2xl sm:text-3xl font-bold" style="color:#0D0D0D">Preguntas frecuentes</h2>
+                <p class="mt-2 text-gray-600">
+                  Resolvemos las dudas más comunes sobre cómo invertir y cómo funciona Loft2live.
+                </p>
+              </div>
+              <button
+                type="button"
+                class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90"
+                style="background-color:#79358D"
+                @click="goSignin"
+              >
+                Iniciar sesión
+              </button>
+            </div>
+
+            <div class="mt-6 space-y-3">
+              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
+                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Cómo invierto en un proyecto?</summary>
+                <p class="mt-2 text-sm text-gray-600">
+                  Selecciona una oportunidad, revisa el detalle y pulsa “Iniciar sesión para invertir”. Si ya estás autenticado,
+                  podrás continuar desde el dashboard.
+                </p>
+              </details>
+
+              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
+                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Qué significa “precio por loft”?</summary>
+                <p class="mt-2 text-sm text-gray-600">
+                  Es el importe orientativo por unidad/loft. En algunos proyectos hay tipos de unidad con precios diferentes (planos incluidos).
+                </p>
+              </details>
+
+              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
+                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Qué ventajas fiscales puedo simular?</summary>
+                <p class="mt-2 text-sm text-gray-600">
+                  En el detalle del proyecto puedes abrir el “Simulador desgravación (Ley Startups)” y ver un cálculo orientativo por años.
+                </p>
+              </details>
+
+              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
+                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Los proyectos se actualizan en tiempo real?</summary>
+                <p class="mt-2 text-sm text-gray-600">
+                  Sí. La lista y el detalle se alimentan de los datos del proyecto publicados en Supabase (y se reflejan en la landing/inversiones).
+                </p>
+              </details>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
 

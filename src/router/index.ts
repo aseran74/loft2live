@@ -3,7 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
-    return savedPosition || { left: 0, top: 0 }
+    if (savedPosition) return savedPosition
+    if (to.hash) {
+      return { el: to.hash, behavior: 'smooth' }
+    }
+    return { left: 0, top: 0 }
   },
   routes: [
     {
@@ -28,6 +32,22 @@ const router = createRouter({
       component: () => import('../views/InversionDetalle.vue'),
       meta: {
         title: 'Detalle inversión',
+      },
+    },
+    {
+      path: '/quienes-somos',
+      name: 'QuienesSomos',
+      component: () => import('../views/QuienesSomos.vue'),
+      meta: {
+        title: 'Quiénes somos',
+      },
+    },
+    {
+      path: '/blog',
+      name: 'Blog',
+      component: () => import('../views/Blog.vue'),
+      meta: {
+        title: 'Blog',
       },
     },
     {
@@ -210,7 +230,9 @@ const router = createRouter({
 export default router
 
 router.beforeEach(async (to, from, next) => {
-  document.title = `Vue.js ${to.meta.title} | TailAdmin - Vue.js Tailwind CSS Dashboard Template`
+  const baseTitle = 'Loft2live'
+  const metaTitle = typeof to.meta.title === 'string' ? to.meta.title : ''
+  document.title = to.path === '/' ? baseTitle : metaTitle ? `${baseTitle} | ${metaTitle}` : baseTitle
   
   // Rutas públicas que no requieren autenticación
   const publicRoutes = ['/', '/signin', '/signup', '/error-404']

@@ -13,21 +13,34 @@
 
         <!-- Navigation -->
         <nav class="hidden md:flex items-center space-x-6">
-          <router-link to="/inversiones" class="transition-colors font-medium text-gray-900 hover:opacity-70">
-            Inversiones
+          <router-link to="/inversiones" class="inline-flex items-center gap-2 transition-colors font-medium text-gray-900 hover:opacity-70">
+            <svg class="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 14l3-3 3 2 4-6" />
+            </svg>
+            <span>Inversiones</span>
           </router-link>
-          <a href="#oportunidades" class="transition-colors font-medium text-gray-900 hover:opacity-70">
-            Oportunidades de inversión
-          </a>
-          <a href="#preguntas" class="transition-colors font-medium text-gray-900 hover:opacity-70">
-            Preguntas frecuentes
-          </a>
-          <a href="#nosotros" class="transition-colors font-medium text-gray-900 hover:opacity-70">
-            Quiénes somos
-          </a>
-          <a href="#blog" class="transition-colors font-medium text-gray-900 hover:opacity-70">
-            Blog
-          </a>
+          <router-link to="/inversiones#preguntas" class="inline-flex items-center gap-2 transition-colors font-medium text-gray-900 hover:opacity-70">
+            <svg class="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9a4 4 0 1 1 7.5 2c-.9.8-1.5 1.3-1.5 2.5V14" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 17h.01" />
+            </svg>
+            <span>Preguntas frecuentes</span>
+          </router-link>
+          <router-link to="/quienes-somos" class="inline-flex items-center gap-2 transition-colors font-medium text-gray-900 hover:opacity-70">
+            <svg class="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 20a8 8 0 0 1 16 0" />
+            </svg>
+            <span>Quiénes somos</span>
+          </router-link>
+          <router-link to="/blog" class="inline-flex items-center gap-2 transition-colors font-medium text-gray-900 hover:opacity-70">
+            <svg class="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 0-2 2V4z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16" />
+            </svg>
+            <span>Blog</span>
+          </router-link>
         </nav>
 
         <!-- Acceso + Usuario (Desktop) -->
@@ -123,15 +136,48 @@
         <nav class="flex flex-col space-y-3">
           <router-link
             to="/inversiones"
-            class="transition-colors text-gray-900 hover:opacity-70"
+            class="inline-flex items-center gap-2 transition-colors text-gray-900 hover:opacity-70"
             @click="mobileMenuOpen = false"
           >
+            <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 14l3-3 3 2 4-6" />
+            </svg>
             Inversiones
           </router-link>
-          <a href="#oportunidades" class="transition-colors text-gray-900 hover:opacity-70">Oportunidades de inversión</a>
-          <a href="#preguntas" class="transition-colors text-gray-900 hover:opacity-70">Preguntas frecuentes</a>
-          <a href="#nosotros" class="transition-colors text-gray-900 hover:opacity-70">Quiénes somos</a>
-          <a href="#blog" class="transition-colors text-gray-900 hover:opacity-70">Blog</a>
+          <router-link
+            to="/inversiones#preguntas"
+            class="inline-flex items-center gap-2 transition-colors text-gray-900 hover:opacity-70"
+            @click="mobileMenuOpen = false"
+          >
+            <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9a4 4 0 1 1 7.5 2c-.9.8-1.5 1.3-1.5 2.5V14" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 17h.01" />
+            </svg>
+            Preguntas frecuentes
+          </router-link>
+          <router-link
+            to="/quienes-somos"
+            class="inline-flex items-center gap-2 transition-colors text-gray-900 hover:opacity-70"
+            @click="mobileMenuOpen = false"
+          >
+            <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 20a8 8 0 0 1 16 0" />
+            </svg>
+            Quiénes somos
+          </router-link>
+          <router-link
+            to="/blog"
+            class="inline-flex items-center gap-2 transition-colors text-gray-900 hover:opacity-70"
+            @click="mobileMenuOpen = false"
+          >
+            <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 0-2 2V4z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16" />
+            </svg>
+            Blog
+          </router-link>
           <router-link
             v-if="!isAuthenticated"
             to="/signin"

@@ -5,21 +5,15 @@
         <!-- Logo and Description -->
         <div class="space-y-3">
           <div class="flex items-center space-x-2">
-            <router-link to="/" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
-              <span class="h-11 w-11 rounded-xl flex items-center justify-center" style="background-color:#CFCEF2">
-                <img
-                  src="/images/logo/Logodefi.png"
-                  alt="Loft2live"
-                  class="h-8 w-auto object-contain"
-                  loading="lazy"
-                />
-              </span>
-              <span class="text-2xl font-bold">Loft2live</span>
+            <router-link to="/" class="inline-flex items-center hover:opacity-90 transition-opacity">
+              <img
+                src="/Logodefi.svg"
+                alt="Loft2live"
+                class="h-12 w-auto object-contain"
+                loading="lazy"
+              />
             </router-link>
           </div>
-          <p class="text-sm opacity-70">
-            Plataforma de inversión en crédito P2P para propiedades de alquiler.
-          </p>
         </div>
 
         <!-- Quick Links -->
@@ -27,16 +21,16 @@
           <h4 class="font-semibold mb-3">Enlaces rápidos</h4>
           <ul class="space-y-2">
             <li>
-              <a href="#oportunidades" class="opacity-70 hover:opacity-100 transition-opacity">Oportunidades de inversión</a>
+              <router-link to="/inversiones" class="opacity-70 hover:opacity-100 transition-opacity">Inversiones</router-link>
             </li>
             <li>
-              <a href="#preguntas" class="opacity-70 hover:opacity-100 transition-opacity">Preguntas frecuentes</a>
+              <router-link to="/inversiones#preguntas" class="opacity-70 hover:opacity-100 transition-opacity">Preguntas frecuentes</router-link>
             </li>
             <li>
-              <a href="#nosotros" class="opacity-70 hover:opacity-100 transition-opacity">Quiénes somos</a>
+              <router-link to="/quienes-somos" class="opacity-70 hover:opacity-100 transition-opacity">Quiénes somos</router-link>
             </li>
             <li>
-              <a href="#blog" class="opacity-70 hover:opacity-100 transition-opacity">Blog</a>
+              <router-link to="/blog" class="opacity-70 hover:opacity-100 transition-opacity">Blog</router-link>
             </li>
           </ul>
         </div>

@@ -48,7 +48,7 @@ onUnmounted(() => {
 <template>
   <div class="wrapper">
     <div class="content">
-      <section class="section hero" :style="{ backgroundImage: `url(/images/cityscape.jpg)` }">
+      <section class="section hero" :style="{ backgroundImage: `url(/images/Ciudadnoche.png)` }">
         <div class="hero-text">
           <h1 class="hero-title">Loft<span class="hero-title-accent">2</span>live<span class="hero-title-accent">.</span></h1>
           <p class="hero-subtitle">Ha llegado otra manera de comprar inmuebles.</p>
@@ -56,11 +56,16 @@ onUnmounted(() => {
           <a href="#descubre-como" class="hero-button">
             Descubre cómo
           </a>
+          <p class="hero-legal">
+            loft2live S.L es un proveedor de servicios de financiación participativa regulado por la Comisión Nacional del
+            Mercado de Valores (CNMV), inscrito con número de registro 4 y sujeto a la normativa europea recogida en la Ley
+            18/2022.
+          </p>
         </div>
       </section>
     </div>
     <div class="image-container">
-      <img src="/images/interior.png" alt="interior">
+      <img src="/images/interiordefi.png" alt="interior">
     </div>
   </div>
 </template>
@@ -161,6 +166,15 @@ onUnmounted(() => {
   opacity: 0.9;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.hero-legal {
+  margin: 1.25rem auto 0 auto;
+  max-width: 60rem;
+  font-size: 0.8rem;
+  line-height: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .image-container {

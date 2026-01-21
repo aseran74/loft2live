@@ -1,5 +1,25 @@
 <template>
   <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+    <!-- Foto (primera) -->
+    <div v-if="coverUrl" class="h-44 sm:h-48 w-full bg-gray-100 overflow-hidden">
+      <img
+        :src="coverUrl"
+        :alt="proyecto.nombre_proyecto"
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+    <div v-else class="h-44 sm:h-48 w-full bg-gray-100 flex items-center justify-center">
+      <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+        />
+      </svg>
+    </div>
+
     <div class="p-5">
       <div class="flex items-center justify-between mb-4">
         <span class="px-3 py-1 rounded-full text-sm font-semibold" style="background-color: #DFDCF2; color: #79358d">
@@ -74,9 +94,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Proyecto } from '@/types/proyecto'
+import { supabase } from '@/config/supabase'
 
-defineProps<{
+const props = defineProps<{
   proyecto: Proyecto
 }>()
 
@@ -84,6 +106,14 @@ defineEmits<{
   invertir: [proyecto: Proyecto]
   'ver-detalles': [proyecto: Proyecto]
 }>()
+
+const coverUrl = computed(() => {
+  const path = props.proyecto?.fotos?.[0]
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+  const { data } = supabase.storage.from('photos').getPublicUrl(path)
+  return data.publicUrl
+})
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('es-ES', {
