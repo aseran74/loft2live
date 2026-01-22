@@ -135,6 +135,12 @@
                       {{ formatCurrency(proyecto.precio_unidad) }}
                     </span>
                   </div>
+                  <div v-if="proyecto.alquiler && proyecto.precio_alquiler_mes" class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
+                    <span class="text-gray-600 mb-1 sm:mb-0">Precio alquiler</span>
+                    <span class="font-semibold text-lg" style="color: #0D0D0D">
+                      {{ formatCurrency(proyecto.precio_alquiler_mes) }}/mes
+                    </span>
+                  </div>
                   <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
                     <span class="text-gray-600 mb-1 sm:mb-0">Gasto estimado comunidad</span>
                     <span class="font-semibold text-lg" style="color: #0D0D0D">

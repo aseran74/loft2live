@@ -22,13 +22,13 @@
       <router-link to="/">
         <img
           v-if="isExpanded || isHovered || isMobileOpen"
-          src="/images/logo/Logodefi.png"
+          src="/images/Logodefi.png"
           alt="Loft2live"
           class="h-16 w-auto"
         />
         <img
           v-else
-          src="/images/logo/Logodefi.png"
+          src="/images/Logodefi.png"
           alt="Loft2live"
           class="h-10 w-10 object-contain"
         />

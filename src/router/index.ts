@@ -35,6 +35,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/alquileres',
+      name: 'Alquileres',
+      component: () => import('../views/Alquileres.vue'),
+      meta: {
+        title: 'Alquileres',
+      },
+    },
+    {
       path: '/quienes-somos',
       name: 'QuienesSomos',
       component: () => import('../views/QuienesSomos.vue'),

@@ -5,9 +5,9 @@
     <section class="pt-24 pb-12" style="background-color:#F2F2F2">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div class="flex flex-col gap-2 mb-8">
-          <h1 class="text-3xl sm:text-4xl font-bold" style="color:#0D0D0D">Oportunidades de Inversión</h1>
+          <h1 class="text-3xl sm:text-4xl font-bold" style="color:#0D0D0D">Alquileres Flexliving</h1>
           <p class="text-lg text-gray-600">
-            Descubre proyectos inmobiliarios con potencial de crecimiento. Invierte en lofts y aprovecha las ventajas fiscales.
+            Encuentra lofts disponibles para alquiler con todas las comodidades incluidas. Precio flexliving todo incluido.
           </p>
         </div>
 
@@ -15,8 +15,8 @@
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
           <div class="flex items-center justify-between gap-4 mb-4">
             <div>
-              <h2 class="text-xl font-bold mb-1" style="color:#0D0D0D">Búsqueda de inversiones</h2>
-              <p class="text-sm text-gray-600">Filtra por localización y rango de precio por loft</p>
+              <h2 class="text-xl font-bold mb-1" style="color:#0D0D0D">Búsqueda de alquileres</h2>
+              <p class="text-sm text-gray-600">Filtra por localización y rango de precio mensual</p>
             </div>
             <button
               type="button"
@@ -43,7 +43,7 @@
             <div class="rounded-xl border p-4 lg:col-span-2" style="border-color:#DFDCF2">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <div class="text-xs text-gray-600">Precio por loft</div>
+                  <div class="text-xs text-gray-600">Precio alquiler mensual</div>
                   <div class="text-sm font-semibold" style="color:#0D0D0D">
                     {{ formatCurrency(precioMinValue) }} – {{ formatCurrency(precioMaxValue) }}
                   </div>
@@ -60,8 +60,8 @@
                   class="absolute inset-0 w-full"
                   :min="priceRangeMin"
                   :max="priceRangeMax"
-                  :step="1000"
-                  aria-label="Precio mínimo por loft"
+                  :step="50"
+                  aria-label="Precio mínimo alquiler"
                 />
                 <input
                   v-model.number="precioMaxValue"
@@ -69,8 +69,8 @@
                   class="absolute inset-0 w-full"
                   :min="priceRangeMin"
                   :max="priceRangeMax"
-                  :step="1000"
-                  aria-label="Precio máximo por loft"
+                  :step="50"
+                  aria-label="Precio máximo alquiler"
                 />
               </div>
             </div>
@@ -79,10 +79,10 @@
           <div class="mt-5 pt-4 border-t flex items-center justify-between" style="border-color: #DFDCF2">
             <div class="text-sm text-gray-600">
               Mostrando <span class="font-bold text-lg" style="color:#79358D">{{ filtered.length }}</span>
-              <span class="text-gray-500"> de {{ proyectos.length }} oportunidades disponibles</span>
+              <span class="text-gray-500"> de {{ alquileres.length }} alquileres disponibles</span>
             </div>
             <div v-if="filtered.length > 0" class="text-xs text-gray-500">
-              Precio promedio: {{ formatCurrency(averagePrice) }}
+              Precio promedio: {{ formatCurrency(averagePrice) }}/mes
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@
         <!-- Lista -->
         <div v-if="loading" class="text-center py-16">
           <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style="border-color: #79358D"></div>
-          <p class="mt-4 text-gray-600">Cargando inversiones…</p>
+          <p class="mt-4 text-gray-600">Cargando alquileres…</p>
         </div>
         <div v-else-if="error" class="bg-red-50 border-2 border-red-200 text-red-700 px-6 py-4 rounded-xl mb-6">
           <div class="flex items-center gap-2">
@@ -143,9 +143,9 @@
         </div>
         <div v-else-if="filtered.length === 0" class="text-center py-16 bg-white rounded-2xl shadow">
           <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
-          <h3 class="text-xl font-bold mb-2" style="color: #0D0D0D">No se encontraron proyectos</h3>
+          <h3 class="text-xl font-bold mb-2" style="color: #0D0D0D">No se encontraron alquileres</h3>
           <p class="text-gray-600 mb-4">Intenta ajustar los filtros de búsqueda</p>
           <button
             @click="resetFilters"
@@ -156,67 +156,14 @@
           </button>
         </div>
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <ProyectoCard
+          <AlquilerCard
             v-for="p in filtered"
             :key="p.id"
             :proyecto="p"
             @ver-detalles="goDetalle"
-            @invertir="goSignin"
+            @alquilar="goSignin"
           />
         </div>
-
-        <!-- Preguntas frecuentes -->
-        <section id="preguntas" class="mt-12">
-          <div class="bg-white rounded-2xl shadow p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <h2 class="text-2xl sm:text-3xl font-bold" style="color:#0D0D0D">Preguntas frecuentes</h2>
-                <p class="mt-2 text-gray-600">
-                  Resolvemos las dudas más comunes sobre cómo invertir y cómo funciona Loft2live.
-                </p>
-              </div>
-              <button
-                type="button"
-                class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90"
-                style="background-color:#79358D"
-                @click="goSignin"
-              >
-                Iniciar sesión
-              </button>
-            </div>
-
-            <div class="mt-6 space-y-3">
-              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
-                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Cómo invierto en un proyecto?</summary>
-                <p class="mt-2 text-sm text-gray-600">
-                  Selecciona una oportunidad, revisa el detalle y pulsa “Iniciar sesión para invertir”. Si ya estás autenticado,
-                  podrás continuar desde el dashboard.
-                </p>
-              </details>
-
-              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
-                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Qué significa “precio por loft”?</summary>
-                <p class="mt-2 text-sm text-gray-600">
-                  Es el importe orientativo por unidad/loft. En algunos proyectos hay tipos de unidad con precios diferentes (planos incluidos).
-                </p>
-              </details>
-
-              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
-                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Qué ventajas fiscales puedo simular?</summary>
-                <p class="mt-2 text-sm text-gray-600">
-                  En el detalle del proyecto puedes abrir el “Simulador desgravación (Ley Startups)” y ver un cálculo orientativo por años.
-                </p>
-              </details>
-
-              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
-                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Los proyectos se actualizan en tiempo real?</summary>
-                <p class="mt-2 text-sm text-gray-600">
-                  Sí. La lista y el detalle se alimentan de los datos del proyecto publicados en Supabase (y se reflejan en la landing/inversiones).
-                </p>
-              </details>
-            </div>
-          </div>
-        </section>
       </div>
     </section>
 
@@ -230,7 +177,7 @@ import { useRouter } from 'vue-router'
 import FullScreenLayout from '@/components/layout/FullScreenLayout.vue'
 import LandingHeader from '@/components/landing/LandingHeader.vue'
 import LandingFooter from '@/components/landing/LandingFooter.vue'
-import ProyectoCard from '@/components/proyectos/ProyectoCard.vue'
+import AlquilerCard from '@/components/proyectos/AlquilerCard.vue'
 import type { Proyecto } from '@/types/proyecto'
 import { fetchPublicProyectos } from '@/utils/publicProyectos'
 import { loadGoogleMapsPlaces } from '@/utils/loadGoogleMaps'
@@ -242,16 +189,26 @@ const loading = ref(false)
 const error = ref<string | null>(null)
 
 const queryLocalizacion = ref('')
-const precioMinValue = ref(0)
-const precioMaxValue = ref(0)
+const precioMinValue = ref(900)
+const precioMaxValue = ref(1300)
+
+// Filtrar solo proyectos con alquiler disponible
+const alquileres = computed(() => {
+  return proyectos.value.filter((p) => p.alquiler === true && p.precio_alquiler_mes)
+})
 
 const priceRangeMin = computed(() => {
-  const values = proyectos.value.map((p) => Number(p.precio_unidad || 0)).filter((n) => Number.isFinite(n) && n > 0)
-  return values.length ? Math.min(...values) : 0
+  const values = alquileres.value
+    .map((p) => Number(p.precio_alquiler_mes || 0))
+    .filter((n) => Number.isFinite(n) && n > 0)
+  return values.length ? Math.min(...values) : 900
 })
+
 const priceRangeMax = computed(() => {
-  const values = proyectos.value.map((p) => Number(p.precio_unidad || 0)).filter((n) => Number.isFinite(n) && n > 0)
-  return values.length ? Math.max(...values) : 0
+  const values = alquileres.value
+    .map((p) => Number(p.precio_alquiler_mes || 0))
+    .filter((n) => Number.isFinite(n) && n > 0)
+  return values.length ? Math.max(...values) : 1300
 })
 
 const filtered = computed(() => {
@@ -259,10 +216,10 @@ const filtered = computed(() => {
   const min = precioMinValue.value
   const max = precioMaxValue.value
 
-  return proyectos.value.filter((p) => {
+  return alquileres.value.filter((p) => {
     const loc = (p.localizacion || '').toLowerCase()
     if (q && !loc.includes(q)) return false
-    const price = Number(p.precio_unidad || 0)
+    const price = Number(p.precio_alquiler_mes || 0)
     if (price && price < min) return false
     if (price && price > max) return false
     return true
@@ -271,7 +228,7 @@ const filtered = computed(() => {
 
 const averagePrice = computed(() => {
   if (filtered.value.length === 0) return 0
-  const sum = filtered.value.reduce((acc, p) => acc + Number(p.precio_unidad || 0), 0)
+  const sum = filtered.value.reduce((acc, p) => acc + Number(p.precio_alquiler_mes || 0), 0)
   return Math.round(sum / filtered.value.length)
 })
 
@@ -288,6 +245,7 @@ const goDetalle = (p: Proyecto) => {
   if (!p.id) return
   router.push(`/inversiones/${p.id}`)
 }
+
 const goSignin = () => {
   router.push('/signin')
 }
@@ -333,7 +291,7 @@ const initMap = async () => {
     mapState.value = 'ready'
     await updateMarkers()
   } catch (e: any) {
-    console.warn('Mapa inversiones: error', e)
+    console.warn('Mapa alquileres: error', e)
     mapState.value = 'error'
     mapErrorMessage.value = e?.message || 'Mapa no disponible'
   }
@@ -374,7 +332,7 @@ const updateMarkers = async () => {
       content: `<div style="padding:10px; max-width:260px;">
         <div style="font-weight:700; margin-bottom:6px;">${p.nombre_proyecto}</div>
         <div style="color:#666; font-size:12px; margin-bottom:6px;">${p.localizacion}</div>
-        <div style="font-size:12px;"><b>Precio/loft:</b> ${formatCurrency(Number(p.precio_unidad || 0))}</div>
+        <div style="font-size:12px;"><b>Alquiler:</b> ${formatCurrency(Number(p.precio_alquiler_mes || 0))}/mes</div>
       </div>`,
     })
     marker.addListener('click', () => info.open(map, marker))
@@ -398,7 +356,7 @@ async function load() {
     await nextTick()
     await initMap()
   } catch (e: any) {
-    error.value = e?.message || 'Error cargando inversiones'
+    error.value = e?.message || 'Error cargando alquileres'
   } finally {
     loading.value = false
   }
@@ -428,4 +386,3 @@ watch(
 
 onUnmounted(() => clearMarkers())
 </script>
-

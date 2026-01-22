@@ -5,7 +5,7 @@
         <!-- Logo -->
         <div class="flex items-center">
           <img 
-            src="/images/logo/Logodefi.png" 
+            src="/images/Logodefi.png" 
             alt="Loft2live Logo" 
             :style="logoStyle"
           />

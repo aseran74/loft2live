@@ -6,7 +6,7 @@
         <div class="bg-white rounded-lg shadow p-6">
           <div class="flex items-center gap-3 mb-4">
             <img
-              src="/images/logo/Logodefi.png"
+              src="/images/Logodefi.png"
               alt="Loft2live"
               class="h-10 w-auto"
             />

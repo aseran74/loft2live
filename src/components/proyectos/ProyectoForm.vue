@@ -89,6 +89,34 @@
         />
       </div>
 
+      <!-- Alquiler disponible -->
+      <div>
+        <label class="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
+          <input
+            v-model="formData.alquiler"
+            type="checkbox"
+            class="w-4 h-4 rounded border-gray-300"
+            style="accent-color: #79358D"
+          />
+          Disponible para alquiler
+        </label>
+      </div>
+
+      <!-- Precio alquiler mensual -->
+      <div v-if="formData.alquiler">
+        <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
+          Precio alquiler (EUR/mes)
+        </label>
+        <input
+          v-model.number="formData.precio_alquiler_mes"
+          type="number"
+          step="0.01"
+          min="0"
+          class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
+          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+        />
+      </div>
+
       <!-- Gasto estimado comunidad -->
       <div>
         <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
@@ -483,6 +511,8 @@ const formData = ref<Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>>({
   porcentaje_llegado: 0,
   min_termino_meses: 24,
   monto_restante: 0,
+  alquiler: false,
+  precio_alquiler_mes: undefined,
   fotos: [],
   comodidades: [],
   unidades_tipos: []
@@ -514,6 +544,8 @@ watch(() => props.proyecto, (newProyecto) => {
       porcentaje_llegado: newProyecto.porcentaje_llegado,
       min_termino_meses: newProyecto.min_termino_meses,
       monto_restante: newProyecto.monto_restante || 0,
+      alquiler: newProyecto.alquiler || false,
+      precio_alquiler_mes: newProyecto.precio_alquiler_mes,
       fotos: Array.isArray(newProyecto.fotos) ? newProyecto.fotos : [],
       comodidades: Array.isArray(newProyecto.comodidades) ? newProyecto.comodidades : [],
       unidades_tipos: Array.isArray(newProyecto.unidades_tipos) ? (newProyecto.unidades_tipos as UnidadTipo[]) : []
@@ -546,6 +578,8 @@ watch(() => props.proyecto, (newProyecto) => {
       porcentaje_llegado: 0,
       min_termino_meses: 24,
       monto_restante: 0,
+      alquiler: false,
+      precio_alquiler_mes: undefined,
       fotos: [],
       comodidades: [],
       unidades_tipos: []

@@ -7,9 +7,9 @@
           <div class="flex items-center space-x-2">
             <router-link to="/" class="inline-flex items-center hover:opacity-90 transition-opacity">
               <img
-                src="/Logodefi.svg"
+                src="/images/Logoblanco.png"
                 alt="Loft2live"
-                class="h-12 w-auto object-contain"
+                class="h-72 w-auto object-contain"
                 loading="lazy"
               />
             </router-link>

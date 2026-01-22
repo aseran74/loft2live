@@ -50,8 +50,10 @@ onUnmounted(() => {
     <div class="content">
       <section class="section hero" :style="{ backgroundImage: `url(/images/Ciudadnoche.png)` }">
         <div class="hero-text">
-          <h1 class="hero-title">Loft<span class="hero-title-accent">2</span>live<span class="hero-title-accent">.</span></h1>
-          <p class="hero-subtitle">Ha llegado otra manera de comprar inmuebles.</p>
+          <div class="hero-logo-container">
+            <img src="/images/Logoblanco.png" alt="Loft2live" class="hero-logo" />
+          </div>
+          <p class="hero-subtitle">Ha llegado otra manera de alquilar y vender inmuebles.</p>
           <p class="hero-description">Aprovechate de las ventajas fiscales de la ley startups</p>
           <a href="#descubre-como" class="hero-button">
             Descubre cómo
@@ -109,16 +111,18 @@ onUnmounted(() => {
   max-width: 70rem;
 }
 
-.hero-title {
-  font-size: clamp(3rem, 10vw, 8rem);
-  font-weight: 700;
-  margin: 0 0 1.5rem 0;
-  line-height: 1.1;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+.hero-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0 0.5rem 0;
 }
 
-.hero-title-accent {
-  color: #79358d;
+.hero-logo {
+  max-width: clamp(260px, 65vw, 780px);
+  width: auto;
+  height: auto;
+  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.5));
 }
 
 .hero-subtitle {

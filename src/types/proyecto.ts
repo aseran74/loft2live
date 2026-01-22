@@ -11,6 +11,8 @@ export interface Proyecto {
   porcentaje_llegado: number
   min_termino_meses: number
   monto_restante?: number
+  alquiler?: boolean
+  precio_alquiler_mes?: number
   fotos?: string[]
   comodidades?: string[]
   unidades_tipos?: UnidadTipo[]
