@@ -51,7 +51,7 @@ onUnmounted(() => {
       <section class="section hero" :style="{ backgroundImage: `url(/images/Ciudadnoche.png)` }">
         <div class="hero-text">
           <div class="hero-logo-container">
-            <img src="/images/Logoblanco.png" alt="Loft2live" class="hero-logo" />
+            <img src="/images/Logoblanco3.png" alt="Loft2live" class="hero-logo" />
           </div>
           <p class="hero-subtitle">Ha llegado otra manera de alquilar y vender inmuebles.</p>
           <p class="hero-description">Aprovechate de las ventajas fiscales de la ley startups</p>
