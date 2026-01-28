@@ -13,6 +13,7 @@ export interface Proyecto {
   monto_restante?: number
   alquiler?: boolean
   precio_alquiler_mes?: number
+  mostrar_en_landing?: boolean
   fotos?: string[]
   comodidades?: string[]
   unidades_tipos?: UnidadTipo[]

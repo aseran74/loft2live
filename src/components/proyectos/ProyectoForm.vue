@@ -102,6 +102,19 @@
         </label>
       </div>
 
+      <!-- Mostrar en landing page -->
+      <div>
+        <label class="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
+          <input
+            v-model="formData.mostrar_en_landing"
+            type="checkbox"
+            class="w-4 h-4 rounded border-gray-300"
+            style="accent-color: #79358D"
+          />
+          Mostrar en landing page
+        </label>
+      </div>
+
       <!-- Precio alquiler mensual -->
       <div v-if="formData.alquiler">
         <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
@@ -513,6 +526,7 @@ const formData = ref<Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>>({
   monto_restante: 0,
   alquiler: false,
   precio_alquiler_mes: undefined,
+  mostrar_en_landing: false,
   fotos: [],
   comodidades: [],
   unidades_tipos: []
@@ -580,6 +594,7 @@ watch(() => props.proyecto, (newProyecto) => {
       monto_restante: 0,
       alquiler: false,
       precio_alquiler_mes: undefined,
+      mostrar_en_landing: false,
       fotos: [],
       comodidades: [],
       unidades_tipos: []

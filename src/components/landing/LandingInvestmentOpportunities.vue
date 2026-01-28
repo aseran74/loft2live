@@ -21,7 +21,7 @@
 
       <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ProyectoCard
-          v-for="proyecto in proyectos"
+          v-for="proyecto in proyectos.slice(0, 4)"
           :key="proyecto.id"
           :proyecto="proyecto"
           @invertir="handleInvertir"
@@ -29,7 +29,7 @@
         />
       </div>
 
-      <div v-if="!loading && proyectos.length > 0" class="mt-8 text-center">
+      <div v-if="!loading && proyectos.length > 4" class="mt-8 text-center">
         <router-link
           to="/inversiones"
           class="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-white hover:opacity-90"

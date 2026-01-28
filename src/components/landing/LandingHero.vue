@@ -53,16 +53,10 @@ onUnmounted(() => {
           <div class="hero-logo-container">
             <img src="/images/Logoblanco3.png" alt="Loft2live" class="hero-logo" />
           </div>
-          <p class="hero-subtitle">Ha llegado otra manera de alquilar y vender inmuebles.</p>
-          <p class="hero-description">Diseñamos lofts para que te puedas desgravar el 100%</p>
           <a href="#descubre-como" class="hero-button">
             Descubre cómo
           </a>
-          <p class="hero-legal">
-            loft2live S.L es un proveedor de servicios de financiación participativa regulado por la Comisión Nacional del
-            Mercado de Valores (CNMV), inscrito con número de registro 4 y sujeto a la normativa europea recogida en la Ley
-            18/2022.
-          </p>
+          <p class="hero-subtitle">Ha llegado la Revolución del Flexliving</p>
         </div>
       </section>
     </div>
@@ -99,6 +93,7 @@ onUnmounted(() => {
   justify-content: center;
   position: relative;
   z-index: 3;
+  padding-bottom: 4rem;
 }
 
 .hero-text {
@@ -115,11 +110,12 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 3rem 0 0.5rem 0;
+  margin: 5rem 0 0 0;
 }
 
 .hero-logo {
-  max-width: clamp(260px, 65vw, 780px);
+  /* +20% vs tamaños originales (260/65vw/780) */
+  max-width: clamp(312px, 78vw, 936px);
   width: auto;
   height: auto;
   filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.5));
@@ -145,15 +141,10 @@ onUnmounted(() => {
   }
 }
 
-.hero-description {
-  font-size: clamp(1.125rem, 3vw, 1.75rem);
-  font-weight: 400;
-  margin: 0 0 2rem 0;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-}
-
 .hero-button {
   display: inline-block;
+  /* Subimos el botón acercándolo al logo */
+  margin: -1.25rem 0 1.1rem 0;
   padding: 1rem 2.5rem;
   background-color: #79358d;
   color: white;
@@ -170,15 +161,6 @@ onUnmounted(() => {
   opacity: 0.9;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-}
-
-.hero-legal {
-  margin: 1.25rem auto 0 auto;
-  max-width: 60rem;
-  font-size: 0.8rem;
-  line-height: 1.25rem;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .image-container {

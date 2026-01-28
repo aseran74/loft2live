@@ -4,13 +4,16 @@
       <!-- Header -->
       <div class="text-center mb-16">
         <h2 class="text-4xl lg:text-5xl font-bold mb-4" style="color: #0D0D0D">
-          El Futuro del <span style="color: #79358d">Real Estate</span> Flexible y Fiscalmente Inteligente
+          Donde el espacio <span style="color: #79358d">trabaja para ti</span>.
         </h2>
         <p class="text-xl max-w-3xl mx-auto" style="color: #0D0D0D">
-          Transformamos oficinas infrautilizadas en lofts modernos de alto rendimiento, creando un ecosistema donde tu inversión no solo es un lugar donde vivir, sino una herramienta de libertad global y ahorro fiscal.
+          Rediseñamos oficinas infrautilizadas en lofts contemporáneos de alto rendimiento, integrando fiscalidad inteligente, estructura 80/20 y compraventa dual.
         </p>
-        <p class="text-base max-w-2xl mx-auto mt-3" style="color: #6b7280">
-          Modelo 80/20, estructura de compraventa dual, movilidad por tokens y salida flexible. Diseñado para ser directo, profesional y muy atractivo para perfiles emprendedores y empresas.
+        <p class="text-lg max-w-3xl mx-auto mt-4" style="color: #0D0D0D">
+          No es solo un lugar donde vivir o trabajar: es una arquitectura pensada para la libertad, la movilidad y la eficiencia del capital.
+        </p>
+        <p class="text-base max-w-2xl mx-auto mt-3" style="color: #79358d; font-weight: 600; font-style: italic">
+          Real estate para mentes que no quieren quedarse quietas.
         </p>
       </div>
 
@@ -48,6 +51,15 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Explicación 80/20 + Cómo funciona -->
+      <div class="how-intro mb-12">
+        <h3 class="how-intro-title">¿Cómo funciona?</h3>
+        <p class="how-intro-text">
+          Utilizamos el modelo <strong>80% trabajo / 20% vivienda</strong>: el espacio profesional (oficina, salón, cocina) representa el 80% del valor y es 100% deducible; el 20% restante es el módulo de descanso, con deducciones estándar. Así optimizas fiscalmente mientras vives y trabajas en el mismo loft.
+        </p>
+        <p class="how-intro-sub">A continuación, los 6 pilares de nuestro ecosistema:</p>
       </div>
 
       <!-- Steps Grid -->
@@ -589,6 +601,48 @@ onMounted(() => {
   gap: 1rem;
   margin-top: 2rem;
   margin-bottom: 1.5rem;
+}
+
+.how-intro {
+  text-align: center;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.how-intro-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0D0D0D;
+  margin: 0 0 1rem 0;
+}
+
+.how-intro-title::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 4px;
+  background: linear-gradient(90deg, #79358d, #a855f7);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+.how-intro-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #4b5563;
+  margin: 0 0 0.75rem 0;
+}
+
+.how-intro-text strong {
+  color: #79358d;
+}
+
+.how-intro-sub {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 500;
 }
 
 .savings-cta-button {
