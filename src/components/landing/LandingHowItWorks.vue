@@ -4,11 +4,50 @@
       <!-- Header -->
       <div class="text-center mb-16">
         <h2 class="text-4xl lg:text-5xl font-bold mb-4" style="color: #0D0D0D">
-          ¿Cómo <span style="color: #79358d">funciona?</span>
+          El Futuro del <span style="color: #79358d">Real Estate</span> Flexible y Fiscalmente Inteligente
         </h2>
         <p class="text-xl max-w-3xl mx-auto" style="color: #0D0D0D">
-          Nuestra startup transforma oficinas infrautilizadas en lofts modernos y eficientes, creando una nueva forma de invertir, vivir y moverse entre ciudades.
+          Transformamos oficinas infrautilizadas en lofts modernos de alto rendimiento, creando un ecosistema donde tu inversión no solo es un lugar donde vivir, sino una herramienta de libertad global y ahorro fiscal.
         </p>
+        <p class="text-base max-w-2xl mx-auto mt-3" style="color: #6b7280">
+          Modelo 80/20, estructura de compraventa dual, movilidad por tokens y salida flexible. Diseñado para ser directo, profesional y muy atractivo para perfiles emprendedores y empresas.
+        </p>
+      </div>
+
+      <!-- Video destacado -->
+      <div class="video-section mb-16">
+        <div class="video-wrapper">
+          <video
+            ref="videoEl"
+            class="section-video"
+            src="/Video-loft.mp4"
+            controls
+            playsinline
+            @play="showPlayOverlay = false"
+            @pause="showPlayOverlay = true"
+            @ended="showPlayOverlay = true"
+          >
+            Tu navegador no soporta la reproducción de video.
+          </video>
+          <div
+            v-show="showPlayOverlay"
+            class="video-play-overlay"
+            role="button"
+            tabindex="0"
+            aria-label="Reproducir video"
+            @click="playVideo"
+            @keydown.enter="playVideo"
+          >
+            <div class="video-play-overlay-inner">
+              <img src="/images/Logoblanco3.png" alt="Loft2live" class="video-overlay-logo" />
+              <div class="video-play-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="play-icon">
+                  <path d="M8 5v14l11-7L8 5z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Steps Grid -->
@@ -23,12 +62,15 @@
             </div>
             <div class="step-number">1</div>
           </div>
-          <h3 class="step-title">Transformación del activo</h3>
+          <h3 class="step-title">El Modelo 80/20: Optimización Fiscal Radical</h3>
           <p class="step-description">
-            Identificamos edificios de oficinas con alto potencial y los remodelamos integralmente para convertirlos en lofts habitables, sostenibles y preparados para un modelo de uso flexible (living + inversión).
+            No compras un loft común; adquieres un activo dividido estratégicamente para que tu bolsillo respire desde el primer día. Estructuramos la operación en dos unidades jurídicas/contractuales:
           </p>
           <p class="step-description mt-3">
-            Cada inmueble se estructura jurídicamente para permitir su tokenización, manteniendo siempre el respaldo en un activo real.
+            <strong>El Hub Profesional (80% del valor):</strong> Incluye el salón, la cocina americana y la oficina. Al ser un espacio 100% destinado a la actividad profesional, autónomos y empresas pueden desgravarse el 100% de los gastos e IVA, ya que legalmente no es zona de vivienda.
+          </p>
+          <p class="step-description mt-3">
+            <strong>El Módulo de Descanso (20% del valor):</strong> Una habitación privada e independiente destinada al pernocte. En esta unidad, al ser residencial, puedes aplicarte las deducciones estándar (hasta un 30% según el caso).
           </p>
         </div>
 
@@ -42,15 +84,17 @@
             </div>
             <div class="step-number">2</div>
           </div>
-          <h3 class="step-title">Tokenización del inmueble</h3>
+          <h3 class="step-title">Estructura de Adquisición Dual</h3>
           <p class="step-description">
-            Cada loft se divide en tokens digitales, que representan derechos económicos y de uso sobre el inmueble.
+            Para garantizar la máxima seguridad jurídica y el beneficio fiscal, la operación se formaliza mediante la adquisición o alquiler de dos unidades diferenciadas, tal como en una operación inmobiliaria tradicional:
           </p>
           <ul class="step-list">
-            <li>Comprar tokens equivale a adquirir un loft real, total o parcialmente.</li>
-            <li>Los tokens están vinculados al activo físico y a su explotación.</li>
-            <li>El modelo permite acceder al mercado inmobiliario con mayor liquidez y flexibilidad.</li>
+            <li><strong>Contrato de Oficina (80%):</strong> Adquieres o alquilas el espacio profesional (salón, cocina americana y despacho). Al estar registrado como activo comercial/oficina, permite la desgravación total de gastos para la empresa o el profesional.</li>
+            <li><strong>Contrato de Vivienda (20%):</strong> Adquieres o alquilas la unidad de descanso de forma independiente.</li>
           </ul>
+          <p class="step-description mt-3">
+            <strong>Simplicidad y Respaldo:</strong> Aunque se trate de dos activos, el proceso es ágil y está totalmente vinculado, dándote la propiedad o el derecho de uso sobre el inmueble completo pero con una estructura fiscal optimizada desde la firma.
+          </p>
         </div>
 
         <!-- Step 3 -->
@@ -63,13 +107,15 @@
             </div>
             <div class="step-number">3</div>
           </div>
-          <h3 class="step-title">Ventajas fiscales (Ley de Startups 2026)</h3>
+          <h3 class="step-title">Tokens de Utilidad y Movilidad Global</h3>
           <p class="step-description">
-            La inversión se estructura para que el comprador pueda acogerse a los incentivos fiscales vigentes, permitiendo una deducción en el IRPF de hasta <strong>50.000 € anuales</strong>, siempre que se cumplan los requisitos legales aplicables.
+            La formalización de la compraventa o alquiler no solo te otorga la propiedad o el uso del inmueble; también activa tu entrada en nuestro ecosistema digital:
           </p>
-          <p class="step-description mt-3">
-            Esto convierte la compra de tokens no solo en una inversión inmobiliaria, sino también en una herramienta de optimización fiscal dentro del marco regulado de la Ley de Startups.
-          </p>
+          <ul class="step-list">
+            <li><strong>Asignación de Tokens:</strong> Al completar la operación, recibes una cantidad de tokens de utilidad proporcional al valor de la transacción.</li>
+            <li><strong>Pasaporte Flex Living:</strong> Estos tokens te otorgan derechos exclusivos de socio, permitiéndote acceder a importantes descuentos para alojarte en otros lofts de nuestra red global.</li>
+            <li><strong>Movilidad Inteligente:</strong> Tu inversión en una ciudad te abre las puertas a vivir y trabajar en cualquier otro destino de la plataforma de forma mucho más económica.</li>
+          </ul>
         </div>
 
         <!-- Step 4 -->
@@ -82,27 +128,24 @@
             </div>
             <div class="step-number">4</div>
           </div>
-          <h3 class="step-title">Uso flexible del loft (Flex Living)</h3>
+          <h3 class="step-title">Uso Flexible y Rentabilidad por Ausencia</h3>
           <p class="step-description">
-            El propietario decide cómo utilizar su loft:
+            Tú decides cómo y cuándo usar tu espacio. Nuestro ecosistema de Flex Living está diseñado para que tu loft nunca sea un gasto, sino una fuente de ingresos:
           </p>
           <div class="flex-options">
             <div class="flex-option">
               <span class="flex-emoji">🏠</span>
-              <span>Vivir en él</span>
+              <span><strong>Habitar:</strong> Disfruta de un diseño moderno y eficiente pensado para el alto rendimiento.</span>
             </div>
             <div class="flex-option">
               <span class="flex-emoji">🌍</span>
-              <span>Moverse entre ciudades usando otros lofts de la red</span>
+              <span><strong>Movilidad por Trabajo o Vacaciones:</strong> ¿Te vas 15 días o más por negocios o placer? No dejes tu loft vacío.</span>
             </div>
             <div class="flex-option">
               <span class="flex-emoji">🔁</span>
-              <span>Alquilarlo cuando no lo usa</span>
+              <span><strong>Gestión Automática de Alquiler:</strong> Activa el modo "Rent" en nuestra plataforma cuando te ausentes. Nosotros nos encargamos de alquilar tu loft dentro de nuestra red profesional. Así, mientras tú viajas o trabajas en otra ciudad, tu loft te genera un rendimiento que puede cubrir tus propios gastos de viaje o estancia.</span>
             </div>
           </div>
-          <p class="step-description mt-3">
-            Nuestro ecosistema de flex living permite que un usuario viva temporalmente en otros destinos donde existan lofts disponibles dentro de la plataforma.
-          </p>
         </div>
 
         <!-- Step 5 -->
@@ -115,27 +158,24 @@
             </div>
             <div class="step-number">5</div>
           </div>
-          <h3 class="step-title">Rentabilidad: elige cómo cobrar</h3>
+          <h3 class="step-title">Rentabilidad Inteligente: Tú eliges cómo ganar</h3>
           <p class="step-description">
-            Cuando el loft se alquila, el usuario puede elegir cómo recibir el rendimiento:
+            Cuando no uses tu loft, nuestro sistema de gestión lo pone a trabajar por ti. Elige cómo recibir tus rendimientos:
           </p>
           <div class="payment-options">
             <div class="payment-option">
               <span class="payment-emoji">💰</span>
-              <span><strong>Dinero:</strong> ingresos directos en euros</span>
+              <span><strong>Cash:</strong> Ingresos directos en euros.</span>
             </div>
             <div class="payment-option">
               <span class="payment-emoji">🎯</span>
-              <span><strong>Puntos:</strong> para estancias en otros lofts de la red</span>
+              <span><strong>Créditos de Estancia:</strong> Puntos para vivir en cualquier loft de la red global.</span>
             </div>
             <div class="payment-option">
               <span class="payment-emoji">🔗</span>
-              <span><strong>Tokens:</strong> que pueden acumularse y convertirse en participación en otros inmuebles</span>
+              <span><strong>Re-inversión en Tokens:</strong> Aumenta tu participación en nuevos inmuebles del ecosistema de forma automática.</span>
             </div>
           </div>
-          <p class="step-description mt-3">
-            Este sistema convierte el alquiler en una experiencia de inversión dinámica, no limitada a un solo activo o ubicación.
-          </p>
         </div>
 
         <!-- Step 6 -->
@@ -148,18 +188,118 @@
             </div>
             <div class="step-number">6</div>
           </div>
-          <h3 class="step-title">Crecimiento patrimonial continuo</h3>
+          <h3 class="step-title">Vender o Liquidar: Patrimonio en Movimiento</h3>
           <p class="step-description">
-            Los tokens recibidos pueden:
+            Tú eres el dueño. Cuando decidas dejar el inmueble, tienes dos vías de salida:
           </p>
-          <ul class="step-list">
-            <li>Mantenerse como inversión</li>
-            <li>Intercambiarse por otros inmuebles del ecosistema</li>
-            <li>Consolidarse para acceder a un nuevo loft completo</li>
-          </ul>
+          <div class="flex-options">
+            <div class="flex-option">
+              <span class="flex-emoji">📄</span>
+              <span><strong>Venta Tradicional:</strong> Vendes los dos inmuebles a cualquier tercero en el mercado abierto, como una operación inmobiliaria normal.</span>
+            </div>
+            <div class="flex-option">
+              <span class="flex-emoji">🪙</span>
+              <span><strong>Conversión a Tokens de Valor:</strong> Canjea tu propiedad por tokens de la plataforma (1 token = 100€) para una movilidad instantánea.</span>
+            </div>
+          </div>
           <p class="step-description mt-3">
-            Así, el usuario no solo compra un inmueble: construye un patrimonio inmobiliario líquido, flexible y escalable.
+            <strong>Ejemplo de Permuta:</strong> Vendes tu loft en Madrid por 27.000 tokens (270.000€). Te mudas a un loft en Valencia por 24.000 tokens (240.000€). El cambio es automático: ya tienes tu nueva casa y además te sobran 3.000 tokens que te generan rentabilidad mensual por los alquileres de la red.
           </p>
+        </div>
+      </div>
+
+      <!-- Video (debajo) con placeholder logo + play -->
+      <div class="video-section mt-16">
+        <div class="video-wrapper">
+          <video
+            ref="videoEl2"
+            class="section-video"
+            src="/Video-loft.mp4"
+            controls
+            playsinline
+            @play="showPlayOverlay2 = false"
+            @pause="showPlayOverlay2 = true"
+            @ended="showPlayOverlay2 = true"
+          >
+            Tu navegador no soporta la reproducción de video.
+          </video>
+          <div
+            v-show="showPlayOverlay2"
+            class="video-play-overlay"
+            role="button"
+            tabindex="0"
+            aria-label="Reproducir video"
+            @click="playVideo2"
+            @keydown.enter="playVideo2"
+          >
+            <div class="video-play-overlay-inner">
+              <img src="/images/Logoblanco3.png" alt="Loft2live" class="video-overlay-logo" />
+              <div class="video-play-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="play-icon">
+                  <path d="M8 5v14l11-7L8 5z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Ahorro + Modelo compraventa + Tabla comparativa -->
+      <div class="cta-buttons-row">
+        <button
+          type="button"
+          class="savings-cta-button"
+          @click="savingsModalOpen = true"
+        >
+          💰 ¿Cuánto voy a ahorrar?
+        </button>
+        <button
+          type="button"
+          class="savings-cta-button contract-cta-button"
+          @click="contractModalOpen = true"
+        >
+          📄 Modelo compraventa
+        </button>
+      </div>
+
+      <LandingSavingsModal :open="savingsModalOpen" @close="savingsModalOpen = false" />
+      <LandingContractModal :open="contractModalOpen" @close="contractModalOpen = false" />
+
+      <!-- Tabla comparativa -->
+      <div class="comparison-section mt-8">
+        <h3 class="comparison-title">Comparativa de Ahorro: Modelo 80/20 vs. Tradicional</h3>
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Loft Tradicional</th>
+                <th>Modelo Smart Loft (80/20)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Deducción IVA/Gastos</td>
+                <td>0% - 20%</td>
+                <td>100% (sobre el 80% del valor)</td>
+              </tr>
+              <tr>
+                <td>Deducción IRPF</td>
+                <td>Estándar</td>
+                <td>30% (sobre el 20% del valor)</td>
+              </tr>
+              <tr>
+                <td>Estructura Legal</td>
+                <td>Escritura única</td>
+                <td>Escritura Dual (Máxima optimización)</td>
+              </tr>
+              <tr>
+                <td>Movilidad</td>
+                <td>Activo fijo y pesado</td>
+                <td>Activo líquido y canjeable por tokens</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -167,11 +307,32 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import LandingSavingsModal from './LandingSavingsModal.vue'
+import LandingContractModal from './LandingContractModal.vue'
 
 gsap.registerPlugin(ScrollTrigger)
+
+const videoEl = ref<HTMLVideoElement | null>(null)
+const videoEl2 = ref<HTMLVideoElement | null>(null)
+const showPlayOverlay = ref(true)
+const showPlayOverlay2 = ref(true)
+const savingsModalOpen = ref(false)
+const contractModalOpen = ref(false)
+
+function playVideo() {
+  if (videoEl.value) {
+    videoEl.value.play()
+  }
+}
+
+function playVideo2() {
+  if (videoEl2.value) {
+    videoEl2.value.play()
+  }
+}
 
 onMounted(() => {
   gsap.utils.toArray('.step-card').forEach((card: any, index: number) => {
@@ -192,6 +353,80 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.video-section {
+  display: flex;
+  justify-content: center;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.section-video {
+  width: 100%;
+  display: block;
+  vertical-align: middle;
+}
+
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.video-play-overlay:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.video-play-overlay-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.video-overlay-logo {
+  height: 64px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.4));
+}
+
+.video-play-button {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(121, 53, 141, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(121, 53, 141, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.video-play-overlay:hover .video-play-button {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(121, 53, 141, 0.6);
+}
+
+.play-icon {
+  width: 36px;
+  height: 36px;
+  color: white;
+  margin-left: 4px;
+}
+
 .step-card {
   background: white;
   border-radius: 1.5rem;
@@ -346,6 +581,149 @@ onMounted(() => {
   font-size: 0.95rem;
 }
 
+/* Comparativa de Ahorro */
+.cta-buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.savings-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #79358d, #a855f7);
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(121, 53, 141, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.savings-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(121, 53, 141, 0.5);
+}
+
+.contract-cta-button {
+  background: linear-gradient(135deg, #4b5563, #6b7280);
+  box-shadow: 0 4px 14px rgba(75, 85, 99, 0.35);
+}
+
+.contract-cta-button:hover {
+  box-shadow: 0 6px 20px rgba(75, 85, 99, 0.45);
+}
+
+.comparison-section {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(121, 53, 141, 0.08);
+  overflow: hidden;
+}
+
+.comparison-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0D0D0D;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.comparison-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #79358d, #a855f7);
+  margin: 0.75rem auto 0;
+  border-radius: 2px;
+}
+
+.comparison-table-wrapper {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.comparison-table thead {
+  background: linear-gradient(135deg, #79358d, #6b2d7a);
+  color: white;
+}
+
+.comparison-table th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.comparison-table th:first-child {
+  border-radius: 0.75rem 0 0 0;
+}
+
+.comparison-table th:last-child {
+  border-radius: 0 0.75rem 0 0;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.comparison-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.comparison-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.comparison-table tbody tr:hover {
+  background: #f3f4f6;
+}
+
+.comparison-table td {
+  padding: 1rem 1.25rem;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comparison-table td:first-child {
+  font-weight: 600;
+  color: #0D0D0D;
+  width: 28%;
+}
+
+.comparison-table td:nth-child(2) {
+  color: #6b7280;
+}
+
+.comparison-table td:last-child {
+  color: #79358d;
+  font-weight: 500;
+}
+
+.comparison-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.comparison-table tbody tr:last-child td:first-child {
+  border-radius: 0 0 0 0.75rem;
+}
+
+.comparison-table tbody tr:last-child td:last-child {
+  border-radius: 0 0 0.75rem 0;
+}
+
 @media (max-width: 768px) {
   .step-card {
     padding: 1.5rem;
@@ -353,6 +731,20 @@ onMounted(() => {
   
   .step-title {
     font-size: 1.25rem;
+  }
+
+  .comparison-section {
+    padding: 1.25rem;
+  }
+
+  .comparison-title {
+    font-size: 1.25rem;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
   }
 }
 </style>

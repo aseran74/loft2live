@@ -21,7 +21,10 @@
           <h4 class="font-semibold mb-3">Enlaces rápidos</h4>
           <ul class="space-y-2">
             <li>
-              <router-link to="/inversiones" class="opacity-70 hover:opacity-100 transition-opacity">Inversiones</router-link>
+              <router-link to="/inversiones" class="opacity-70 hover:opacity-100 transition-opacity">Compra</router-link>
+            </li>
+            <li>
+              <router-link to="/alquileres" class="opacity-70 hover:opacity-100 transition-opacity">Alquiler</router-link>
             </li>
             <li>
               <router-link to="/inversiones#preguntas" class="opacity-70 hover:opacity-100 transition-opacity">Preguntas frecuentes</router-link>

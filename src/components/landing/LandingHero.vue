@@ -54,7 +54,7 @@ onUnmounted(() => {
             <img src="/images/Logoblanco3.png" alt="Loft2live" class="hero-logo" />
           </div>
           <p class="hero-subtitle">Ha llegado otra manera de alquilar y vender inmuebles.</p>
-          <p class="hero-description">Aprovechate de las ventajas fiscales de la ley startups</p>
+          <p class="hero-description">Diseñamos lofts para que te puedas desgravar el 100%</p>
           <a href="#descubre-como" class="hero-button">
             Descubre cómo
           </a>
