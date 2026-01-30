@@ -61,7 +61,8 @@ onUnmounted(() => {
     </div>
 
     <div class="image-container">
-      <img src="/images/interiordefi.png" alt="interior">
+      <img src="/images/interiordefi.png" alt="interior" class="hero-image hero-image-desktop">
+      <img src="/images/Interiormovil.png" alt="interior" class="hero-image hero-image-mobile">
     </div>
   </div>
 </template>
@@ -141,6 +142,19 @@ onUnmounted(() => {
   max-width: 90%;
 }
 
+/* Tablet: logo centrado de forma explícita */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-logo-fixed-container {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(-50%);
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 /* Móvil: subtítulo centrado */
 @media (max-width: 640px) {
   .hero-text {
@@ -152,6 +166,14 @@ onUnmounted(() => {
     line-height: 1.15;
     margin-top: 6rem;
     text-align: center;
+  }
+
+  .hero-logo-fixed-container {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(-50%);
   }
 }
 
@@ -167,10 +189,25 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-.image-container img {
+.hero-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
+}
+
+/* Escritorio/tablet: solo imagen principal */
+.hero-image-mobile {
+  display: none;
+}
+
+/* Móvil: Interiormovil.png */
+@media (max-width: 640px) {
+  .hero-image-desktop {
+    display: none;
+  }
+  .hero-image-mobile {
+    display: block;
+  }
 }
 </style>

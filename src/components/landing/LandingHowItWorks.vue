@@ -16,20 +16,19 @@
           Real estate para mentes que no quieren quedarse quietas.
         </p>
 
-        <!-- Resumen ley vivienda protegida Madrid -->
-        <div class="mt-10 max-w-3xl mx-auto p-6 rounded-2xl" style="background-color: #F2F2F2; border-left: 4px solid #79358d">
-          <h3 class="text-xl font-bold mb-3" style="color: #0D0D0D">Novedad normativa: Ley de vivienda protegida en la Comunidad de Madrid</h3>
-          <p class="text-base mb-3" style="color: #0D0D0D">
-            La nueva ley para la promoción de vivienda protegida autoriza el <strong>cambio de uso de suelo de terciario a residencial</strong>: se podrán convertir hasta <strong>20.000 oficinas en viviendas</strong> en régimen de alquiler a precios asequibles, poniendo en el mercado unos <strong>1,8 millones de m²</strong>.
-          </p>
-          <p class="text-base mb-3" style="color: #0D0D0D">
-            Es una medida <strong>extraordinaria y temporal</strong> con una vigencia de <strong>15 años</strong>. La norma incluye una reducción de plazos de construcción de hasta 12 meses y menos cargas en desarrollos de vivienda pública. Una vez aprobada, serán los ayuntamientos los que decidan aplicarla.
-          </p>
-          <p class="text-sm" style="color: #79358d; font-weight: 600">
-            Una revolución en el urbanismo español: reconvertir edificios y suelo terciario en residencial.
-          </p>
+        <!-- Botón Ley Comunidad de Madrid (abre modal) -->
+        <div class="mt-10 flex justify-center">
+          <button
+            type="button"
+            class="ley-madrid-cta-button"
+            @click="leyMadridModalOpen = true"
+          >
+            📜 Ley Comunidad de Madrid
+          </button>
         </div>
       </div>
+
+      <LandingLeyMadridModal :open="leyMadridModalOpen" @close="leyMadridModalOpen = false" />
 
       <!-- Video destacado -->
       <div class="video-section mb-16">
@@ -338,6 +337,7 @@ import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import LandingSavingsModal from './LandingSavingsModal.vue'
 import LandingContractModal from './LandingContractModal.vue'
+import LandingLeyMadridModal from './LandingLeyMadridModal.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -347,6 +347,7 @@ const showPlayOverlay = ref(true)
 const showPlayOverlay2 = ref(true)
 const savingsModalOpen = ref(false)
 const contractModalOpen = ref(false)
+const leyMadridModalOpen = ref(false)
 
 function playVideo() {
   if (videoEl.value) {
@@ -687,6 +688,27 @@ onMounted(() => {
 
 .contract-cta-button:hover {
   box-shadow: 0 6px 20px rgba(75, 85, 99, 0.45);
+}
+
+.ley-madrid-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #79358d;
+  background: #F2F2F2;
+  border: 2px solid #79358d;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.ley-madrid-cta-button:hover {
+  background: #79358d;
+  color: white;
+  transform: translateY(-2px);
 }
 
 .comparison-section {

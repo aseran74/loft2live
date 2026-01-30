@@ -1,25 +1,23 @@
 <template>
-  <footer class="py-10" style="background-color: #0D0D0D; color: white">
+  <footer class="pt-0 pb-10" style="background-color: #0D0D0D; color: white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-4 md:gap-x-4 mb-6">
         <!-- Logo and Description -->
-        <div class="space-y-3">
-          <div class="flex items-center space-x-2">
-            <router-link to="/" class="inline-flex items-center hover:opacity-90 transition-opacity">
-              <img
-                src="/images/Logoblanco3.png"
-                alt="Loft2live"
-                class="h-72 w-auto object-contain"
-                loading="lazy"
-              />
-            </router-link>
-          </div>
+        <div class="flex items-start">
+          <router-link to="/" class="inline-flex items-center hover:opacity-90 transition-opacity">
+            <img
+              src="/images/Logoblanco3.png"
+              alt="Loft2live"
+              class="h-36 w-auto object-contain max-h-40"
+              loading="lazy"
+            />
+          </router-link>
         </div>
 
         <!-- Quick Links -->
-        <div>
-          <h4 class="font-semibold mb-3">Enlaces rápidos</h4>
-          <ul class="space-y-2">
+        <div class="pt-0">
+          <h4 class="font-semibold mb-2 mt-0">Enlaces rápidos</h4>
+          <ul class="space-y-1 list-none pl-0 m-0">
             <li>
               <router-link to="/inversiones" class="opacity-70 hover:opacity-100 transition-opacity">Compra</router-link>
             </li>
@@ -39,9 +37,9 @@
         </div>
 
         <!-- Legal Documents -->
-        <div>
-          <h4 class="font-semibold mb-3">Documentos legales</h4>
-          <ul class="space-y-2">
+        <div class="pt-0">
+          <h4 class="font-semibold mb-2 mt-0">Documentos legales</h4>
+          <ul class="space-y-1 list-none pl-0 m-0">
             <li>
               <a href="#" class="opacity-70 hover:opacity-100 transition-opacity">Normas de la plataforma</a>
             </li>
@@ -61,9 +59,9 @@
         </div>
 
         <!-- Contact -->
-        <div>
-          <h4 class="font-semibold mb-3">Contacto</h4>
-          <ul class="space-y-2">
+        <div class="pt-0">
+          <h4 class="font-semibold mb-2 mt-0">Contacto</h4>
+          <ul class="space-y-1 list-none pl-0 m-0">
             <li class="opacity-70">
               <a href="mailto:info@loftandlive.com" class="hover:opacity-100 transition-opacity">info@loftandlive.com</a>
             </li>
