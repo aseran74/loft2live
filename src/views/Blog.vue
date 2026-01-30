@@ -72,12 +72,12 @@ const error = ref<string | null>(null)
 
 onMounted(async () => {
   try {
-    const { data, err } = await supabase
+    const { data, error: supabaseError } = await supabase
       .from('blog_entradas')
       .select('id, titulo, resumen, fuente_url, orden, created_at')
       .order('orden', { ascending: true })
 
-    if (err) throw err
+    if (supabaseError) throw supabaseError
     entradas.value = (data ?? []) as BlogEntrada[]
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Error al cargar las noticias'

@@ -242,12 +242,12 @@ async function loadEntradas() {
   loading.value = true
   error.value = null
   try {
-    const { data, err } = await supabase
+    const { data, error: supabaseError } = await supabase
       .from('blog_entradas')
       .select('id, titulo, resumen, fuente_url, orden, created_at')
       .order('orden', { ascending: true })
 
-    if (err) throw err
+    if (supabaseError) throw supabaseError
     entradas.value = (data ?? []) as BlogEntrada[]
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Error al cargar noticias'
@@ -257,13 +257,13 @@ async function loadEntradas() {
 }
 
 async function loadOne(id: string) {
-  const { data, err } = await supabase
+  const { data, error: supabaseError } = await supabase
     .from('blog_entradas')
     .select('id, titulo, resumen, fuente_url, orden')
     .eq('id', id)
     .single()
 
-  if (err || !data) {
+  if (supabaseError || !data) {
     submitError.value = 'Noticia no encontrada'
     return
   }
