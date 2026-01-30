@@ -28,9 +28,9 @@
       <div v-else-if="proyecto" class="bg-white rounded-2xl shadow-lg overflow-hidden">
         <!-- Header con imagen principal -->
         <div class="relative">
-          <div v-if="proyecto.fotos && proyecto.fotos.length > 0" class="relative h-64 sm:h-96 overflow-hidden">
+          <div v-if="mainPhotoPath" class="relative h-64 sm:h-96 overflow-hidden">
             <img
-              :src="getPhotoUrl(proyecto.fotos[0])"
+              :src="getPhotoUrl(mainPhotoPath)"
               :alt="proyecto.nombre_proyecto"
               class="w-full h-full object-cover"
             />
@@ -64,6 +64,84 @@
 
         <!-- Contenido principal -->
         <div class="p-6 sm:p-8">
+          <!-- Antes y después: oficina actual + fotos reforma (70% + 30%, resto 33%) -->
+          <div
+            v-if="(proyecto.fotos_oficina_actual && proyecto.fotos_oficina_actual.length > 0) || (proyecto.fotos_oficina_remodelada && proyecto.fotos_oficina_remodelada.length > 0)"
+            class="mb-8 -mx-6 sm:-mx-8 px-6 sm:px-8"
+          >
+            <h2 class="text-2xl sm:text-3xl font-bold mb-4" style="color: #0D0D0D">Antes y después de la reforma</h2>
+
+            <!-- Oficina actual (una foto) -->
+            <div
+              v-if="proyecto.fotos_oficina_actual && proyecto.fotos_oficina_actual.length > 0"
+              class="mb-6"
+            >
+              <p class="text-base font-semibold px-4 py-3 mb-0 rounded-t-xl" style="background-color: #F2F2F2; color: #0D0D0D">Oficina actual</p>
+              <div class="rounded-b-xl overflow-hidden border-2 border-t-0 shadow-md aspect-[4/3] sm:aspect-[3/2] bg-gray-100" style="border-color: #DFDCF2">
+                <img
+                  :src="getPhotoUrl(proyecto.fotos_oficina_actual[0])"
+                  :alt="`Oficina actual - ${proyecto.nombre_proyecto}`"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+
+            <!-- Fotos oficina remodelada: como referencia (70% + 2 apiladas 30%, imagen ancha abajo, thumbnails) -->
+            <div v-if="proyecto.fotos_oficina_remodelada && proyecto.fotos_oficina_remodelada.length > 0" class="fotos-reforma-wrapper">
+              <p class="text-base font-semibold px-4 py-3 mb-0 rounded-t-xl" style="background-color: #F2F2F2; color: #0D0D0D">Oficina remodelada</p>
+              <div class="rounded-b-xl overflow-hidden border-2 border-t-0 shadow-md" style="border-color: #DFDCF2">
+                <!-- Fila superior: principal 70% + 2 fotos apiladas 30% -->
+                <div class="fotos-reforma-gallery">
+                  <div class="fotos-reforma-main bg-gray-100">
+                    <img
+                      :src="getPhotoUrl(proyecto.fotos_oficina_remodelada[0])"
+                      :alt="`Oficina remodelada - ${proyecto.nombre_proyecto}`"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div
+                    v-for="(foto, idx) in proyecto.fotos_oficina_remodelada.slice(1, 3)"
+                    :key="idx"
+                    class="fotos-reforma-side bg-gray-100"
+                  >
+                    <img
+                      :src="getPhotoUrl(foto)"
+                      :alt="`Reforma ${idx + 2} - ${proyecto.nombre_proyecto}`"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                <!-- Imagen ancha debajo (4ª foto) -->
+                <div
+                  v-if="proyecto.fotos_oficina_remodelada.length > 3"
+                  class="fotos-reforma-wide"
+                >
+                  <img
+                    :src="getPhotoUrl(proyecto.fotos_oficina_remodelada[3])"
+                    :alt="`Reforma - ${proyecto.nombre_proyecto}`"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <!-- Fila de thumbnails -->
+                <div class="fotos-reforma-thumbs">
+                  <button
+                    v-for="(foto, idx) in proyecto.fotos_oficina_remodelada"
+                    :key="idx"
+                    type="button"
+                    class="fotos-reforma-thumb"
+                    @click="openReformaLightbox(idx)"
+                  >
+                    <img
+                      :src="getPhotoUrl(foto)"
+                      :alt="`Reforma ${idx + 1}`"
+                      class="w-full h-full object-cover"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Estadísticas principales -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
             <div class="bg-gray-50 rounded-xl p-4 sm:p-6">
@@ -123,21 +201,13 @@
                       {{ formatCurrency(proyecto.precio_unidad) }}
                     </span>
                   </div>
-                  <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
-                    <span class="text-gray-600 mb-1 sm:mb-0">Gasto estimado comunidad</span>
-                    <span class="font-semibold text-lg" style="color: #0D0D0D">
-                      {{ proyecto.gasto_estimado_comunidad ? formatCurrency(proyecto.gasto_estimado_comunidad) : 'No especificado' }}
-                    </span>
-                  </div>
-                  <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
-                    <span class="text-gray-600 mb-1 sm:mb-0">Término mínimo</span>
-                    <span class="font-semibold text-lg" style="color: #0D0D0D">
-                      {{ proyecto.min_termino_meses }} meses
-                    </span>
-                  </div>
                   <div v-if="proyecto.permisos" class="py-3">
                     <span class="text-gray-600 block mb-2">Permisos</span>
                     <p class="text-gray-800 whitespace-pre-line">{{ proyecto.permisos }}</p>
+                  </div>
+                  <div v-if="proyecto.caracteristicas" class="py-3">
+                    <span class="text-gray-600 block mb-2">Características</span>
+                    <p class="text-gray-800 whitespace-pre-line">{{ proyecto.caracteristicas }}</p>
                   </div>
                 </div>
               </div>
@@ -274,6 +344,118 @@
                 </div>
               </div>
 
+              <!-- Caso de Éxito: Efecto 80/20 (facturación usuario + valor inmueble del proyecto) -->
+              <div class="mt-8 rounded-2xl border-2 p-6 sm:p-8" style="border-color: #DFDCF2; background-color: #F7F7FB">
+                <h2 class="text-2xl font-bold mb-2" style="color: #0D0D0D">
+                  💰 Caso de Éxito: El "Efecto 80/20" sobre tu facturación
+                </h2>
+                <p class="text-sm text-gray-600 mb-6">
+                  Introduce tu facturación anual. El valor del inmueble corresponde a este proyecto.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                  <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: #0D0D0D">Tu facturación anual (€)</label>
+                    <input
+                      v-model.number="facturacionAnual"
+                      type="number"
+                      min="0"
+                      step="1000"
+                      class="w-full px-4 py-3 rounded-lg border-2 bg-white text-lg"
+                      style="border-color: #CFCEF2; color: #0D0D0D"
+                      placeholder="80000"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold mb-2" style="color: #0D0D0D">Valor del inmueble (este proyecto)</label>
+                    <div
+                      class="w-full px-4 py-3 rounded-lg border-2 text-lg font-semibold"
+                      style="border-color: #CFCEF2; background-color: #EEEEEE; color: #0D0D0D"
+                    >
+                      {{ formatCurrency(valorInmueble) }}
+                    </div>
+                  </div>
+                </div>
+
+                <p class="text-gray-700 mb-6">
+                  Imagina que eres un profesional o empresa que factura <strong>{{ formatCurrency(facturacionAnual || 0) }}</strong> al año.
+                  Sin una estrategia inmobiliaria inteligente, tu base imponible es muy alta y terminas pagando un porcentaje elevado en impuestos.
+                  Con nuestro modelo de Smart Loft, transformas tu gasto de vida en un escudo fiscal.
+                </p>
+
+                <div class="space-y-6">
+                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
+                    <h3 class="text-lg font-bold mb-3" style="color: #79358D">ESCENARIO A: EL AUTÓNOMO (Estimación Directa)</h3>
+                    <p class="text-sm text-gray-700 mb-3">
+                      Facturación: <strong>{{ formatCurrency(facturacionAnual || 0) }}</strong> | Alquiler: 1.200 € (1.000 € Oficina + 200 € Vivienda)
+                    </p>
+                    <p class="text-sm text-gray-700 mb-2">
+                      <strong>Alquiler con nosotros:</strong> De esos {{ formatCurrency(facturacionAnual || 0) }}, restas 12.000 € de la oficina y el 30% de la vivienda. Ahora Hacienda solo te calcula impuestos sobre <strong>~{{ formatCurrency(baseReducidaAutonomo) }}</strong> en lugar de {{ formatCurrency(facturacionAnual || 0) }}.
+                    </p>
+                    <p class="text-sm text-gray-700 mb-3">
+                      <strong>Resultado:</strong> Te ahorras unos <strong>{{ formatCurrency(ahorroIrpfAprox) }}</strong> al año en IRPF. Es como si el loft te costara varios meses menos al año.
+                    </p>
+                    <p class="text-sm text-gray-700 mb-2">
+                      <strong>Compra con nosotros ({{ formatCurrency(valorInmueble) }}):</strong>
+                    </p>
+                    <p class="text-sm text-gray-700">
+                      Inyección de Liquidez: Hacienda te devuelve el 21% de IVA de la oficina: <strong>{{ formatCurrency(ivaRecuperableOficina) }}</strong> directos a tu cuenta. Deducción por Amortización: Restas unos 4.500 €/año de tus beneficios por el desgaste del inmueble. Resultado: Pagas la hipoteca con dinero que antes se iba en impuestos.
+                    </p>
+                  </div>
+
+                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
+                    <h3 class="text-lg font-bold mb-3" style="color: #79358D">ESCENARIO B: SOCIEDAD LIMITADA (SL)</h3>
+                    <p class="text-sm text-gray-700 mb-3">
+                      Facturación: <strong>{{ formatCurrency(facturacionAnual || 0) }}</strong> | Compra: <strong>{{ formatCurrency(valorInmueble) }}</strong>
+                    </p>
+                    <p class="text-sm text-gray-700 mb-2">
+                      <strong>Alquiler con nosotros:</strong> La SL deduce el 100% de la oficina (1.000 €/mes). Resultado: Reduces el beneficio de la empresa en 12.000 €, ahorrando en Impuesto de Sociedades y recuperando el IVA cada trimestre.
+                    </p>
+                    <p class="text-sm text-gray-700">
+                      <strong>Compra con nosotros:</strong> La sociedad adquiere el activo. Efecto Balance: Tu empresa ahora tiene un patrimonio de <strong>{{ formatCurrency(valorInmueble) }}</strong>. El 80% de la hipoteca, el IBI, la comunidad y los intereses son gastos que reducen tu beneficio neto, pagando el mínimo legal de impuestos mientras el inmueble se revaloriza.
+                    </p>
+                  </div>
+
+                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
+                    <h3 class="text-lg font-bold mb-3" style="color: #0D0D0D">📉 Resumen: ¿Dónde prefieres que esté tu dinero?</h3>
+                    <p class="text-sm text-gray-600 mb-3">Si facturas {{ formatCurrency(facturacionAnual || 0) }}...</p>
+                    <div class="overflow-x-auto">
+                      <table class="w-full text-sm border-collapse" style="border-color: #CFCEF2">
+                        <thead>
+                          <tr style="background-color: #F2F2F2">
+                            <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #0D0D0D">Concepto</th>
+                            <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #0D0D0D">Sin nuestro modelo</th>
+                            <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #79358D">Con Smart Loft 80/20</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Gasto Vivienda</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">No deducible (100% de tu bolsillo)</td>
+                            <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">80% deducible como oficina</td>
+                          </tr>
+                          <tr>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">IVA de Compra</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Lo pagas y lo pierdes</td>
+                            <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Recuperas {{ formatCurrency(ivaRecuperableOficina) }} (en oficina)</td>
+                          </tr>
+                          <tr>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Impuestos anuales</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Máximo tramo</td>
+                            <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Tramo reducido por gastos</td>
+                          </tr>
+                          <tr>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Movilidad</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Atado a una ciudad</td>
+                            <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Tokens para moverte por la red</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Galería de fotos -->
               <div v-if="proyecto.fotos && proyecto.fotos.length > 0" class="mt-6">
                 <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Galería de fotos</h2>
@@ -344,14 +526,12 @@
                 >
                   Editar proyecto
                 </button>
-                <button
-                  type="button"
-                  @click="taxModalOpen = true"
-                  class="w-full px-6 py-3 border-2 rounded-lg transition-colors font-semibold hover:opacity-90"
-                  style="border-color: #79358D; color: #79358D"
+                <div
+                  class="w-full px-6 py-3 rounded-lg border-2 text-center font-semibold"
+                  style="border-color: #DFDCF2; background-color: #F7F7FB; color: #79358D"
                 >
-                  Simular desgravación
-                </button>
+                  Desgravación: 100% (uso 100% oficina)
+                </div>
                 <button
                   @click="deleteProyecto"
                   class="w-full px-6 py-3 border-2 rounded-lg transition-colors font-semibold hover:opacity-70"
@@ -368,60 +548,6 @@
     </div>
   </div>
 
-  <!-- Modal fullscreen simulador desgravación -->
-    <div
-      v-if="taxModalOpen"
-      class="fixed inset-0 z-50 bg-white"
-      role="dialog"
-      aria-modal="true"
-    >
-      <!-- Header fijo -->
-      <div class="sticky top-0 z-10 border-b bg-white/90 backdrop-blur" style="border-color:#CFCEF2">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-start justify-between gap-4">
-          <div>
-            <h2 class="text-xl sm:text-2xl font-bold" style="color:#0D0D0D">
-              Simulador desgravación (Ley Startups)
-            </h2>
-            <p class="text-sm text-gray-600 mt-1">
-              Elige años (por defecto 5), ajusta topes y reparto.
-            </p>
-          </div>
-          <button
-            type="button"
-            class="text-gray-500 hover:text-gray-700 text-2xl leading-none"
-            aria-label="Cerrar"
-            @click="taxModalOpen = false"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
-
-      <!-- Contenido scroll -->
-      <div class="h-[calc(100vh-72px)] overflow-y-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div v-if="proyecto?.unidades_tipos && proyecto.unidades_tipos.length" class="mb-4 rounded-xl border p-4" style="border-color:#DFDCF2; background:#F7F7FB">
-            <label class="block text-xs font-medium text-gray-600 mb-2">Tipo de unidad para simular</label>
-            <select
-              v-model.number="selectedUnidadTipoIndex"
-              class="w-full sm:w-auto px-3 py-2 rounded-lg border bg-white text-sm"
-              style="border-color:#CFCEF2"
-            >
-              <option :value="-1">Precio base (proyecto)</option>
-              <option
-                v-for="(u, idx) in proyecto.unidades_tipos.slice(0,4)"
-                :key="idx"
-                :value="idx"
-              >
-                {{ u.nombre || `Tipo ${idx+1}` }} — {{ formatCurrency(Number(u.precio || 0)) }}
-              </option>
-            </select>
-          </div>
-
-          <StartupTaxSimulator :default-investment="selectedUnidadPrecio" />
-        </div>
-      </div>
-    </div>
   </AdminLayout>
 
   <!-- Lightbox para fotos -->
@@ -472,17 +598,65 @@
         {{ currentPhotoIndex + 1 }} / {{ proyecto.fotos.length }}
       </div>
   </div>
+
+  <!-- Lightbox fotos reforma -->
+  <div
+    v-if="reformaLightboxOpen && proyecto?.fotos_oficina_remodelada?.length"
+    class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+    @click="closeReformaLightbox"
+  >
+    <button
+      @click="closeReformaLightbox"
+      class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+      aria-label="Cerrar"
+    >
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <button
+      v-if="proyecto.fotos_oficina_remodelada.length > 1"
+      @click.stop="previousReformaPhoto"
+      class="absolute left-4 text-white hover:text-gray-300 transition-colors"
+      aria-label="Anterior"
+    >
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button
+      v-if="proyecto.fotos_oficina_remodelada.length > 1"
+      @click.stop="nextReformaPhoto"
+      class="absolute right-4 text-white hover:text-gray-300 transition-colors"
+      aria-label="Siguiente"
+    >
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+    <img
+      :src="getPhotoUrl(proyecto.fotos_oficina_remodelada[currentReformaPhotoIndex])"
+      :alt="`Reforma ${currentReformaPhotoIndex + 1}`"
+      class="max-w-full max-h-full object-contain"
+      @click.stop
+    />
+    <div
+      v-if="proyecto.fotos_oficina_remodelada.length > 1"
+      class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm"
+    >
+      {{ currentReformaPhotoIndex + 1 }} / {{ proyecto.fotos_oficina_remodelada.length }}
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useProyectos } from '@/composables/useProyectos'
 import type { Proyecto } from '@/types/proyecto'
 import { supabase } from '@/config/supabase'
 import { loadGoogleMapsPlaces } from '@/utils/loadGoogleMaps'
 import { amenityGroups, getAmenityIconSvg } from '@/utils/amenities'
-import StartupTaxSimulator from '@/components/proyectos/StartupTaxSimulator.vue'
 import AdminLayout from '@/components/layout/AdminLayout.vue'
 
 const route = useRoute()
@@ -493,9 +667,10 @@ const proyecto = ref<Proyecto | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 const lightboxOpen = ref(false)
-const taxModalOpen = ref(false)
-const selectedUnidadTipoIndex = ref<number>(-1)
 const currentPhotoIndex = ref(0)
+const reformaLightboxOpen = ref(false)
+const currentReformaPhotoIndex = ref(0)
+const facturacionAnual = ref<number>(80000)
 const mapContainer = ref<HTMLDivElement | null>(null)
 const mapState = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
 const mapErrorMessage = ref<string | null>(null)
@@ -517,18 +692,14 @@ onMounted(async () => {
   
   // Configurar manejador de teclado para lightbox
   keyPressHandler = (e: KeyboardEvent) => {
-    if (taxModalOpen.value && e.key === 'Escape') {
-      taxModalOpen.value = false
-      return
-    }
-    if (lightboxOpen.value) {
-      if (e.key === 'Escape') {
-        closeLightbox()
-      } else if (e.key === 'ArrowRight') {
-        nextPhoto()
-      } else if (e.key === 'ArrowLeft') {
-        previousPhoto()
-      }
+    if (reformaLightboxOpen.value) {
+      if (e.key === 'Escape') closeReformaLightbox()
+      else if (e.key === 'ArrowRight') nextReformaPhoto()
+      else if (e.key === 'ArrowLeft') previousReformaPhoto()
+    } else if (lightboxOpen.value) {
+      if (e.key === 'Escape') closeLightbox()
+      else if (e.key === 'ArrowRight') nextPhoto()
+      else if (e.key === 'ArrowLeft') previousPhoto()
     }
   }
   window.addEventListener('keydown', keyPressHandler)
@@ -663,24 +834,28 @@ const mapsOpenUrl = computed(() => {
   return `https://www.google.com/maps?q=${q}`
 })
 
-const selectedUnidadPrecio = computed(() => {
-  const base = Number(proyecto.value?.precio_unidad || 0)
-  const idx = Number(selectedUnidadTipoIndex.value)
-  if (idx < 0) return base
-  const tipos = proyecto.value?.unidades_tipos
-  if (!tipos || !Array.isArray(tipos) || !tipos[idx]) return base
-  return Number((tipos[idx] as any).precio || base)
+const mainPhotoPath = computed(() => {
+  const p = proyecto.value
+  return p?.fotos?.[0] ?? p?.fotos_oficina_remodelada?.[0] ?? p?.fotos_oficina_actual?.[0] ?? ''
 })
 
-watch(
-  () => taxModalOpen.value,
-  (open) => {
-    if (open) {
-      // Por defecto: precio base; si hay tipos configurados, se queda en base y el usuario elige
-      selectedUnidadTipoIndex.value = -1
-    }
-  }
+const valorInmueble = computed(() => Number(proyecto.value?.precio_unidad || 0))
+const ivaRecuperableOficina = computed(() =>
+  Math.round(valorInmueble.value * 0.8 * 0.21)
 )
+const baseReducidaAutonomo = computed(() => {
+  const f = Number(facturacionAnual.value || 0)
+  const deducibleOficina = 12000
+  const deducibleVivienda = Math.round(200 * 12 * 0.3)
+  return Math.max(0, f - deducibleOficina - deducibleVivienda)
+})
+const ahorroIrpfAprox = computed(() => {
+  const f = Number(facturacionAnual.value || 0)
+  const baseReducida = baseReducidaAutonomo.value
+  const diferencia = f - baseReducida
+  const tipoMedioAprox = 0.35
+  return Math.round(diferencia * tipoMedioAprox)
+})
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('es-ES', {
@@ -733,6 +908,24 @@ const previousPhoto = () => {
   }
 }
 
+const openReformaLightbox = (index: number) => {
+  currentReformaPhotoIndex.value = index
+  reformaLightboxOpen.value = true
+}
+const closeReformaLightbox = () => {
+  reformaLightboxOpen.value = false
+}
+const nextReformaPhoto = () => {
+  const fotos = proyecto.value?.fotos_oficina_remodelada
+  if (fotos && currentReformaPhotoIndex.value < fotos.length - 1) currentReformaPhotoIndex.value++
+  else if (fotos) currentReformaPhotoIndex.value = 0
+}
+const previousReformaPhoto = () => {
+  if (currentReformaPhotoIndex.value > 0) currentReformaPhotoIndex.value--
+  else if (proyecto.value?.fotos_oficina_remodelada?.length)
+    currentReformaPhotoIndex.value = proyecto.value.fotos_oficina_remodelada.length - 1
+}
+
 const editProyecto = () => {
   if (proyecto.value?.id) {
     // Volver a la lista de proyectos y abrir el modal de edición
@@ -775,5 +968,82 @@ onUnmounted(() => {
 /* Animaciones suaves para el lightbox */
 img {
   transition: transform 0.3s ease;
+}
+
+/* Galería oficina remodelada: como referencia (70% + 2 apiladas 30%, imagen ancha, thumbnails) */
+.fotos-reforma-wrapper {
+  margin-bottom: 1.5rem;
+}
+.fotos-reforma-gallery {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr;
+}
+.fotos-reforma-main {
+  grid-column: 1;
+  min-height: 280px;
+}
+.fotos-reforma-main img,
+.fotos-reforma-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fotos-reforma-side {
+  min-height: 200px;
+}
+.fotos-reforma-wide {
+  margin-top: 8px;
+  width: 100%;
+  aspect-ratio: 21/9;
+  max-height: 320px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+.fotos-reforma-wide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fotos-reforma-thumbs {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 0 0;
+  flex-wrap: wrap;
+}
+.fotos-reforma-thumb {
+  width: 80px;
+  height: 60px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid #DFDCF2;
+  padding: 0;
+  cursor: pointer;
+  background: #f3f4f6;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+.fotos-reforma-thumb:hover {
+  border-color: #79358D;
+  opacity: 0.95;
+}
+.fotos-reforma-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (min-width: 640px) {
+  .fotos-reforma-gallery {
+    grid-template-columns: 7fr 3fr;
+    grid-auto-rows: minmax(200px, 1fr);
+  }
+  .fotos-reforma-main {
+    grid-row: 1 / -1;
+    min-height: 0;
+  }
+  .fotos-reforma-side {
+    grid-column: 2;
+  }
 }
 </style>

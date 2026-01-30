@@ -31,6 +31,15 @@
           </div>
           <div class="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
             <div>
+              <router-link to="/" class="inline-flex mb-6">
+                <img
+                  src="/images/Logodefi.png"
+                  alt="Loft2live"
+                  class="h-12 w-auto"
+                  loading="eager"
+                  decoding="async"
+                />
+              </router-link>
               <div class="mb-5 sm:mb-8">
                 <h1
                   class="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md"
@@ -259,13 +268,16 @@
         >
           <div class="flex items-center justify-center z-1">
             <common-grid-shape />
-            <div class="flex flex-col items-center max-w-xs">
+            <div class="flex flex-col items-center max-w-none">
               <router-link to="/" class="block mb-4">
-                <img width="{231}" height="{48}" src="/images/logo/auth-logo.svg" alt="Logo" />
+                <img
+                  src="/images/Logoblanco3.png"
+                  alt="Loft2live"
+                  class="h-[28rem] w-auto"
+                  loading="eager"
+                  decoding="async"
+                />
               </router-link>
-              <p class="text-center text-gray-400 dark:text-white/60">
-                Free and Open-Source Tailwind CSS Admin Dashboard Template
-              </p>
             </div>
           </div>
         </div>

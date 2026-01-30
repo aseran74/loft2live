@@ -15,6 +15,20 @@
         <p class="text-base max-w-2xl mx-auto mt-3" style="color: #79358d; font-weight: 600; font-style: italic">
           Real estate para mentes que no quieren quedarse quietas.
         </p>
+
+        <!-- Resumen ley vivienda protegida Madrid -->
+        <div class="mt-10 max-w-3xl mx-auto p-6 rounded-2xl" style="background-color: #F2F2F2; border-left: 4px solid #79358d">
+          <h3 class="text-xl font-bold mb-3" style="color: #0D0D0D">Novedad normativa: Ley de vivienda protegida en la Comunidad de Madrid</h3>
+          <p class="text-base mb-3" style="color: #0D0D0D">
+            La nueva ley para la promoción de vivienda protegida autoriza el <strong>cambio de uso de suelo de terciario a residencial</strong>: se podrán convertir hasta <strong>20.000 oficinas en viviendas</strong> en régimen de alquiler a precios asequibles, poniendo en el mercado unos <strong>1,8 millones de m²</strong>.
+          </p>
+          <p class="text-base mb-3" style="color: #0D0D0D">
+            Es una medida <strong>extraordinaria y temporal</strong> con una vigencia de <strong>15 años</strong>. La norma incluye una reducción de plazos de construcción de hasta 12 meses y menos cargas en desarrollos de vivienda pública. Una vez aprobada, serán los ayuntamientos los que decidan aplicarla.
+          </p>
+          <p class="text-sm" style="color: #79358d; font-weight: 600">
+            Una revolución en el urbanismo español: reconvertir edificios y suelo terciario en residencial.
+          </p>
+        </div>
       </div>
 
       <!-- Video destacado -->

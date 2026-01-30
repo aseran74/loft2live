@@ -30,94 +30,132 @@
 
       <!-- Contenido del proyecto -->
       <div v-else-if="proyecto" class="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <!-- Header con imagen principal -->
-        <div class="relative">
-          <div v-if="proyecto.fotos && proyecto.fotos.length > 0" class="relative h-64 sm:h-96 overflow-hidden">
-            <img
-              :src="getPhotoUrl(proyecto.fotos[0])"
-              :alt="proyecto.nombre_proyecto"
-              class="w-full h-full object-cover"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-              <div class="flex items-center gap-3 mb-3">
-                <span
-                  class="px-4 py-2 rounded-full text-sm font-semibold"
-                  style="background-color: #DFDCF2; color: #79358d"
-                >
-                  Activo
-                </span>
-                <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white/20 backdrop-blur-sm text-white">
-                  {{ proyecto.tipo_inversion }}
-                </span>
-              </div>
-              <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
-                {{ proyecto.nombre_proyecto }}
-              </h1>
-              <p class="text-lg sm:text-xl text-white/90">
-                {{ proyecto.localizacion }}
-              </p>
-            </div>
-          </div>
-          <div v-else class="h-64 sm:h-96 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-            <div class="text-center">
-              <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              <p class="text-gray-500">Sin imagen</p>
-            </div>
-          </div>
-        </div>
-
         <!-- Contenido principal -->
         <div class="p-6 sm:p-8">
-          <!-- Estadísticas principales -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-            <div class="bg-gray-50 rounded-xl p-4 sm:p-6">
-              <p class="text-sm text-gray-600 mb-2">Objetivo de inversión</p>
+          <!-- Título del proyecto arriba del todo -->
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8" style="color: #0D0D0D">
+            {{ proyecto.nombre_proyecto }}
+          </h1>
+
+          <!-- Precio total de la inversión y barra de progreso (datos persistentes del proyecto) -->
+          <div class="mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-3">
+              <p class="text-sm text-gray-600">Precio total de la inversión</p>
               <p class="text-2xl sm:text-3xl font-bold" style="color: #0D0D0D">
                 {{ formatCurrency(proyecto.objetivo_inversion_total) }}
               </p>
             </div>
-            <div class="bg-gray-50 rounded-xl p-4 sm:p-6">
-              <p class="text-sm text-gray-600 mb-2">Progreso</p>
-              <p class="text-2xl sm:text-3xl font-bold" style="color: #79358D">
-                {{ proyecto.porcentaje_llegado }}%
-              </p>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-4 sm:p-6">
-              <p class="text-sm text-gray-600 mb-2">Monto restante</p>
-              <p class="text-2xl sm:text-3xl font-bold" style="color: #0D0D0D">
-                {{ formatCurrency(proyecto.monto_restante || 0) }}
-              </p>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-4 sm:p-6">
-              <p class="text-sm text-gray-600 mb-2">Unidades disponibles</p>
-              <p class="text-2xl sm:text-3xl font-bold" style="color: #0D0D0D">
-                {{ proyecto.num_lofts }}
-              </p>
-              <p v-if="proyecto.unidades_tipos && proyecto.unidades_tipos.length" class="text-xs text-gray-500 mt-1">
-                {{ proyecto.unidades_tipos.length }} tipo(s) configurado(s)
-              </p>
-            </div>
-          </div>
-
-          <!-- Barra de progreso -->
-          <div class="mb-8">
-            <div class="flex justify-between text-sm mb-3" style="color: #0D0D0D">
+            <div class="flex justify-between text-sm mb-2" style="color: #0D0D0D">
               <span>Progreso de inversión</span>
               <span class="font-semibold">{{ proyecto.porcentaje_llegado }}% completado</span>
             </div>
             <div class="w-full rounded-full h-4" style="background-color: #DFDCF2">
               <div
                 class="h-4 rounded-full transition-all duration-500"
-                :style="`width: ${proyecto.porcentaje_llegado}%; background-color: #79358D`"
+                :style="`width: ${Math.min(100, proyecto.porcentaje_llegado)}%; background-color: #79358D`"
               ></div>
+            </div>
+          </div>
+
+          <!-- Antes y después: 50% + 50% (texto debajo de cada foto) -->
+          <div
+            v-if="(proyecto.fotos_oficina_actual && proyecto.fotos_oficina_actual.length > 0) || (proyecto.fotos_oficina_remodelada && proyecto.fotos_oficina_remodelada.length > 0)"
+            class="mb-8"
+          >
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <!-- Oficina actual (50%) -->
+              <div
+                v-if="proyecto.fotos_oficina_actual && proyecto.fotos_oficina_actual.length > 0"
+                class="rounded-xl overflow-hidden border-2 shadow-md"
+                style="border-color: #DFDCF2"
+              >
+                <div class="aspect-[4/3] bg-gray-100">
+                  <img
+                    :src="getPhotoUrl(proyecto.fotos_oficina_actual[0])"
+                    :alt="`Oficina actual - ${proyecto.nombre_proyecto}`"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <p class="text-sm text-gray-600 py-2 px-3 text-center" style="color: #0D0D0D">Antes de la reforma</p>
+              </div>
+              <!-- Oficina remodelada (50%) -->
+              <div
+                v-if="proyecto.fotos_oficina_remodelada && proyecto.fotos_oficina_remodelada.length > 0"
+                class="rounded-xl overflow-hidden border-2 shadow-md"
+                style="border-color: #DFDCF2"
+              >
+                <div class="aspect-[4/3] bg-gray-100">
+                  <img
+                    :src="getPhotoUrl(proyecto.fotos_oficina_remodelada[0])"
+                    :alt="`Oficina remodelada - ${proyecto.nombre_proyecto}`"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <p class="text-sm text-gray-600 py-2 px-3 text-center" style="color: #0D0D0D">Después de la reforma</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Galería de fotos (sin título) -->
+          <div v-if="proyecto.fotos && proyecto.fotos.length > 0" class="mb-8">
+            <div class="modern-gallery">
+              <div
+                class="gallery-main-image"
+                @click="openLightbox(0)"
+              >
+                <img
+                  :src="getPhotoUrl(proyecto.fotos[0])"
+                  :alt="`${proyecto.nombre_proyecto} - Imagen principal`"
+                  class="w-full h-full object-cover rounded-lg cursor-pointer transition-transform hover:scale-105"
+                />
+                <div class="absolute inset-0 bg-black/0 hover:bg-black/10 rounded-lg transition-colors"></div>
+              </div>
+
+              <div class="gallery-side-grid">
+                <div
+                  v-for="(photo, index) in proyecto.fotos.slice(1, 5)"
+                  :key="index + 1"
+                  class="gallery-side-image relative group cursor-pointer"
+                  @click="openLightbox(index + 1)"
+                >
+                  <img
+                    :src="getPhotoUrl(photo)"
+                    :alt="`Foto ${index + 2} de ${proyecto.nombre_proyecto}`"
+                    class="w-full h-full object-cover rounded-lg transition-transform group-hover:scale-105"
+                  />
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded-lg transition-colors"></div>
+
+                  <div
+                    v-if="index === 3 && proyecto.fotos.length > 5"
+                    class="absolute inset-0 bg-black/60 rounded-lg flex items-center justify-center"
+                  >
+                    <div class="text-white text-center">
+                      <svg class="w-10 h-10 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <p class="text-lg font-semibold">+{{ proyecto.fotos.length - 5 }}</p>
+                      <p class="text-sm">más fotos</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 flex gap-2 overflow-x-auto pb-2 gallery-thumbnails">
+              <button
+                v-for="(photo, index) in proyecto.fotos"
+                :key="index"
+                type="button"
+                class="gallery-thumbnail flex-shrink-0"
+                :class="{ 'active': currentPhotoIndex === index }"
+                @click="openLightbox(index)"
+              >
+                <img
+                  :src="getPhotoUrl(photo)"
+                  :alt="`Miniatura ${index + 1}`"
+                  class="w-full h-full object-cover rounded-lg"
+                />
+              </button>
             </div>
           </div>
 
@@ -141,23 +179,13 @@
                       {{ formatCurrency(proyecto.precio_alquiler_mes) }}/mes
                     </span>
                   </div>
-                  <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
-                    <span class="text-gray-600 mb-1 sm:mb-0">Gasto estimado comunidad</span>
-                    <span class="font-semibold text-lg" style="color: #0D0D0D">
-                      {{
-                        proyecto.gasto_estimado_comunidad
-                          ? formatCurrency(proyecto.gasto_estimado_comunidad)
-                          : 'No especificado'
-                      }}
-                    </span>
-                  </div>
-                  <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
-                    <span class="text-gray-600 mb-1 sm:mb-0">Término mínimo</span>
-                    <span class="font-semibold text-lg" style="color: #0D0D0D"> {{ proyecto.min_termino_meses }} meses </span>
-                  </div>
                   <div v-if="proyecto.permisos" class="py-3">
                     <span class="text-gray-600 block mb-2">Permisos</span>
                     <p class="text-gray-800 whitespace-pre-line">{{ proyecto.permisos }}</p>
+                  </div>
+                  <div v-if="proyecto.caracteristicas" class="py-3">
+                    <span class="text-gray-600 block mb-2">Características</span>
+                    <p class="text-gray-800 whitespace-pre-line">{{ proyecto.caracteristicas }}</p>
                   </div>
                 </div>
               </div>
@@ -309,24 +337,17 @@
                 </div>
               </div>
 
-              <!-- Galería de fotos -->
-              <div v-if="proyecto.fotos && proyecto.fotos.length > 0" class="mt-6">
-                <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Galería de fotos</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                  <div
-                    v-for="(photo, index) in proyecto.fotos"
-                    :key="index"
-                    class="relative group cursor-pointer"
-                    @click="openLightbox(index)"
-                  >
-                    <img
-                      :src="getPhotoUrl(photo)"
-                      :alt="`Foto ${index + 1} de ${proyecto.nombre_proyecto}`"
-                      class="w-full h-32 sm:h-48 object-cover rounded-lg transition-transform group-hover:scale-105"
-                    />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded-lg transition-colors"></div>
-                  </div>
-                </div>
+              <!-- Botón para abrir Caso de Éxito 80/20 en modal -->
+              <div class="mt-8">
+                <button
+                  type="button"
+                  @click="casoExitoModalOpen = true"
+                  class="w-full sm:w-auto px-6 py-4 rounded-xl border-2 font-semibold transition-colors hover:opacity-90 flex items-center justify-center gap-2"
+                  style="border-color: #DFDCF2; background-color: #F7F7FB; color: #79358D"
+                >
+                  <span>💰</span>
+                  Caso de Éxito: El "Efecto 80/20" sobre tu facturación
+                </button>
               </div>
             </div>
 
@@ -387,14 +408,12 @@
                   Iniciar sesión para invertir
                 </button>
 
-                <button
-                  type="button"
-                  @click="taxModalOpen = true"
-                  class="w-full px-6 py-3 border-2 rounded-lg transition-colors font-semibold hover:opacity-90"
-                  style="border-color: #79358D; color: #79358D"
+                <div
+                  class="w-full px-6 py-3 rounded-lg border-2 text-center font-semibold"
+                  style="border-color: #DFDCF2; background-color: #F7F7FB; color: #79358D"
                 >
-                  Simular desgravación
-                </button>
+                  Desgravación: 100% (uso 100% oficina)
+                </div>
 
                 <button
                   v-if="mode === 'admin'"
@@ -408,52 +427,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal fullscreen simulador desgravación -->
-  <div v-if="taxModalOpen" class="fixed inset-0 z-50 bg-white" role="dialog" aria-modal="true">
-    <!-- Header fijo -->
-    <div class="sticky top-0 z-10 border-b bg-white/90 backdrop-blur" style="border-color:#CFCEF2">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-start justify-between gap-4">
-        <div>
-          <h2 class="text-xl sm:text-2xl font-bold" style="color:#0D0D0D">Simulador desgravación (Ley Startups)</h2>
-          <p class="text-sm text-gray-600 mt-1">Elige años (por defecto 5), ajusta topes y reparto.</p>
-        </div>
-        <button
-          type="button"
-          class="text-gray-500 hover:text-gray-700 text-2xl leading-none"
-          aria-label="Cerrar"
-          @click="taxModalOpen = false"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-
-    <!-- Contenido scroll -->
-    <div class="h-[calc(100vh-72px)] overflow-y-auto">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-        <div
-          v-if="proyecto?.unidades_tipos && proyecto.unidades_tipos.length"
-          class="mb-4 rounded-xl border p-4"
-          style="border-color:#DFDCF2; background:#F7F7FB"
-        >
-          <label class="block text-xs font-medium text-gray-600 mb-2">Tipo de unidad para simular</label>
-          <select
-            v-model.number="selectedUnidadTipoIndex"
-            class="w-full sm:w-auto px-3 py-2 rounded-lg border bg-white text-sm"
-            style="border-color:#CFCEF2"
-          >
-            <option :value="-1">Precio base (proyecto)</option>
-            <option v-for="(u, idx) in proyecto.unidades_tipos.slice(0,4)" :key="idx" :value="idx">
-              {{ u.nombre || `Tipo ${idx+1}` }} — {{ formatCurrency(Number(u.precio || 0)) }}
-            </option>
-          </select>
-        </div>
-
-        <StartupTaxSimulator :default-investment="selectedUnidadPrecio" />
       </div>
     </div>
   </div>
@@ -511,6 +484,205 @@
       </div>
     </div>
   </div>
+
+  <!-- Lightbox fotos reforma -->
+  <div
+    v-if="reformaLightboxOpen && proyecto?.fotos_oficina_remodelada?.length"
+    class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+    @click="closeReformaLightbox"
+  >
+    <button
+      @click="closeReformaLightbox"
+      class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+      aria-label="Cerrar"
+    >
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <button
+      v-if="proyecto.fotos_oficina_remodelada.length > 1"
+      @click.stop="previousReformaPhoto"
+      class="absolute left-4 text-white hover:text-gray-300 transition-colors"
+      aria-label="Anterior"
+    >
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button
+      v-if="proyecto.fotos_oficina_remodelada.length > 1"
+      @click.stop="nextReformaPhoto"
+      class="absolute right-4 text-white hover:text-gray-300 transition-colors"
+      aria-label="Siguiente"
+    >
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+    <img
+      :src="getPhotoUrl(proyecto.fotos_oficina_remodelada[currentReformaPhotoIndex])"
+      :alt="`Reforma ${currentReformaPhotoIndex + 1}`"
+      class="max-w-full max-h-full object-contain"
+      @click.stop
+    />
+    <div
+      v-if="proyecto.fotos_oficina_remodelada.length > 1"
+      class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm"
+    >
+      {{ currentReformaPhotoIndex + 1 }} / {{ proyecto.fotos_oficina_remodelada.length }}
+    </div>
+  </div>
+
+  <!-- Modal Caso de Éxito 80/20 -->
+  <Teleport to="body">
+    <div
+      v-if="casoExitoModalOpen"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
+      @click.self="casoExitoModalOpen = false"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+        role="dialog"
+        aria-labelledby="caso-exito-title"
+        @click.stop
+      >
+        <div class="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between rounded-t-2xl" style="border-color: #DFDCF2">
+          <h2 id="caso-exito-title" class="text-xl font-bold" style="color: #0D0D0D">
+            💰 Caso de Éxito: El "Efecto 80/20" sobre tu facturación
+          </h2>
+          <button
+            type="button"
+            @click="casoExitoModalOpen = false"
+            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            aria-label="Cerrar"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6 sm:p-8">
+          <p class="text-sm text-gray-600 mb-6">
+            Introduce tu facturación anual. El valor del inmueble corresponde a este proyecto.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div>
+              <label class="block text-sm font-semibold mb-2" style="color: #0D0D0D">Tu facturación anual (€)</label>
+              <input
+                v-model.number="facturacionAnual"
+                type="number"
+                min="0"
+                step="1000"
+                class="w-full px-4 py-3 rounded-lg border-2 bg-white text-lg"
+                style="border-color: #CFCEF2; color: #0D0D0D"
+                placeholder="80000"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-2" style="color: #0D0D0D">Valor del inmueble (este proyecto)</label>
+              <div
+                class="w-full px-4 py-3 rounded-lg border-2 text-lg font-semibold"
+                style="border-color: #CFCEF2; background-color: #EEEEEE; color: #0D0D0D"
+              >
+                {{ formatCurrency(valorInmueble) }}
+              </div>
+            </div>
+          </div>
+
+          <p class="text-gray-700 mb-6">
+            Imagina que eres un profesional o empresa que factura <strong>{{ formatCurrency(facturacionAnual || 0) }}</strong> al año.
+            Sin una estrategia inmobiliaria inteligente, tu base imponible es muy alta y terminas pagando un porcentaje elevado en impuestos.
+            Con nuestro modelo de Smart Loft, transformas tu gasto de vida en un escudo fiscal.
+          </p>
+
+          <div class="space-y-6">
+            <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
+              <h3 class="text-lg font-bold mb-3" style="color: #79358D">ESCENARIO A: EL AUTÓNOMO (Estimación Directa)</h3>
+              <p class="text-sm text-gray-700 mb-3">
+                Facturación: <strong>{{ formatCurrency(facturacionAnual || 0) }}</strong> | Alquiler: 1.200 € (1.000 € Oficina + 200 € Vivienda)
+              </p>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>Alquiler con nosotros:</strong> De esos {{ formatCurrency(facturacionAnual || 0) }}, restas 12.000 € de la oficina y el 30% de la vivienda. Ahora Hacienda solo te calcula impuestos sobre <strong>~{{ formatCurrency(baseReducidaAutonomo) }}</strong> en lugar de {{ formatCurrency(facturacionAnual || 0) }}.
+              </p>
+              <p class="text-sm text-gray-700 mb-3">
+                <strong>Resultado:</strong> Te ahorras unos <strong>{{ formatCurrency(ahorroIrpfAprox) }}</strong> al año en IRPF. Es como si el loft te costara varios meses menos al año.
+              </p>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>Compra con nosotros ({{ formatCurrency(valorInmueble) }}):</strong>
+              </p>
+              <p class="text-sm text-gray-700">
+                Inyección de Liquidez: Hacienda te devuelve el 21% de IVA de la oficina: <strong>{{ formatCurrency(ivaRecuperableOficina) }}</strong> directos a tu cuenta. Deducción por Amortización: Restas unos 4.500 €/año de tus beneficios por el desgaste del inmueble. Resultado: Pagas la hipoteca con dinero que antes se iba en impuestos.
+              </p>
+            </div>
+
+            <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
+              <h3 class="text-lg font-bold mb-3" style="color: #79358D">ESCENARIO B: SOCIEDAD LIMITADA (SL)</h3>
+              <p class="text-sm text-gray-700 mb-3">
+                Facturación: <strong>{{ formatCurrency(facturacionAnual || 0) }}</strong> | Compra: <strong>{{ formatCurrency(valorInmueble) }}</strong>
+              </p>
+              <p class="text-sm text-gray-700 mb-2">
+                <strong>Alquiler con nosotros:</strong> La SL deduce el 100% de la oficina (1.000 €/mes). Resultado: Reduces el beneficio de la empresa en 12.000 €, ahorrando en Impuesto de Sociedades y recuperando el IVA cada trimestre.
+              </p>
+              <p class="text-sm text-gray-700">
+                <strong>Compra con nosotros:</strong> La sociedad adquiere el activo. Efecto Balance: Tu empresa ahora tiene un patrimonio de <strong>{{ formatCurrency(valorInmueble) }}</strong>. El 80% de la hipoteca, el IBI, la comunidad y los intereses son gastos que reducen tu beneficio neto, pagando el mínimo legal de impuestos mientras el inmueble se revaloriza.
+              </p>
+            </div>
+
+            <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
+              <h3 class="text-lg font-bold mb-3" style="color: #0D0D0D">📉 Resumen: ¿Dónde prefieres que esté tu dinero?</h3>
+              <p class="text-sm text-gray-600 mb-3">Si facturas {{ formatCurrency(facturacionAnual || 0) }}...</p>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm border-collapse" style="border-color: #CFCEF2">
+                  <thead>
+                    <tr style="background-color: #F2F2F2">
+                      <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #0D0D0D">Concepto</th>
+                      <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #0D0D0D">Sin nuestro modelo</th>
+                      <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #79358D">Con Smart Loft 80/20</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Gasto Vivienda</td>
+                      <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">No deducible (100% de tu bolsillo)</td>
+                      <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">80% deducible como oficina</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">IVA de Compra</td>
+                      <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Lo pagas y lo pierdes</td>
+                      <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Recuperas {{ formatCurrency(ivaRecuperableOficina) }} (en oficina)</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Impuestos anuales</td>
+                      <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Máximo tramo</td>
+                      <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Tramo reducido por gastos</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Movilidad</td>
+                      <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Atado a una ciudad</td>
+                      <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Tokens para moverte por la red</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex justify-end">
+            <button
+              type="button"
+              @click="casoExitoModalOpen = false"
+              class="px-6 py-3 rounded-lg font-semibold transition-colors hover:opacity-90"
+              style="background-color: #79358D; color: white"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -521,7 +693,6 @@ import type { Proyecto } from '@/types/proyecto'
 import { supabase } from '@/config/supabase'
 import { loadGoogleMapsPlaces } from '@/utils/loadGoogleMaps'
 import { amenityGroups, getAmenityIconSvg } from '@/utils/amenities'
-import StartupTaxSimulator from '@/components/proyectos/StartupTaxSimulator.vue'
 import { fetchPublicProyectoById } from '@/utils/publicProyectos'
 
 const props = withDefaults(
@@ -554,9 +725,11 @@ const proyecto = ref<Proyecto | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 const lightboxOpen = ref(false)
-const taxModalOpen = ref(false)
-const selectedUnidadTipoIndex = ref<number>(-1)
 const currentPhotoIndex = ref(0)
+const reformaLightboxOpen = ref(false)
+const currentReformaPhotoIndex = ref(0)
+const casoExitoModalOpen = ref(false)
+const facturacionAnual = ref<number>(80000)
 const mapContainer = ref<HTMLDivElement | null>(null)
 const mapState = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
 const mapErrorMessage = ref<string | null>(null)
@@ -585,18 +758,16 @@ onMounted(async () => {
 
   // Configurar manejador de teclado para lightbox
   keyPressHandler = (e: KeyboardEvent) => {
-    if (taxModalOpen.value && e.key === 'Escape') {
-      taxModalOpen.value = false
-      return
-    }
-    if (lightboxOpen.value) {
-      if (e.key === 'Escape') {
-        closeLightbox()
-      } else if (e.key === 'ArrowRight') {
-        nextPhoto()
-      } else if (e.key === 'ArrowLeft') {
-        previousPhoto()
-      }
+    if (casoExitoModalOpen.value && e.key === 'Escape') {
+      casoExitoModalOpen.value = false
+    } else if (reformaLightboxOpen.value) {
+      if (e.key === 'Escape') closeReformaLightbox()
+      else if (e.key === 'ArrowRight') nextReformaPhoto()
+      else if (e.key === 'ArrowLeft') previousReformaPhoto()
+    } else if (lightboxOpen.value) {
+      if (e.key === 'Escape') closeLightbox()
+      else if (e.key === 'ArrowRight') nextPhoto()
+      else if (e.key === 'ArrowLeft') previousPhoto()
     }
   }
   window.addEventListener('keydown', keyPressHandler)
@@ -730,23 +901,28 @@ const mapsOpenUrl = computed(() => {
   return `https://www.google.com/maps?q=${q}`
 })
 
-const selectedUnidadPrecio = computed(() => {
-  const base = Number(proyecto.value?.precio_unidad || 0)
-  const idx = Number(selectedUnidadTipoIndex.value)
-  if (idx < 0) return base
-  const tipos = proyecto.value?.unidades_tipos
-  if (!tipos || !Array.isArray(tipos) || !tipos[idx]) return base
-  return Number((tipos[idx] as any).precio || base)
+const mainPhotoPath = computed(() => {
+  const p = proyecto.value
+  return p?.fotos?.[0] ?? p?.fotos_oficina_remodelada?.[0] ?? p?.fotos_oficina_actual?.[0] ?? ''
 })
 
-watch(
-  () => taxModalOpen.value,
-  (open) => {
-    if (open) {
-      selectedUnidadTipoIndex.value = -1
-    }
-  }
+const valorInmueble = computed(() => Number(proyecto.value?.precio_unidad || 0))
+const ivaRecuperableOficina = computed(() =>
+  Math.round(valorInmueble.value * 0.8 * 0.21)
 )
+const baseReducidaAutonomo = computed(() => {
+  const f = Number(facturacionAnual.value || 0)
+  const deducibleOficina = 12000
+  const deducibleVivienda = Math.round(200 * 12 * 0.3)
+  return Math.max(0, f - deducibleOficina - deducibleVivienda)
+})
+const ahorroIrpfAprox = computed(() => {
+  const f = Number(facturacionAnual.value || 0)
+  const baseReducida = baseReducidaAutonomo.value
+  const diferencia = f - baseReducida
+  const tipoMedioAprox = 0.35
+  return Math.round(diferencia * tipoMedioAprox)
+})
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat('es-ES', {
@@ -799,6 +975,24 @@ const previousPhoto = () => {
   }
 }
 
+const openReformaLightbox = (index: number) => {
+  currentReformaPhotoIndex.value = index
+  reformaLightboxOpen.value = true
+}
+const closeReformaLightbox = () => {
+  reformaLightboxOpen.value = false
+}
+const nextReformaPhoto = () => {
+  const fotos = proyecto.value?.fotos_oficina_remodelada
+  if (fotos && currentReformaPhotoIndex.value < fotos.length - 1) currentReformaPhotoIndex.value++
+  else if (fotos) currentReformaPhotoIndex.value = 0
+}
+const previousReformaPhoto = () => {
+  if (currentReformaPhotoIndex.value > 0) currentReformaPhotoIndex.value--
+  else if (proyecto.value?.fotos_oficina_remodelada?.length)
+    currentReformaPhotoIndex.value = proyecto.value.fotos_oficina_remodelada.length - 1
+}
+
 const editProyecto = () => {
   if (mode.value !== 'admin') return
   if (proyecto.value?.id) {
@@ -842,6 +1036,187 @@ onUnmounted(() => {
 /* Animaciones suaves para el lightbox */
 img {
   transition: transform 0.3s ease;
+}
+
+/* ========================================
+   GALERÍA MODERNA DE FOTOS
+   ======================================== */
+
+.modern-gallery {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr;
+  margin-bottom: 1rem;
+}
+
+.gallery-main-image {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.gallery-side-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr;
+}
+
+.gallery-side-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+@media (min-width: 768px) {
+  .modern-gallery {
+    grid-template-columns: 7fr 3fr;
+  }
+
+  .gallery-main-image {
+    height: 100%;
+    min-height: 420px;
+  }
+
+  .gallery-side-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+  }
+
+  .gallery-side-image {
+    height: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-side-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+  }
+}
+
+.gallery-thumbnails {
+  scrollbar-width: thin;
+  scrollbar-color: #DFDCF2 #F2F2F2;
+}
+
+.gallery-thumbnails::-webkit-scrollbar {
+  height: 6px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-track {
+  background: #F2F2F2;
+  border-radius: 3px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-thumb {
+  background: #DFDCF2;
+  border-radius: 3px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-thumb:hover {
+  background: #79358D;
+}
+
+.gallery-thumbnail {
+  width: 100px;
+  height: 70px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 3px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+
+.gallery-thumbnail:hover {
+  border-color: #79358D;
+  transform: scale(1.05);
+}
+
+.gallery-thumbnail.active {
+  border-color: #79358D;
+  box-shadow: 0 0 0 1px #79358D;
+}
+
+/* Galería oficina remodelada: como referencia (70% + 2 apiladas 30%, imagen ancha, thumbnails) */
+.fotos-reforma-wrapper {
+  margin-bottom: 1.5rem;
+}
+.fotos-reforma-gallery {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr;
+}
+.fotos-reforma-main {
+  grid-column: 1;
+  min-height: 280px;
+}
+.fotos-reforma-main img,
+.fotos-reforma-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fotos-reforma-side {
+  min-height: 200px;
+}
+.fotos-reforma-wide {
+  margin-top: 8px;
+  width: 100%;
+  aspect-ratio: 21/9;
+  max-height: 320px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+.fotos-reforma-wide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.fotos-reforma-thumbs {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 0 0;
+  flex-wrap: wrap;
+}
+.fotos-reforma-thumb {
+  width: 80px;
+  height: 60px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid #DFDCF2;
+  padding: 0;
+  cursor: pointer;
+  background: #f3f4f6;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+.fotos-reforma-thumb:hover {
+  border-color: #79358D;
+  opacity: 0.95;
+}
+.fotos-reforma-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (min-width: 640px) {
+  .fotos-reforma-gallery {
+    grid-template-columns: 7fr 3fr;
+    grid-auto-rows: minmax(200px, 1fr);
+  }
+  .fotos-reforma-main {
+    grid-row: 1 / -1;
+    min-height: 0;
+  }
+  .fotos-reforma-side {
+    grid-column: 2;
+  }
 }
 </style>
 

@@ -59,6 +59,20 @@
         ></textarea>
       </div>
 
+      <!-- Características -->
+      <div class="md:col-span-2">
+        <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
+          Características
+        </label>
+        <textarea
+          v-model="formData.caracteristicas"
+          rows="4"
+          class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 resize-y"
+          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          placeholder="Descripción de las características del proyecto..."
+        ></textarea>
+      </div>
+
       <!-- Nº de lofts -->
       <div>
         <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
@@ -381,13 +395,81 @@
       </div>
     </div>
 
-    <!-- Sección de Fotos -->
+    <!-- Fotos oficina actual -->
     <div class="mt-4 sm:mt-6">
       <label class="block text-xs sm:text-sm font-medium mb-2 sm:mb-3" style="color: #0D0D0D">
-        Fotos del proyecto
+        Fotos oficina actual
       </label>
-      
-      <!-- Input de subida de archivos -->
+      <div class="mb-4">
+        <input
+          ref="fileInputOficinaActual"
+          type="file"
+          accept="image/*"
+          multiple
+          @change="(e) => handleFileSelectOficina(e, 'actual')"
+          class="hidden"
+        />
+        <button
+          type="button"
+          @click="fileInputOficinaActual?.click()"
+          class="w-full sm:w-auto px-4 py-2 border-2 border-dashed rounded-lg transition-colors font-medium hover:opacity-70 text-sm sm:text-base"
+          style="border-color: #79358d; color: #79358d"
+        >
+          + Agregar fotos oficina actual
+        </button>
+      </div>
+      <div v-if="uploadedPhotosOficinaActual.length > 0 || existingPhotosOficinaActual.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4 mt-4">
+        <div v-for="(photo, index) in existingPhotosOficinaActual" :key="`ea-${index}`" class="relative group">
+          <img :src="getPhotoUrl(photo)" :alt="`Oficina actual ${index + 1}`" class="w-full h-24 sm:h-32 object-cover rounded-lg" />
+          <button type="button" @click="removeExistingPhotoOficina(index, 'actual')" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+        </div>
+        <div v-for="(photo, index) in uploadedPhotosOficinaActual" :key="`na-${index}`" class="relative group">
+          <img :src="photo.preview" :alt="`Nueva oficina actual ${index + 1}`" class="w-full h-24 sm:h-32 object-cover rounded-lg" />
+          <button type="button" @click="removePhotoOficina(index, 'actual')" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fotos oficina remodelada -->
+    <div class="mt-4 sm:mt-6">
+      <label class="block text-xs sm:text-sm font-medium mb-2 sm:mb-3" style="color: #0D0D0D">
+        Fotos oficina remodelada
+      </label>
+      <div class="mb-4">
+        <input
+          ref="fileInputOficinaRemodelada"
+          type="file"
+          accept="image/*"
+          multiple
+          @change="(e) => handleFileSelectOficina(e, 'remodelada')"
+          class="hidden"
+        />
+        <button
+          type="button"
+          @click="fileInputOficinaRemodelada?.click()"
+          class="w-full sm:w-auto px-4 py-2 border-2 border-dashed rounded-lg transition-colors font-medium hover:opacity-70 text-sm sm:text-base"
+          style="border-color: #79358d; color: #79358d"
+        >
+          + Agregar fotos oficina remodelada
+        </button>
+      </div>
+      <div v-if="uploadedPhotosOficinaRemodelada.length > 0 || existingPhotosOficinaRemodelada.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4 mt-4">
+        <div v-for="(photo, index) in existingPhotosOficinaRemodelada" :key="`er-${index}`" class="relative group">
+          <img :src="getPhotoUrl(photo)" :alt="`Oficina remodelada ${index + 1}`" class="w-full h-24 sm:h-32 object-cover rounded-lg" />
+          <button type="button" @click="removeExistingPhotoOficina(index, 'remodelada')" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+        </div>
+        <div v-for="(photo, index) in uploadedPhotosOficinaRemodelada" :key="`nr-${index}`" class="relative group">
+          <img :src="photo.preview" :alt="`Nueva oficina remodelada ${index + 1}`" class="w-full h-24 sm:h-32 object-cover rounded-lg" />
+          <button type="button" @click="removePhotoOficina(index, 'remodelada')" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fotos del proyecto (galería general) -->
+    <div class="mt-4 sm:mt-6">
+      <label class="block text-xs sm:text-sm font-medium mb-2 sm:mb-3" style="color: #0D0D0D">
+        Fotos del proyecto (galería)
+      </label>
       <div class="mb-4">
         <input
           ref="fileInput"
@@ -406,50 +488,15 @@
           + Agregar fotos
         </button>
       </div>
-
-      <!-- Vista previa de fotos -->
       <div v-if="uploadedPhotos.length > 0 || existingPhotos.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4 mt-4">
-        <!-- Fotos existentes -->
-        <div
-          v-for="(photo, index) in existingPhotos"
-          :key="`existing-${index}`"
-          class="relative group"
-        >
-          <img
-            :src="getPhotoUrl(photo)"
-            :alt="`Foto ${index + 1}`"
-            class="w-full h-24 sm:h-32 object-cover rounded-lg"
-          />
-          <button
-            type="button"
-            @click="removeExistingPhoto(index)"
-            class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            ×
-          </button>
+        <div v-for="(photo, index) in existingPhotos" :key="`existing-${index}`" class="relative group">
+          <img :src="getPhotoUrl(photo)" :alt="`Foto ${index + 1}`" class="w-full h-24 sm:h-32 object-cover rounded-lg" />
+          <button type="button" @click="removeExistingPhoto(index)" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">×</button>
         </div>
-
-        <!-- Fotos nuevas (preview) -->
-        <div
-          v-for="(photo, index) in uploadedPhotos"
-          :key="`new-${index}`"
-          class="relative group"
-        >
-          <img
-            :src="photo.preview"
-            :alt="`Nueva foto ${index + 1}`"
-            class="w-full h-24 sm:h-32 object-cover rounded-lg"
-          />
-          <button
-            type="button"
-            @click="removePhoto(index)"
-            class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            ×
-          </button>
-          <div v-if="photo.uploading" class="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center">
-            <span class="text-white text-sm">Subiendo...</span>
-          </div>
+        <div v-for="(photo, index) in uploadedPhotos" :key="`new-${index}`" class="relative group">
+          <img :src="photo.preview" :alt="`Nueva foto ${index + 1}`" class="w-full h-24 sm:h-32 object-cover rounded-lg" />
+          <button type="button" @click="removePhoto(index)" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+          <div v-if="photo.uploading" class="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center"><span class="text-white text-sm">Subiendo...</span></div>
         </div>
       </div>
     </div>
@@ -491,15 +538,23 @@ const emit = defineEmits<{
   submit: [
     data: Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>,
     photos: File[],
-    planosPorTipo: File[][]
+    planosPorTipo: File[][],
+    photosOficinaActual: File[],
+    photosOficinaRemodelada: File[]
   ]
   cancel: []
 }>()
 
 const fileInput = ref<HTMLInputElement | null>(null)
+const fileInputOficinaActual = ref<HTMLInputElement | null>(null)
+const fileInputOficinaRemodelada = ref<HTMLInputElement | null>(null)
 const localizacionInput = ref<HTMLInputElement | null>(null)
 const uploadedPhotos = ref<Array<{ file: File; preview: string; uploading: boolean; url?: string }>>([])
 const existingPhotos = ref<string[]>([])
+const uploadedPhotosOficinaActual = ref<Array<{ file: File; preview: string }>>([])
+const existingPhotosOficinaActual = ref<string[]>([])
+const uploadedPhotosOficinaRemodelada = ref<Array<{ file: File; preview: string }>>([])
+const existingPhotosOficinaRemodelada = ref<string[]>([])
 const uploading = ref(false)
 let placesAutocomplete: any = null
 let placesListener: any = null
@@ -527,7 +582,10 @@ const formData = ref<Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>>({
   alquiler: false,
   precio_alquiler_mes: undefined,
   mostrar_en_landing: false,
+  caracteristicas: '',
   fotos: [],
+  fotos_oficina_actual: [],
+  fotos_oficina_remodelada: [],
   comodidades: [],
   unidades_tipos: []
 })
@@ -560,11 +618,16 @@ watch(() => props.proyecto, (newProyecto) => {
       monto_restante: newProyecto.monto_restante || 0,
       alquiler: newProyecto.alquiler || false,
       precio_alquiler_mes: newProyecto.precio_alquiler_mes,
+      caracteristicas: newProyecto.caracteristicas || '',
       fotos: Array.isArray(newProyecto.fotos) ? newProyecto.fotos : [],
+      fotos_oficina_actual: Array.isArray(newProyecto.fotos_oficina_actual) ? newProyecto.fotos_oficina_actual : [],
+      fotos_oficina_remodelada: Array.isArray(newProyecto.fotos_oficina_remodelada) ? newProyecto.fotos_oficina_remodelada : [],
       comodidades: Array.isArray(newProyecto.comodidades) ? newProyecto.comodidades : [],
       unidades_tipos: Array.isArray(newProyecto.unidades_tipos) ? (newProyecto.unidades_tipos as UnidadTipo[]) : []
     }
     existingPhotos.value = Array.isArray(newProyecto.fotos) ? newProyecto.fotos : []
+    existingPhotosOficinaActual.value = Array.isArray(newProyecto.fotos_oficina_actual) ? newProyecto.fotos_oficina_actual : []
+    existingPhotosOficinaRemodelada.value = Array.isArray(newProyecto.fotos_oficina_remodelada) ? newProyecto.fotos_oficina_remodelada : []
 
     // Cargar tipos de unidad en el editor (hasta 4)
     const incoming = Array.isArray(newProyecto.unidades_tipos) ? (newProyecto.unidades_tipos as any[]) : []
@@ -595,12 +658,19 @@ watch(() => props.proyecto, (newProyecto) => {
       alquiler: false,
       precio_alquiler_mes: undefined,
       mostrar_en_landing: false,
+      caracteristicas: '',
       fotos: [],
+      fotos_oficina_actual: [],
+      fotos_oficina_remodelada: [],
       comodidades: [],
       unidades_tipos: []
     }
     existingPhotos.value = []
+    existingPhotosOficinaActual.value = []
+    existingPhotosOficinaRemodelada.value = []
     uploadedPhotos.value = []
+    uploadedPhotosOficinaActual.value = []
+    uploadedPhotosOficinaRemodelada.value = []
 
     unidadTipos.value = [
       { nombre: 'Tipo 1', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
@@ -712,6 +782,37 @@ const removeExistingPhoto = (index: number) => {
   formData.value.fotos = [...existingPhotos.value]
 }
 
+const handleFileSelectOficina = (event: Event, tipo: 'actual' | 'remodelada') => {
+  const target = event.target as HTMLInputElement
+  if (!target.files) return
+  const list = tipo === 'actual' ? uploadedPhotosOficinaActual : uploadedPhotosOficinaRemodelada
+  Array.from(target.files).forEach((file) => {
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        list.value.push({ file, preview: e.target?.result as string })
+      }
+      reader.readAsDataURL(file)
+    }
+  })
+  target.value = ''
+}
+
+const removePhotoOficina = (index: number, tipo: 'actual' | 'remodelada') => {
+  if (tipo === 'actual') uploadedPhotosOficinaActual.value.splice(index, 1)
+  else uploadedPhotosOficinaRemodelada.value.splice(index, 1)
+}
+
+const removeExistingPhotoOficina = (index: number, tipo: 'actual' | 'remodelada') => {
+  if (tipo === 'actual') {
+    existingPhotosOficinaActual.value.splice(index, 1)
+    formData.value.fotos_oficina_actual = [...existingPhotosOficinaActual.value]
+  } else {
+    existingPhotosOficinaRemodelada.value.splice(index, 1)
+    formData.value.fotos_oficina_remodelada = [...existingPhotosOficinaRemodelada.value]
+  }
+}
+
 // Exponer función para obtener fotos existentes que se mantienen
 const getRemainingPhotos = () => {
   return existingPhotos.value
@@ -754,10 +855,13 @@ const buildUnidadesTiposPayload = (): UnidadTipo[] => {
 }
 
 const handleSubmit = async () => {
+  formData.value.fotos_oficina_actual = [...existingPhotosOficinaActual.value]
+  formData.value.fotos_oficina_remodelada = [...existingPhotosOficinaRemodelada.value]
   const photosToUpload = uploadedPhotos.value.map(p => p.file)
-  // Persistimos unidades_tipos (sin los nuevos archivos; los paths se añadirán tras subirlos)
+  const photosOficinaActual = uploadedPhotosOficinaActual.value.map(p => p.file)
+  const photosOficinaRemodelada = uploadedPhotosOficinaRemodelada.value.map(p => p.file)
   formData.value.unidades_tipos = buildUnidadesTiposPayload()
   const planosPorTipo = unidadTipos.value.map((t) => t.nuevosPlanos)
-  emit('submit', formData.value, photosToUpload, planosPorTipo)
+  emit('submit', formData.value, photosToUpload, planosPorTipo, photosOficinaActual, photosOficinaRemodelada)
 }
 </script>

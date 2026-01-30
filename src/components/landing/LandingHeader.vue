@@ -2,14 +2,14 @@
   <header class="fixed top-0 left-0 right-0 z-50 shadow-md backdrop-blur-md" style="background-color: rgba(255, 255, 255, 0.6); transform: scale(1); will-change: auto;">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
       <div class="flex items-center justify-between h-16">
-        <!-- Logo -->
-        <div class="flex items-center">
+        <!-- Logo (enlace a landing) -->
+        <router-link to="/" class="flex items-center shrink-0" title="Ir a inicio">
           <img 
             src="/images/Logodefi.png" 
             alt="Loft2live Logo" 
             :style="logoStyle"
           />
-        </div>
+        </router-link>
 
         <!-- Navigation -->
         <nav class="hidden md:flex items-center space-x-6">

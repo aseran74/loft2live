@@ -126,7 +126,11 @@ defineEmits<{
 }>()
 
 const coverUrl = computed(() => {
-  const path = props.proyecto?.fotos?.[0]
+  const p = props.proyecto
+  const path =
+    p?.fotos?.[0] ??
+    p?.fotos_oficina_remodelada?.[0] ??
+    p?.fotos_oficina_actual?.[0]
   if (!path) return ''
   if (path.startsWith('http')) return path
   const { data } = supabase.storage.from('photos').getPublicUrl(path)

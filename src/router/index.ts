@@ -232,6 +232,30 @@ const router = createRouter({
         title: 'Usuarios Compradores',
       },
     },
+    {
+      path: '/noticias',
+      name: 'Noticias',
+      component: () => import('../views/Noticias.vue'),
+      meta: {
+        title: 'Gestión de Noticias',
+      },
+    },
+    {
+      path: '/noticias/nuevo',
+      name: 'Nueva Noticia',
+      component: () => import('../views/Noticias.vue'),
+      meta: {
+        title: 'Crear Noticia',
+      },
+    },
+    {
+      path: '/noticias/:id',
+      name: 'Editar Noticia',
+      component: () => import('../views/Noticias.vue'),
+      meta: {
+        title: 'Editar Noticia',
+      },
+    },
   ],
 })
 
@@ -247,7 +271,7 @@ router.beforeEach(async (to, from, next) => {
   const isPublicRoute = publicRoutes.includes(to.path)
   
   // Rutas que requieren autenticación
-  const protectedRoutes = ['/proyectos', '/usuarios', '/dashboard']
+  const protectedRoutes = ['/proyectos', '/usuarios', '/dashboard', '/noticias']
   const requiresAuth = protectedRoutes.some(route => to.path.startsWith(route))
   
   if (requiresAuth && !isPublicRoute) {

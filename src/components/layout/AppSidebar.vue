@@ -211,6 +211,7 @@ import {
 } from "../../icons";
 import SidebarWidget from "./SidebarWidget.vue";
 import BoxCubeIcon from "@/icons/BoxCubeIcon.vue";
+import DocsIcon from "@/icons/DocsIcon.vue";
 import { useSidebar } from "@/composables/useSidebar";
 
 const route = useRoute();
@@ -235,6 +236,14 @@ const menuGroups = [
         subItems: [
           { name: "Perfiles", path: "/usuarios/perfiles", pro: false },
           { name: "Compradores", path: "/usuarios/compradores", pro: false },
+        ],
+      },
+      {
+        icon: DocsIcon,
+        name: "Noticias",
+        subItems: [
+          { name: "Ver Noticias", path: "/noticias", pro: false },
+          { name: "Crear Noticia", path: "/noticias/nuevo", pro: false },
         ],
       },
     ],

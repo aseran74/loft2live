@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-let ctx;
+let ctx: gsap.Context | undefined;
 
 onMounted(() => {
   console.clear();
@@ -28,15 +28,16 @@ onMounted(() => {
         transformOrigin: "center center",
         ease: "power1.inOut"
       })
-      .to(
-        ".section.hero",
-        {
-            scale: 1.1,
-            transformOrigin: "center center",
-            ease: "power1.inOut"
-        },
-        "<"
-      );
+      .to(".section.hero", {
+        scale: 1.1,
+        transformOrigin: "center center",
+        ease: "power1.inOut"
+      }, "<")
+      .to(".hero-logo-fixed-container", {
+        opacity: 0,
+        scale: 1.5,
+        ease: "power1.inOut"
+      }, "-=0.5");
   });
 });
 
@@ -47,19 +48,18 @@ onUnmounted(() => {
 
 <template>
   <div class="wrapper">
+    <div class="hero-logo-fixed-container">
+      <img src="/images/Logoblanco3.png" alt="Loft2live" class="hero-logo" />
+    </div>
+
     <div class="content">
       <section class="section hero" :style="{ backgroundImage: `url(/images/Ciudadnoche.png)` }">
         <div class="hero-text">
-          <div class="hero-logo-container">
-            <img src="/images/Logoblanco3.png" alt="Loft2live" class="hero-logo" />
-          </div>
-          <a href="#descubre-como" class="hero-button">
-            Descubre cómo
-          </a>
-          <p class="hero-subtitle">Ha llegado la Revolución del Flexliving</p>
+          <p class="hero-subtitle">Ha llegado la revolución al Flexliving</p>
         </div>
       </section>
     </div>
+
     <div class="image-container">
       <img src="/images/interiordefi.png" alt="interior">
     </div>
@@ -96,71 +96,63 @@ onUnmounted(() => {
   padding-bottom: 4rem;
 }
 
-.hero-text {
-  position: relative;
-  z-index: 20;
-  text-align: center;
-  color: white;
-  font-family: 'Outfit', sans-serif;
-  padding: 0 2rem;
-  max-width: 70rem;
-}
-
-.hero-logo-container {
+/* Contenedor fijo del logo: subido, sin animación */
+.hero-logo-fixed-container {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none;
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin: 5rem 0 0 0;
 }
 
 .hero-logo {
-  /* +20% vs tamaños originales (260/65vw/780) */
   max-width: clamp(312px, 78vw, 936px);
   width: auto;
   height: auto;
   filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.5));
 }
 
-.hero-subtitle {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 500;
-  margin: 0 0 1rem 0;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+.hero-text {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 70rem;
+  text-align: center;
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  padding: 0 2rem;
 }
 
-/* Móvil: más grande y con más margen lateral */
+.hero-subtitle {
+  font-size: clamp(2.5rem, 8vw, 4.9rem); /* ~50% del tamaño anterior */
+  font-weight: 500;
+  margin-top: 8rem;
+  text-align: center;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+  max-width: 90%;
+}
+
+/* Móvil: subtítulo centrado */
 @media (max-width: 640px) {
   .hero-text {
-    padding: 0 2.5rem;
+    padding: 0 1.5rem;
   }
 
   .hero-subtitle {
-    font-size: 2rem;
-    line-height: 1.25;
-    margin-bottom: 1.25rem;
+    font-size: clamp(1.75rem, 9vw, 3.5rem); /* ~50% del tamaño anterior */
+    line-height: 1.15;
+    margin-top: 6rem;
+    text-align: center;
   }
-}
-
-.hero-button {
-  display: inline-block;
-  /* Subimos el botón acercándolo al logo */
-  margin: -1.25rem 0 1.1rem 0;
-  padding: 1rem 2.5rem;
-  background-color: #79358d;
-  color: white;
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  font-weight: 600;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  transition: opacity 0.3s, transform 0.2s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  font-family: 'Outfit', sans-serif;
-}
-
-.hero-button:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .image-container {

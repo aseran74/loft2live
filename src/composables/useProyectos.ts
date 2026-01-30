@@ -99,15 +99,23 @@ export function useProyectos() {
       // Asegurar que fotos sea un array válido o null
       if (updateData.fotos !== undefined) {
         if (Array.isArray(updateData.fotos)) {
-          // Si es un array, mantenerlo como está (puede ser vacío)
           updateData.fotos = updateData.fotos
         } else if (updateData.fotos === null || updateData.fotos === '') {
-          // Si es null o string vacío, convertir a array vacío
           updateData.fotos = []
         } else {
-          // Si es un valor único, convertirlo a array
           updateData.fotos = [updateData.fotos]
         }
+      }
+      // Fotos oficina actual y remodelada
+      if (updateData.fotos_oficina_actual !== undefined) {
+        updateData.fotos_oficina_actual = Array.isArray(updateData.fotos_oficina_actual)
+          ? updateData.fotos_oficina_actual
+          : updateData.fotos_oficina_actual === null || updateData.fotos_oficina_actual === '' ? [] : [updateData.fotos_oficina_actual]
+      }
+      if (updateData.fotos_oficina_remodelada !== undefined) {
+        updateData.fotos_oficina_remodelada = Array.isArray(updateData.fotos_oficina_remodelada)
+          ? updateData.fotos_oficina_remodelada
+          : updateData.fotos_oficina_remodelada === null || updateData.fotos_oficina_remodelada === '' ? [] : [updateData.fotos_oficina_remodelada]
       }
 
       // Asegurar que comodidades sea un array válido

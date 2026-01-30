@@ -10,6 +10,13 @@
           LoftAndLive es una plataforma inmobiliaria P2P impulsada por <span class="font-semibold" style="color: #79358d">Grupo Vihorev</span>.
           Nuestros logros hablan por sí solos:
         </p>
+        <a
+          href="#descubre-como"
+          class="inline-block mt-6 px-6 py-3 text-base font-semibold text-white rounded-lg transition opacity-90 hover:opacity-100"
+          style="background-color: #79358d"
+        >
+          Descubre cómo
+        </a>
       </div>
 
       <!-- Stats Grid -->

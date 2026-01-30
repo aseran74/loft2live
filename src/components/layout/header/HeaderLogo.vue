@@ -1,9 +1,8 @@
 <template>
-  <router-link to="/" class="lg:hidden">
+  <router-link to="/" class="flex items-center shrink-0" title="Ir a la landing">
     <img src="/images/Logodefi.png" alt="Loft2live" class="h-12 w-auto" />
   </router-link>
 </template>
 
-<script setup>
-import { RouterLink } from 'vue-router'
+<script setup lang="ts">
 </script>

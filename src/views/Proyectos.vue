@@ -205,9 +205,9 @@
             </div>
 
             <!-- Imagen principal del proyecto -->
-            <div v-if="proyecto.fotos && proyecto.fotos.length > 0" class="mb-4">
+            <div v-if="getMainPhotoPath(proyecto)" class="mb-4">
               <img
-                :src="getPhotoUrl(proyecto.fotos[0])"
+                :src="getPhotoUrl(getMainPhotoPath(proyecto))"
                 :alt="proyecto.nombre_proyecto"
                 class="w-full h-48 object-cover rounded-lg"
               />
@@ -522,40 +522,55 @@ const editProyecto = (proyecto: Proyecto) => {
 const handleSubmit = async (
   data: Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>,
   photos: File[] = [],
-  planosPorTipo: File[][] = []
+  planosPorTipo: File[][] = [],
+  photosOficinaActual: File[] = [],
+  photosOficinaRemodelada: File[] = []
 ) => {
   try {
     let proyectoId: string
-    
+    const dataWithoutPhotos = { ...data }
+    delete dataWithoutPhotos.fotos
+    delete dataWithoutPhotos.fotos_oficina_actual
+    delete dataWithoutPhotos.fotos_oficina_remodelada
+
     if (selectedProyecto.value?.id) {
       // Actualizar proyecto existente
-      // Primero actualizamos los datos básicos sin fotos
-      const dataWithoutPhotos = { ...data }
-      delete dataWithoutPhotos.fotos
-      
       const updated = await updateProyecto(selectedProyecto.value.id, dataWithoutPhotos)
       proyectoId = updated.id!
       
-      // Manejar fotos por separado
+      // Fotos galería general
       let finalPhotos: string[] = []
-      
-      // Si hay fotos nuevas para subir
       if (photos.length > 0) {
         const uploadedPhotoPaths = await uploadPhotos(proyectoId, photos)
-        // Combinar fotos existentes que se mantienen con las nuevas
         const existingPhotos = data.fotos || selectedProyecto.value?.fotos || []
         finalPhotos = [...existingPhotos, ...uploadedPhotoPaths]
       } else if (data.fotos !== undefined) {
-        // Si solo se actualizaron las fotos existentes (se eliminaron algunas)
         finalPhotos = data.fotos
       } else {
-        // Mantener las fotos existentes
         finalPhotos = selectedProyecto.value?.fotos || []
       }
-      
-      // Actualizar fotos si hay cambios
       if (JSON.stringify(finalPhotos) !== JSON.stringify(selectedProyecto.value?.fotos || [])) {
         await updateProyecto(proyectoId, { fotos: finalPhotos })
+      }
+
+      // Fotos oficina actual
+      let finalOficinaActual: string[] = data.fotos_oficina_actual ?? selectedProyecto.value?.fotos_oficina_actual ?? []
+      if (photosOficinaActual.length > 0) {
+        const uploaded = await uploadPhotosToFolder(proyectoId, photosOficinaActual, 'oficina_actual')
+        finalOficinaActual = [...finalOficinaActual, ...uploaded]
+      }
+      if (JSON.stringify(finalOficinaActual) !== JSON.stringify(selectedProyecto.value?.fotos_oficina_actual || [])) {
+        await updateProyecto(proyectoId, { fotos_oficina_actual: finalOficinaActual })
+      }
+
+      // Fotos oficina remodelada
+      let finalOficinaRemodelada: string[] = data.fotos_oficina_remodelada ?? selectedProyecto.value?.fotos_oficina_remodelada ?? []
+      if (photosOficinaRemodelada.length > 0) {
+        const uploaded = await uploadPhotosToFolder(proyectoId, photosOficinaRemodelada, 'oficina_remodelada')
+        finalOficinaRemodelada = [...finalOficinaRemodelada, ...uploaded]
+      }
+      if (JSON.stringify(finalOficinaRemodelada) !== JSON.stringify(selectedProyecto.value?.fotos_oficina_remodelada || [])) {
+        await updateProyecto(proyectoId, { fotos_oficina_remodelada: finalOficinaRemodelada })
       }
 
       // Subir planos por tipo y actualizar unidades_tipos (persistente)
@@ -571,16 +586,20 @@ const handleSubmit = async (
       }
     } else {
       // Crear nuevo proyecto
-      const dataWithoutPhotos = { ...data }
-      delete dataWithoutPhotos.fotos
-      
       const created = await createProyecto(dataWithoutPhotos)
       proyectoId = created.id!
 
-      // Subir fotos nuevas si hay alguna
       if (photos.length > 0) {
         const uploadedPhotoPaths = await uploadPhotos(proyectoId, photos)
         await updateProyecto(proyectoId, { fotos: uploadedPhotoPaths })
+      }
+      if (photosOficinaActual.length > 0) {
+        const uploaded = await uploadPhotosToFolder(proyectoId, photosOficinaActual, 'oficina_actual')
+        await updateProyecto(proyectoId, { fotos_oficina_actual: uploaded })
+      }
+      if (photosOficinaRemodelada.length > 0) {
+        const uploaded = await uploadPhotosToFolder(proyectoId, photosOficinaRemodelada, 'oficina_remodelada')
+        await updateProyecto(proyectoId, { fotos_oficina_remodelada: uploaded })
       }
 
       // Subir planos por tipo (si hay) y guardar unidades_tipos con paths
@@ -700,6 +719,38 @@ const uploadPhotos = async (proyectoId: string, photos: File[]): Promise<string[
   return uploadedPaths
 }
 
+const uploadPhotosToFolder = async (proyectoId: string, photos: File[], folder: string): Promise<string[]> => {
+  const uploadedPaths: string[] = []
+  const { useAuth } = await import('@/composables/useAuth')
+  const { currentUser } = useAuth()
+  if (!currentUser.value) {
+    throw new Error('Debes estar autenticado para subir fotos')
+  }
+  await currentUser.value.getIdToken()
+  for (const photo of photos) {
+    try {
+      const fileExt = photo.name.split('.').pop()
+      const ext = fileExt ? fileExt.toLowerCase() : 'jpg'
+      const fileName = `${proyectoId}/${folder}/${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`
+      const { data, error } = await supabase.storage
+        .from('photos')
+        .upload(fileName, photo, { cacheControl: '3600', upsert: false })
+      if (error) {
+        console.error('Error uploading photo:', error)
+        if (error.message.includes('row-level security') || error.message.includes('policy')) {
+          throw new Error('No tienes permisos para subir fotos.')
+        }
+        continue
+      }
+      uploadedPaths.push(data.path)
+    } catch (err) {
+      console.error('Error uploading photo:', err)
+      if (err instanceof Error && err.message.includes('permisos')) throw err
+    }
+  }
+  return uploadedPaths
+}
+
 const deleteProyectoHandler = async (id: string) => {
   if (confirm('¿Estás seguro de que quieres eliminar este proyecto?')) {
     try {
@@ -724,6 +775,15 @@ const formatCurrency = (amount: number) => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(amount)
+}
+
+const getMainPhotoPath = (proyecto: Proyecto): string => {
+  return (
+    proyecto?.fotos?.[0] ??
+    proyecto?.fotos_oficina_remodelada?.[0] ??
+    proyecto?.fotos_oficina_actual?.[0] ??
+    ''
+  )
 }
 
 const getPhotoUrl = (photoPath: string): string => {
