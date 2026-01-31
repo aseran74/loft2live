@@ -36,7 +36,7 @@
           <video
             ref="videoEl"
             class="section-video"
-            src="/Video-loft.mp4"
+            src="/images/Videoabajo.mp4"
             controls
             playsinline
             @play="showPlayOverlay = false"

@@ -6,6 +6,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const wrapperRef = ref<HTMLElement | null>(null)
+const videoRef = ref<HTMLVideoElement | null>(null)
 const videoEnded = ref(false)
 const scrollProgress = ref(0)
 
@@ -25,11 +26,23 @@ function onVideoEnded() {
   videoEnded.value = true
 }
 
+function playVideo() {
+  const v = videoRef.value
+  if (v) v.play().catch(() => {})
+}
+
 onMounted(() => {
-  // En móvil/tablet no hay video; permitir frames al hacer scroll desde el inicio
-  if (typeof window !== 'undefined' && window.innerWidth < 1025) {
-    videoEnded.value = true
+  // Delay 3 s antes de intentar reproducir (da tiempo a cargar y mejora autoplay en móvil)
+  const tryPlay = () => {
+    const video = videoRef.value
+    if (video && !videoEnded.value) {
+      video.muted = true
+      const p = video.play()
+      if (p && typeof p.catch === 'function') p.catch(() => {})
+    }
   }
+  setTimeout(tryPlay, 3000)
+  setTimeout(tryPlay, 3300)
 
   ctx = gsap.context(() => {
     if (!wrapperRef.value) return
@@ -66,8 +79,9 @@ onUnmounted(() => {
   <div ref="wrapperRef" class="wrapper">
     <!-- Contenido fijo en viewport: video o frames + texto -->
     <div class="hero-viewport">
-      <!-- Video: solo hasta que termine (escritorio) -->
+      <!-- Video: hasta que termine (escritorio, tablet y móvil) -->
       <video
+        ref="videoRef"
         v-show="!videoEnded"
         class="hero-media hero-video"
         src="/images/HEro2/Video4.mp4"
@@ -76,6 +90,7 @@ onUnmounted(() => {
         playsinline
         aria-label="Vídeo hero"
         @ended="onVideoEnded"
+        @click="playVideo"
       />
       <!-- Imagen estática: móvil/tablet (no hay frames en esos tamaños por ahora, o podemos ocultar frames) -->
       <img
@@ -137,39 +152,15 @@ onUnmounted(() => {
   object-position: center center;
 }
 
+/* Video visible en todos los tamaños (móvil, tablet, escritorio) */
 .hero-video {
-  display: none;
+  display: block;
 }
 
-@media (min-width: 1025px) {
-  .hero-video {
-    display: block;
-  }
-  .hero-image-desktop {
-    display: none;
-  }
-}
-
+/* Imágenes estáticas: ocultas (el video se usa en todas las vistas) */
+.hero-image-desktop,
 .hero-image-mobile-tablet {
   display: none;
-}
-
-@media (max-width: 640px) {
-  .hero-image-desktop {
-    display: none;
-  }
-  .hero-image-mobile-tablet {
-    display: block;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 1024px) and (orientation: landscape) {
-  .hero-image-desktop {
-    display: none;
-  }
-  .hero-image-mobile-tablet {
-    display: block;
-  }
 }
 
 .hero-subtitle {
