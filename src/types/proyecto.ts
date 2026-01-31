@@ -14,10 +14,12 @@ export interface Proyecto {
   alquiler?: boolean
   precio_alquiler_mes?: number
   mostrar_en_landing?: boolean
+  consulta_vinculante_urbanistica?: boolean
   caracteristicas?: string
   fotos?: string[]
   fotos_oficina_actual?: string[]
   fotos_oficina_remodelada?: string[]
+  videos?: string[]
   comodidades?: string[]
   unidades_tipos?: UnidadTipo[]
   created_at?: string

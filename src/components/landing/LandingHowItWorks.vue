@@ -4,7 +4,7 @@
       <!-- Header -->
       <div class="text-center mb-16">
         <h2 class="text-4xl lg:text-5xl font-bold mb-4" style="color: #0D0D0D">
-          Donde el espacio <span style="color: #79358d">trabaja para ti</span>.
+          Donde el espacio <span style="color: #2793F2">trabaja para ti</span>.
         </h2>
         <p class="text-xl max-w-3xl mx-auto" style="color: #0D0D0D">
           Rediseñamos oficinas infrautilizadas en lofts contemporáneos de alto rendimiento, integrando fiscalidad inteligente, estructura 80/20 y compraventa dual.
@@ -12,7 +12,7 @@
         <p class="text-lg max-w-3xl mx-auto mt-4" style="color: #0D0D0D">
           No es solo un lugar donde vivir o trabajar: es una arquitectura pensada para la libertad, la movilidad y la eficiencia del capital.
         </p>
-        <p class="text-base max-w-2xl mx-auto mt-3" style="color: #79358d; font-weight: 600; font-style: italic">
+        <p class="text-base max-w-2xl mx-auto mt-3" style="color: #2793F2; font-weight: 600; font-style: italic">
           Real estate para mentes que no quieren quedarse quietas.
         </p>
 
@@ -390,17 +390,17 @@ onMounted(() => {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: rgba(121, 53, 141, 0.95);
+  background: #2793F2;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(121, 53, 141, 0.5);
+  box-shadow: 0 4px 20px rgba(39, 147, 242, 0.5);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .video-play-overlay:hover .video-play-button {
   transform: scale(1.08);
-  box-shadow: 0 6px 28px rgba(121, 53, 141, 0.6);
+  box-shadow: 0 6px 28px rgba(39, 147, 242, 0.6);
 }
 
 .play-icon {
@@ -427,7 +427,7 @@ onMounted(() => {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #79358d, #a855f7);
+  background: linear-gradient(90deg, #C8D9B0, #2793F2);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -452,7 +452,7 @@ onMounted(() => {
   width: 64px;
   height: 64px;
   border-radius: 1rem;
-  background: linear-gradient(135deg, #79358d, #a855f7);
+  background: linear-gradient(135deg, #C8D9B0, #2793F2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -464,7 +464,7 @@ onMounted(() => {
 
 .step-card:hover .step-icon {
   transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 10px 20px rgba(121, 53, 141, 0.3);
+  box-shadow: 0 10px 20px rgba(39, 147, 242, 0.3);
 }
 
 .step-number {
@@ -474,14 +474,14 @@ onMounted(() => {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #79358d;
+  background: linear-gradient(135deg, #C8D9B0, #2793F2);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 0.875rem;
-  box-shadow: 0 4px 6px rgba(121, 53, 141, 0.3);
+  box-shadow: 0 4px 6px rgba(39, 147, 242, 0.3);
   z-index: 3;
 }
 
@@ -500,7 +500,7 @@ onMounted(() => {
 }
 
 .step-description strong {
-  color: #79358d;
+  color: #2793F2;
   font-weight: 600;
 }
 
@@ -523,7 +523,7 @@ onMounted(() => {
   content: '✓';
   position: absolute;
   left: 0;
-  color: #79358d;
+  color: #2793F2;
   font-weight: 700;
 }
 
@@ -593,7 +593,7 @@ onMounted(() => {
   display: block;
   width: 48px;
   height: 4px;
-  background: linear-gradient(90deg, #79358d, #a855f7);
+  background: #2793F2;
   margin: 0.5rem auto 0;
   border-radius: 2px;
 }
@@ -606,7 +606,7 @@ onMounted(() => {
 }
 
 .how-intro-text strong {
-  color: #79358d;
+  color: #2793F2;
 }
 
 .how-intro-sub {
@@ -624,7 +624,7 @@ onMounted(() => {
   font-size: 1.05rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #79358d, #a855f7);
+  background: #2793F2;
   border: none;
   border-radius: 0.75rem;
   cursor: pointer;
@@ -653,17 +653,18 @@ onMounted(() => {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
-  color: #79358d;
+  color: #2793F2;
   background: #F2F2F2;
-  border: 2px solid #79358d;
+  border: 2px solid #2793F2;
   border-radius: 0.75rem;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .ley-madrid-cta-button:hover {
-  background: #79358d;
+  background: #2793F2;
   color: white;
+  border-color: transparent;
   transform: translateY(-2px);
 }
 
@@ -688,7 +689,7 @@ onMounted(() => {
   display: block;
   width: 60px;
   height: 4px;
-  background: linear-gradient(90deg, #79358d, #a855f7);
+  background: linear-gradient(90deg, #C8D9B0, #2793F2);
   margin: 0.75rem auto 0;
   border-radius: 2px;
 }
@@ -706,7 +707,7 @@ onMounted(() => {
 }
 
 .comparison-table thead {
-  background: linear-gradient(135deg, #79358d, #6b2d7a);
+  background: linear-gradient(135deg, #C8D9B0, #2793F2);
   color: white;
 }
 
@@ -754,7 +755,7 @@ onMounted(() => {
 }
 
 .comparison-table td:last-child {
-  color: #79358d;
+  color: #2793F2;
   font-weight: 500;
 }
 

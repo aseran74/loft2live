@@ -15,7 +15,7 @@
             <router-link
               to="/proyectos"
               class="flex items-center justify-between p-4 border-2 rounded-lg hover:shadow-md transition-all"
-              style="border-color: #CFCEF2"
+              style="border-color: #C8D9B0"
             >
               <div>
                 <h3 class="font-semibold text-lg">Ver Proyectos</h3>
@@ -26,7 +26,7 @@
             <router-link
               to="/proyectos/nuevo"
               class="flex items-center justify-between p-4 border-2 rounded-lg hover:shadow-md transition-all"
-              style="border-color: #79358D"
+              style="border-color: #D92211"
             >
               <div>
                 <h3 class="font-semibold text-lg">Crear Proyecto</h3>
@@ -37,7 +37,7 @@
             <router-link
               to="/usuarios/perfiles"
               class="flex items-center justify-between p-4 border-2 rounded-lg hover:shadow-md transition-all"
-              style="border-color: #CFCEF2"
+              style="border-color: #C8D9B0"
             >
               <div>
                 <h3 class="font-semibold text-lg">Usuarios</h3>

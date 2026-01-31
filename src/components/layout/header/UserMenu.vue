@@ -9,7 +9,7 @@
         <div
           v-else
           class="h-11 w-11 flex items-center justify-center text-sm font-bold bg-white dark:bg-gray-800"
-          style="color:#79358D"
+          style="color:#D92211"
         >
           {{ userInitials }}
         </div>

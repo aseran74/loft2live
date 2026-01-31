@@ -6,7 +6,7 @@
         <button
           @click="$router.push('/proyectos')"
           class="mb-6 flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
-          style="color: #79358D"
+          style="color: #2793F2"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -37,7 +37,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
               <div class="flex items-center gap-3 mb-3">
-                <span class="px-4 py-2 rounded-full text-sm font-semibold" style="background-color: #DFDCF2; color: #79358d">
+                <span class="px-4 py-2 rounded-full text-sm font-semibold" style="background-color: #C8D9B0; color: #2793F2">
                   Activo
                 </span>
                 <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white/20 backdrop-blur-sm text-white">
@@ -77,7 +77,7 @@
               class="mb-6"
             >
               <p class="text-base font-semibold px-4 py-3 mb-0 rounded-t-xl" style="background-color: #F2F2F2; color: #0D0D0D">Oficina actual</p>
-              <div class="rounded-b-xl overflow-hidden border-2 border-t-0 shadow-md aspect-[4/3] sm:aspect-[3/2] bg-gray-100" style="border-color: #DFDCF2">
+              <div class="rounded-b-xl overflow-hidden border-2 border-t-0 shadow-md aspect-[4/3] sm:aspect-[3/2] bg-gray-100" style="border-color: #C8D9B0">
                 <img
                   :src="getPhotoUrl(proyecto.fotos_oficina_actual[0])"
                   :alt="`Oficina actual - ${proyecto.nombre_proyecto}`"
@@ -89,7 +89,7 @@
             <!-- Fotos oficina remodelada: como referencia (70% + 2 apiladas 30%, imagen ancha abajo, thumbnails) -->
             <div v-if="proyecto.fotos_oficina_remodelada && proyecto.fotos_oficina_remodelada.length > 0" class="fotos-reforma-wrapper">
               <p class="text-base font-semibold px-4 py-3 mb-0 rounded-t-xl" style="background-color: #F2F2F2; color: #0D0D0D">Oficina remodelada</p>
-              <div class="rounded-b-xl overflow-hidden border-2 border-t-0 shadow-md" style="border-color: #DFDCF2">
+              <div class="rounded-b-xl overflow-hidden border-2 border-t-0 shadow-md" style="border-color: #C8D9B0">
                 <!-- Fila superior: principal 70% + 2 fotos apiladas 30% -->
                 <div class="fotos-reforma-gallery">
                   <div class="fotos-reforma-main bg-gray-100">
@@ -152,7 +152,7 @@
             </div>
             <div class="bg-gray-50 rounded-xl p-4 sm:p-6">
               <p class="text-sm text-gray-600 mb-2">Progreso</p>
-              <p class="text-2xl sm:text-3xl font-bold" style="color: #79358D">
+              <p class="text-2xl sm:text-3xl font-bold" style="color: #2793F2">
                 {{ proyecto.porcentaje_llegado }}%
               </p>
             </div>
@@ -179,10 +179,10 @@
               <span>Progreso de inversión</span>
               <span class="font-semibold">{{ proyecto.porcentaje_llegado }}% completado</span>
             </div>
-            <div class="w-full rounded-full h-4" style="background-color: #DFDCF2">
+            <div class="w-full rounded-full h-4" style="background-color: #C8D9B0">
               <div
                 class="h-4 rounded-full transition-all duration-500"
-                :style="`width: ${proyecto.porcentaje_llegado}%; background-color: #79358D`"
+                :style="`width: ${proyecto.porcentaje_llegado}%; background: linear-gradient(135deg, #C8D9B0, #2793F2)`"
               ></div>
             </div>
           </div>
@@ -221,7 +221,7 @@
                     v-for="(u, idx) in proyecto.unidades_tipos.slice(0,4)"
                     :key="idx"
                     class="rounded-xl border bg-white p-4"
-                    style="border-color:#CFCEF2"
+                    style="border-color:#C8D9B0"
                   >
                     <div class="flex items-start justify-between gap-3">
                       <div>
@@ -240,7 +240,7 @@
                           v-for="(p, pIdx) in u.planos"
                           :key="pIdx"
                           class="block text-sm font-semibold hover:opacity-80"
-                          style="color:#79358D"
+                          style="color:#2793F2"
                           :href="getPhotoUrl(p)"
                           target="_blank"
                           rel="noopener noreferrer"
@@ -253,7 +253,7 @@
                   </div>
                 </div>
 
-                <div v-else class="rounded-xl border p-4 text-sm text-gray-600" style="border-color:#DFDCF2">
+                <div v-else class="rounded-xl border p-4 text-sm text-gray-600" style="border-color:#C8D9B0">
                   No hay tipos de unidad configurados.
                 </div>
               </div>
@@ -267,7 +267,7 @@
                     v-for="group in amenityGroups"
                     :key="group.title"
                     class="rounded-xl border p-4 bg-white"
-                    style="border-color: #CFCEF2"
+                    style="border-color: #C8D9B0"
                   >
                     <div class="mb-3">
                       <h3 class="text-base font-semibold" style="color: #0D0D0D">{{ group.title }}</h3>
@@ -279,16 +279,16 @@
                         v-for="item in group.items.filter(i => proyecto!.comodidades!.includes(i.key))"
                         :key="item.key"
                         class="inline-flex items-center gap-2 px-3 py-2 rounded-full text-sm border"
-                        style="border-color: #DFDCF2; background-color: #F7F7FB; color: #0D0D0D"
+                        style="border-color: #C8D9B0; background-color: #F2F2F2; color: #0D0D0D"
                       >
-                        <span class="w-4 h-4" style="color: #79358D" v-html="getAmenityIconSvg(item.key)"></span>
+                        <span class="w-4 h-4" style="color: #2793F2" v-html="getAmenityIconSvg(item.key)"></span>
                         <span class="leading-none">{{ item.label }}</span>
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div v-else class="rounded-xl border p-4 text-sm text-gray-600" style="border-color: #DFDCF2">
+                <div v-else class="rounded-xl border p-4 text-sm text-gray-600" style="border-color: #C8D9B0">
                   No hay comodidades registradas para este proyecto.
                 </div>
               </div>
@@ -331,7 +331,7 @@
                 <div class="mt-2 flex items-center gap-3">
                   <a
                     class="text-sm font-semibold hover:opacity-80"
-                    style="color:#79358D"
+                    style="color:#2793F2"
                     :href="mapsOpenUrl"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -342,10 +342,81 @@
                     ({{ mapErrorMessage }})
                   </span>
                 </div>
+
+                <!-- Street View -->
+                <div v-if="projectLocation" class="mt-8">
+                  <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Vista de calle</h2>
+                  <div
+                    v-show="streetViewAvailable"
+                    ref="streetViewContainer"
+                    class="w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden border-2 shadow-md"
+                    style="border-color: #C8D9B0"
+                  ></div>
+                  <div
+                    v-if="!streetViewChecked"
+                    class="h-48 rounded-xl border-2 flex items-center justify-center text-gray-500"
+                    style="border-color: #C8D9B0; background-color: #F2F2F2"
+                  >
+                    Cargando vista de calle…
+                  </div>
+                  <div
+                    v-else-if="!streetViewAvailable"
+                    class="h-48 rounded-xl border-2 flex items-center justify-center text-gray-500"
+                    style="border-color: #C8D9B0; background-color: #F2F2F2"
+                  >
+                    No hay vista de calle disponible para esta ubicación
+                  </div>
+                </div>
+
+                <!-- Lugares cercanos (Google Places) -->
+                <div v-if="projectLocation" class="mt-8">
+                  <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Lugares cercanos</h2>
+                  <div
+                    v-if="nearbyPlacesCategories.length === 0"
+                    class="rounded-xl border p-6 text-center text-gray-500"
+                    style="border-color: #C8D9B0; background-color: #F2F2F2"
+                  >
+                    Cargando supermercados, farmacias, metro, autobús y colegios…
+                  </div>
+                  <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div
+                      v-for="cat in nearbyPlacesCategories"
+                      :key="cat.type"
+                      class="rounded-xl border p-4"
+                      style="border-color: #C8D9B0; background-color: #F2F2F2"
+                    >
+                      <div class="flex items-center gap-2 mb-3">
+                        <span class="text-xl" v-html="getPlaceCategoryIcon(cat.type)"></span>
+                        <h3 class="font-semibold" style="color: #0D0D0D">{{ cat.label }}</h3>
+                      </div>
+                      <ul class="space-y-2 text-sm">
+                        <li
+                          v-for="(place, idx) in cat.places.slice(0, 5)"
+                          :key="idx"
+                          class="flex items-start gap-2"
+                        >
+                          <span class="text-gray-500 shrink-0">•</span>
+                          <a
+                            :href="getPlaceMapUrl(place)"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="hover:underline"
+                            style="color: #2793F2"
+                          >
+                            {{ place.name }}
+                          </a>
+                        </li>
+                        <li v-if="cat.places.length === 0" class="text-gray-500">
+                          No encontrado en la zona
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <!-- Caso de Éxito: Efecto 80/20 (facturación usuario + valor inmueble del proyecto) -->
-              <div class="mt-8 rounded-2xl border-2 p-6 sm:p-8" style="border-color: #DFDCF2; background-color: #F7F7FB">
+              <div class="mt-8 rounded-2xl border-2 p-6 sm:p-8" style="border-color: #C8D9B0; background-color: #F2F2F2">
                 <h2 class="text-2xl font-bold mb-2" style="color: #0D0D0D">
                   💰 Caso de Éxito: El "Efecto 80/20" sobre tu facturación
                 </h2>
@@ -362,7 +433,7 @@
                       min="0"
                       step="1000"
                       class="w-full px-4 py-3 rounded-lg border-2 bg-white text-lg"
-                      style="border-color: #CFCEF2; color: #0D0D0D"
+                      style="border-color: #C8D9B0; color: #0D0D0D"
                       placeholder="80000"
                     />
                   </div>
@@ -370,7 +441,7 @@
                     <label class="block text-sm font-semibold mb-2" style="color: #0D0D0D">Valor del inmueble (este proyecto)</label>
                     <div
                       class="w-full px-4 py-3 rounded-lg border-2 text-lg font-semibold"
-                      style="border-color: #CFCEF2; background-color: #EEEEEE; color: #0D0D0D"
+                      style="border-color: #C8D9B0; background-color: #EEEEEE; color: #0D0D0D"
                     >
                       {{ formatCurrency(valorInmueble) }}
                     </div>
@@ -384,8 +455,8 @@
                 </p>
 
                 <div class="space-y-6">
-                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
-                    <h3 class="text-lg font-bold mb-3" style="color: #79358D">ESCENARIO A: EL AUTÓNOMO (Estimación Directa)</h3>
+                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #C8D9B0">
+                    <h3 class="text-lg font-bold mb-3" style="color: #2793F2">ESCENARIO A: EL AUTÓNOMO (Estimación Directa)</h3>
                     <p class="text-sm text-gray-700 mb-3">
                       Facturación: <strong>{{ formatCurrency(facturacionAnual || 0) }}</strong> | Alquiler: 1.200 € (1.000 € Oficina + 200 € Vivienda)
                     </p>
@@ -403,8 +474,8 @@
                     </p>
                   </div>
 
-                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
-                    <h3 class="text-lg font-bold mb-3" style="color: #79358D">ESCENARIO B: SOCIEDAD LIMITADA (SL)</h3>
+                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #C8D9B0">
+                    <h3 class="text-lg font-bold mb-3" style="color: #2793F2">ESCENARIO B: SOCIEDAD LIMITADA (SL)</h3>
                     <p class="text-sm text-gray-700 mb-3">
                       Facturación: <strong>{{ formatCurrency(facturacionAnual || 0) }}</strong> | Compra: <strong>{{ formatCurrency(valorInmueble) }}</strong>
                     </p>
@@ -416,38 +487,38 @@
                     </p>
                   </div>
 
-                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #CFCEF2">
+                  <div class="rounded-xl border p-4 sm:p-5 bg-white" style="border-color: #C8D9B0">
                     <h3 class="text-lg font-bold mb-3" style="color: #0D0D0D">📉 Resumen: ¿Dónde prefieres que esté tu dinero?</h3>
                     <p class="text-sm text-gray-600 mb-3">Si facturas {{ formatCurrency(facturacionAnual || 0) }}...</p>
                     <div class="overflow-x-auto">
-                      <table class="w-full text-sm border-collapse" style="border-color: #CFCEF2">
+                      <table class="w-full text-sm border-collapse" style="border-color: #C8D9B0">
                         <thead>
                           <tr style="background-color: #F2F2F2">
-                            <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #0D0D0D">Concepto</th>
-                            <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #0D0D0D">Sin nuestro modelo</th>
-                            <th class="text-left py-2 px-3 border" style="border-color: #CFCEF2; color: #79358D">Con Smart Loft 80/20</th>
+                            <th class="text-left py-2 px-3 border" style="border-color: #C8D9B0; color: #0D0D0D">Concepto</th>
+                            <th class="text-left py-2 px-3 border" style="border-color: #C8D9B0; color: #0D0D0D">Sin nuestro modelo</th>
+                            <th class="text-left py-2 px-3 border" style="border-color: #C8D9B0; color: #2793F2">Con Smart Loft 80/20</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Gasto Vivienda</td>
-                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">No deducible (100% de tu bolsillo)</td>
-                            <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">80% deducible como oficina</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #C8D9B0">Gasto Vivienda</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #C8D9B0">No deducible (100% de tu bolsillo)</td>
+                            <td class="py-2 px-3 border font-semibold" style="border-color: #C8D9B0; color: #0D0D0D">80% deducible como oficina</td>
                           </tr>
                           <tr>
-                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">IVA de Compra</td>
-                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Lo pagas y lo pierdes</td>
-                            <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Recuperas {{ formatCurrency(ivaRecuperableOficina) }} (en oficina)</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #C8D9B0">IVA de Compra</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #C8D9B0">Lo pagas y lo pierdes</td>
+                            <td class="py-2 px-3 border font-semibold" style="border-color: #C8D9B0; color: #0D0D0D">Recuperas {{ formatCurrency(ivaRecuperableOficina) }} (en oficina)</td>
                           </tr>
                           <tr>
-                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Impuestos anuales</td>
-                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Máximo tramo</td>
-                            <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Tramo reducido por gastos</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #C8D9B0">Impuestos anuales</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #C8D9B0">Máximo tramo</td>
+                            <td class="py-2 px-3 border font-semibold" style="border-color: #C8D9B0; color: #0D0D0D">Tramo reducido por gastos</td>
                           </tr>
                           <tr>
-                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Movilidad</td>
-                            <td class="py-2 px-3 border text-gray-700" style="border-color: #CFCEF2">Atado a una ciudad</td>
-                            <td class="py-2 px-3 border font-semibold" style="border-color: #CFCEF2; color: #0D0D0D">Tokens para moverte por la red</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #C8D9B0">Movilidad</td>
+                            <td class="py-2 px-3 border text-gray-700" style="border-color: #C8D9B0">Atado a una ciudad</td>
+                            <td class="py-2 px-3 border font-semibold" style="border-color: #C8D9B0; color: #0D0D0D">Tokens para moverte por la red</td>
                           </tr>
                         </tbody>
                       </table>
@@ -522,20 +593,20 @@
                 <button
                   @click="editProyecto"
                   class="w-full px-6 py-3 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-                  style="background-color: #79358D"
+                  style="background: linear-gradient(135deg, #C8D9B0, #2793F2)"
                 >
                   Editar proyecto
                 </button>
                 <div
                   class="w-full px-6 py-3 rounded-lg border-2 text-center font-semibold"
-                  style="border-color: #DFDCF2; background-color: #F7F7FB; color: #79358D"
+                  style="border-color: #C8D9B0; background-color: #F2F2F2; color: #2793F2"
                 >
                   Desgravación: 100% (uso 100% oficina)
                 </div>
                 <button
                   @click="deleteProyecto"
                   class="w-full px-6 py-3 border-2 rounded-lg transition-colors font-semibold hover:opacity-70"
-                  style="border-color: #CFCEF2; color: #0D0D0D"
+                  style="border-color: #C8D9B0; color: #0D0D0D"
                 >
                   Eliminar proyecto
                 </button>
@@ -672,11 +743,19 @@ const reformaLightboxOpen = ref(false)
 const currentReformaPhotoIndex = ref(0)
 const facturacionAnual = ref<number>(80000)
 const mapContainer = ref<HTMLDivElement | null>(null)
+const streetViewContainer = ref<HTMLDivElement | null>(null)
 const mapState = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
 const mapErrorMessage = ref<string | null>(null)
+const projectLocation = ref<{ lat: number; lng: number } | null>(null)
+const streetViewAvailable = ref(false)
+const streetViewChecked = ref(false)
+const nearbyPlacesCategories = ref<
+  Array<{ type: string; label: string; places: Array<{ name: string; lat?: number; lng?: number }> }>
+>([])
 let map: any = null
 let geocoder: any = null
 let marker: any = null
+let streetViewPanorama: any = null
 
 // Manejar navegación con teclado en lightbox
 let keyPressHandler: ((e: KeyboardEvent) => void) | null = null
@@ -784,10 +863,13 @@ const initMap = () => {
     (results: any, status: any) => {
       if (status === 'OK' && results && results[0]) {
         const location = results[0].geometry.location
-        
+        const lat = location.lat()
+        const lng = location.lng()
+        projectLocation.value = { lat, lng }
+
         // Centrar el mapa en la ubicación
         map?.setCenter(location)
-        
+
         // Añadir marcador
         marker = new g.maps.Marker({
           map: map,
@@ -815,6 +897,12 @@ const initMap = () => {
         })
 
         mapState.value = 'ready'
+
+        // Inicializar Street View y lugares cercanos
+        nextTick(() => {
+          initStreetView(lat, lng)
+          fetchNearbyPlaces(lat, lng)
+        })
       } else {
         console.error('Geocodificación fallida:', status)
         mapState.value = 'error'
@@ -822,6 +910,94 @@ const initMap = () => {
       }
     }
   )
+}
+
+const PLACE_CATEGORIES = [
+  { type: 'subway_station', label: 'Metro' },
+  { type: 'supermarket', label: 'Supermercados' },
+  { type: 'pharmacy', label: 'Farmacias' },
+  { type: 'bus_station', label: 'Autobús' },
+  { type: 'school', label: 'Colegios' },
+] as const
+
+function initStreetView(lat: number, lng: number) {
+  const g = (window as any).google
+  if (!g?.maps?.StreetViewService) return
+
+  const streetViewService = new g.maps.StreetViewService()
+  const pos = new g.maps.LatLng(lat, lng)
+
+  streetViewService.getPanorama({ location: pos, radius: 100 }, (data: any, status: any) => {
+    streetViewChecked.value = true
+    if (status === 'OK' && data?.location?.latLng) {
+      nextTick(() => {
+        if (!streetViewContainer.value) return
+        streetViewAvailable.value = true
+        const panoLocation = data.location.latLng
+        streetViewPanorama = new g.maps.StreetViewPanorama(streetViewContainer.value, {
+          position: panoLocation,
+          pov: { heading: 34, pitch: 10 },
+          zoom: 1,
+        })
+      })
+    }
+  })
+}
+
+function fetchNearbyPlaces(lat: number, lng: number) {
+  const g = (window as any).google
+  if (!g?.maps?.places?.PlacesService || !map) return
+
+  const placesService = new g.maps.places.PlacesService(map)
+  const location = new g.maps.LatLng(lat, lng)
+  const resultsMap: Record<string, { type: string; label: string; places: Array<{ name: string; lat?: number; lng?: number }> }> = {}
+  PLACE_CATEGORIES.forEach(({ type, label }) => {
+    resultsMap[type] = { type, label, places: [] }
+  })
+  let pending = PLACE_CATEGORIES.length
+
+  PLACE_CATEGORIES.forEach(({ type, label }) => {
+    placesService.nearbySearch(
+      {
+        location,
+        radius: 1500,
+        type,
+      },
+      (places: any[], status: any) => {
+        const items =
+          status === 'OK' && Array.isArray(places)
+            ? places.map((p) => ({
+                name: p.name || 'Sin nombre',
+                lat: p.geometry?.location?.lat?.(),
+                lng: p.geometry?.location?.lng?.(),
+              }))
+            : []
+        resultsMap[type] = { type, label, places: items }
+        pending--
+        if (pending === 0) {
+          nearbyPlacesCategories.value = PLACE_CATEGORIES.map((c) => resultsMap[c.type])
+        }
+      }
+    )
+  })
+}
+
+function getPlaceCategoryIcon(type: string): string {
+  const icons: Record<string, string> = {
+    subway_station: '🚇',
+    supermarket: '🛒',
+    school: '🏫',
+    pharmacy: '💊',
+    bus_station: '🚌',
+  }
+  return icons[type] ?? '📍'
+}
+
+function getPlaceMapUrl(place: { name: string; lat?: number; lng?: number }): string {
+  if (place.lat != null && place.lng != null) {
+    return `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`
+  }
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name)}`
 }
 
 const mapsEmbedUrl = computed(() => {
@@ -954,9 +1130,11 @@ onUnmounted(() => {
   if (keyPressHandler) {
     window.removeEventListener('keydown', keyPressHandler)
   }
-  // Limpiar mapa
   if (marker) {
     marker.setMap(null)
+  }
+  if (streetViewPanorama) {
+    streetViewPanorama = null
   }
   map = null
   geocoder = null
@@ -1018,14 +1196,14 @@ img {
   flex-shrink: 0;
   overflow: hidden;
   border-radius: 8px;
-  border: 2px solid #DFDCF2;
+  border: 2px solid #C8D9B0;
   padding: 0;
   cursor: pointer;
   background: #f3f4f6;
   transition: border-color 0.2s, opacity 0.2s;
 }
 .fotos-reforma-thumb:hover {
-  border-color: #79358D;
+  border-color: #2793F2;
   opacity: 0.95;
 }
 .fotos-reforma-thumb img {

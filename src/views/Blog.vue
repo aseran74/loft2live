@@ -23,7 +23,7 @@
             :key="entrada.id"
             class="bg-white rounded-2xl shadow p-6 flex flex-col"
           >
-            <div class="text-xs font-semibold" style="color:#79358D">Noticia</div>
+            <div class="text-xs font-semibold" style="color:#D92211">Noticia</div>
             <h2 class="mt-2 text-xl font-bold" style="color:#0D0D0D">{{ entrada.titulo }}</h2>
             <p class="mt-2 text-sm text-gray-600 flex-1 line-clamp-5">
               {{ entrada.resumen }}
@@ -34,7 +34,7 @@
               target="_blank"
               rel="noopener noreferrer"
               class="mt-4 inline-flex items-center gap-2 text-sm font-semibold hover:opacity-80"
-              style="color:#79358D"
+              style="color:#D92211"
             >
               Ver fuente
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

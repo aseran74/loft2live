@@ -21,7 +21,7 @@
             <button
               type="button"
               class="px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-80 transition-opacity"
-              style="background-color: #DFDCF2; color: #79358D"
+              style="background-color: #C8D9B0; color: #D92211"
               @click="resetFilters"
             >
               Limpiar filtros
@@ -29,18 +29,18 @@
           </div>
 
           <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div class="rounded-xl border p-4" style="border-color:#DFDCF2">
+            <div class="rounded-xl border p-4" style="border-color:#C8D9B0">
               <label class="block text-xs text-gray-600 mb-2">Localización</label>
               <input
                 v-model="queryLocalizacion"
                 type="text"
                 class="w-full px-3 py-2 rounded-lg border bg-white text-sm"
-                style="border-color:#CFCEF2"
+                style="border-color:#C8D9B0"
                 placeholder="Málaga, Madrid, Valencia…"
               />
             </div>
 
-            <div class="rounded-xl border p-4 lg:col-span-2" style="border-color:#DFDCF2">
+            <div class="rounded-xl border p-4 lg:col-span-2" style="border-color:#C8D9B0">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
                   <div class="text-xs text-gray-600">Precio alquiler mensual</div>
@@ -76,9 +76,9 @@
             </div>
           </div>
 
-          <div class="mt-5 pt-4 border-t flex items-center justify-between" style="border-color: #DFDCF2">
+          <div class="mt-5 pt-4 border-t flex items-center justify-between" style="border-color: #C8D9B0">
             <div class="text-sm text-gray-600">
-              Mostrando <span class="font-bold text-lg" style="color:#79358D">{{ filtered.length }}</span>
+              Mostrando <span class="font-bold text-lg" style="color:#D92211">{{ filtered.length }}</span>
               <span class="text-gray-500"> de {{ alquileres.length }} alquileres disponibles</span>
             </div>
             <div v-if="filtered.length > 0" class="text-xs text-gray-500">
@@ -94,7 +94,7 @@
             <span v-if="mapErrorMessage" class="text-xs text-gray-500">({{ mapErrorMessage }})</span>
           </div>
 
-          <div class="rounded-xl overflow-hidden border" style="border-color:#DFDCF2">
+          <div class="rounded-xl overflow-hidden border" style="border-color:#C8D9B0">
             <div class="relative">
               <div
                 v-show="mapState !== 'ready'"
@@ -109,7 +109,7 @@
                     v-for="p in filtered"
                     :key="p.id"
                     class="text-sm font-semibold hover:opacity-80"
-                    style="color:#79358D"
+                    style="color:#D92211"
                     :href="getMapsOpenUrl(p.localizacion)"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -130,7 +130,7 @@
 
         <!-- Lista -->
         <div v-if="loading" class="text-center py-16">
-          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style="border-color: #79358D"></div>
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style="border-color: #D92211"></div>
           <p class="mt-4 text-gray-600">Cargando alquileres…</p>
         </div>
         <div v-else-if="error" class="bg-red-50 border-2 border-red-200 text-red-700 px-6 py-4 rounded-xl mb-6">
@@ -150,7 +150,7 @@
           <button
             @click="resetFilters"
             class="px-6 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-            style="background-color: #79358D"
+            style="background-color: #D92211"
           >
             Limpiar filtros
           </button>

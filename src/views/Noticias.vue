@@ -10,7 +10,7 @@
               type="button"
               @click="goToList"
               class="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
-              style="color: #79358D"
+              style="color: #D92211"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -25,7 +25,7 @@
             v-if="!isFormView"
             @click="goToNew"
             class="px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-            style="background-color: #79358D"
+            style="background-color: #D92211"
           >
             + Nueva Noticia
           </button>
@@ -41,7 +41,7 @@
             <div class="overflow-x-auto">
               <table class="w-full text-left">
                 <thead>
-                  <tr style="background-color: #F7F7FB; border-bottom: 2px solid #DFDCF2">
+                  <tr style="background-color: #F2F2F2; border-bottom: 2px solid #C8D9B0">
                     <th class="px-4 py-3 text-sm font-semibold" style="color: #0D0D0D">Orden</th>
                     <th class="px-4 py-3 text-sm font-semibold" style="color: #0D0D0D">Título</th>
                     <th class="px-4 py-3 text-sm font-semibold hidden sm:table-cell" style="color: #0D0D0D">Resumen</th>
@@ -66,7 +66,7 @@
                         <router-link
                           :to="`/noticias/${entrada.id}`"
                           class="px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
-                          style="background-color: #DFDCF2; color: #79358D"
+                          style="background-color: #C8D9B0; color: #D92211"
                         >
                           Editar
                         </router-link>
@@ -74,7 +74,7 @@
                           type="button"
                           @click="confirmDelete(entrada)"
                           class="px-3 py-1.5 text-sm font-semibold rounded-lg border transition-colors hover:opacity-90"
-                          style="border-color: #CFCEF2; color: #0D0D0D"
+                          style="border-color: #C8D9B0; color: #0D0D0D"
                         >
                           Eliminar
                         </button>
@@ -103,7 +103,7 @@
                 type="text"
                 required
                 class="w-full px-4 py-3 rounded-lg border-2 bg-white"
-                style="border-color: #CFCEF2; color: #0D0D0D"
+                style="border-color: #C8D9B0; color: #0D0D0D"
                 placeholder="Título de la noticia"
               />
             </div>
@@ -114,7 +114,7 @@
                 required
                 rows="6"
                 class="w-full px-4 py-3 rounded-lg border-2 bg-white resize-y"
-                style="border-color: #CFCEF2; color: #0D0D0D"
+                style="border-color: #C8D9B0; color: #0D0D0D"
                 placeholder="Texto de la noticia / resumen"
               />
             </div>
@@ -124,7 +124,7 @@
                 v-model="form.fuente_url"
                 type="url"
                 class="w-full px-4 py-3 rounded-lg border-2 bg-white"
-                style="border-color: #CFCEF2; color: #0D0D0D"
+                style="border-color: #C8D9B0; color: #0D0D0D"
                 placeholder="https://..."
               />
             </div>
@@ -135,7 +135,7 @@
                 type="number"
                 min="0"
                 class="w-full max-w-32 px-4 py-3 rounded-lg border-2 bg-white"
-                style="border-color: #CFCEF2; color: #0D0D0D"
+                style="border-color: #C8D9B0; color: #0D0D0D"
               />
             </div>
             <div class="flex gap-3">
@@ -143,7 +143,7 @@
                 type="submit"
                 :disabled="saving"
                 class="px-6 py-3 text-white rounded-lg font-semibold transition-colors hover:opacity-90 disabled:opacity-60"
-                style="background-color: #79358D"
+                style="background-color: #D92211"
               >
                 {{ saving ? 'Guardando...' : (editingId ? 'Guardar cambios' : 'Crear noticia') }}
               </button>
@@ -151,7 +151,7 @@
                 type="button"
                 @click="goToList"
                 class="px-6 py-3 rounded-lg font-semibold border-2 transition-colors"
-                style="border-color: #CFCEF2; color: #0D0D0D"
+                style="border-color: #C8D9B0; color: #0D0D0D"
               >
                 Cancelar
               </button>
@@ -177,7 +177,7 @@
             type="button"
             @click="toDelete = null"
             class="px-4 py-2 rounded-lg font-semibold border-2"
-            style="border-color: #CFCEF2; color: #0D0D0D"
+            style="border-color: #C8D9B0; color: #0D0D0D"
           >
             Cancelar
           </button>
@@ -186,7 +186,7 @@
             @click="doDelete"
             :disabled="deleting"
             class="px-4 py-2 rounded-lg font-semibold text-white hover:opacity-90 disabled:opacity-60"
-            style="background-color: #79358D"
+            style="background-color: #D92211"
           >
             {{ deleting ? 'Eliminando...' : 'Eliminar' }}
           </button>

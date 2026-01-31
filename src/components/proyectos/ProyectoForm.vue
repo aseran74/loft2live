@@ -11,7 +11,7 @@
           type="text"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
 
@@ -26,7 +26,7 @@
           step="0.01"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
 
@@ -42,7 +42,7 @@
           required
           autocomplete="off"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
 
@@ -55,7 +55,7 @@
           v-model="formData.permisos"
           rows="3"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 resize-y"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         ></textarea>
       </div>
 
@@ -68,7 +68,7 @@
           v-model="formData.caracteristicas"
           rows="4"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 resize-y"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
           placeholder="Descripción de las características del proyecto..."
         ></textarea>
       </div>
@@ -84,7 +84,7 @@
           min="1"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
 
@@ -99,7 +99,7 @@
           step="0.01"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
 
@@ -110,7 +110,7 @@
             v-model="formData.alquiler"
             type="checkbox"
             class="w-4 h-4 rounded border-gray-300"
-            style="accent-color: #79358D"
+            style="accent-color: #D92211"
           />
           Disponible para alquiler
         </label>
@@ -123,9 +123,22 @@
             v-model="formData.mostrar_en_landing"
             type="checkbox"
             class="w-4 h-4 rounded border-gray-300"
-            style="accent-color: #79358D"
+            style="accent-color: #D92211"
           />
           Mostrar en landing page
+        </label>
+      </div>
+
+      <!-- Consulta vinculante urbanística -->
+      <div>
+        <label class="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
+          <input
+            v-model="formData.consulta_vinculante_urbanistica"
+            type="checkbox"
+            class="w-4 h-4 rounded border-gray-300"
+            style="accent-color: #D92211"
+          />
+          Consulta vinculante urbanística
         </label>
       </div>
 
@@ -140,7 +153,7 @@
           step="0.01"
           min="0"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
 
@@ -154,7 +167,7 @@
           type="number"
           step="0.01"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
 
@@ -167,7 +180,7 @@
           v-model="formData.tipo_inversion"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         >
           <option value="Quarterly Bullet">Quarterly Bullet</option>
           <option value="Monthly">Monthly</option>
@@ -187,7 +200,7 @@
           max="100"
           step="0.01"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
 
@@ -202,7 +215,7 @@
           min="1"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #CFCEF2; focus:ring-color: #79358D"
+          style="border-color: #C8D9B0; focus:ring-color: #D92211"
         />
       </div>
     </div>
@@ -225,7 +238,7 @@
           v-for="(tipo, idx) in unidadTipos"
           :key="idx"
           class="rounded-xl border bg-white p-4"
-          style="border-color:#CFCEF2"
+          style="border-color:#C8D9B0"
         >
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
             <h3 class="text-sm sm:text-base font-semibold" style="color:#0D0D0D">
@@ -243,7 +256,7 @@
                 v-model="tipo.nombre"
                 type="text"
                 class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none"
-                style="border-color:#CFCEF2"
+                style="border-color:#C8D9B0"
                 placeholder="Ej: Estándar / Ático / Terraza"
               />
             </div>
@@ -255,7 +268,7 @@
                 min="0"
                 step="0.01"
                 class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none"
-                style="border-color:#CFCEF2"
+                style="border-color:#C8D9B0"
               />
             </div>
             <div>
@@ -266,7 +279,7 @@
                 min="0"
                 step="0.01"
                 class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none"
-                style="border-color:#CFCEF2"
+                style="border-color:#C8D9B0"
               />
             </div>
           </div>
@@ -276,7 +289,7 @@
               <label class="block text-xs font-medium" style="color:#0D0D0D">Planos (PDF / imagen)</label>
               <label
                 class="inline-flex items-center px-3 py-2 rounded-lg text-xs font-semibold border cursor-pointer hover:opacity-80"
-                style="border-color:#79358D;color:#79358D"
+                style="border-color:#D92211;color:#D92211"
               >
                 + Adjuntar planos
                 <input
@@ -291,10 +304,10 @@
 
             <div v-if="tipo.planos.length > 0 || tipo.nuevosPlanos.length > 0" class="mt-3 space-y-2">
               <!-- existentes -->
-              <div v-for="(p, pIdx) in tipo.planos" :key="`e-${pIdx}`" class="flex items-center justify-between gap-3 rounded-lg border px-3 py-2" style="border-color:#DFDCF2">
+              <div v-for="(p, pIdx) in tipo.planos" :key="`e-${pIdx}`" class="flex items-center justify-between gap-3 rounded-lg border px-3 py-2" style="border-color:#C8D9B0">
                 <a
                   class="text-sm hover:opacity-80"
-                  style="color:#79358D"
+                  style="color:#D92211"
                   :href="getPhotoUrl(p)"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -311,7 +324,7 @@
               </div>
 
               <!-- nuevos -->
-              <div v-for="(f, fIdx) in tipo.nuevosPlanos" :key="`n-${fIdx}`" class="flex items-center justify-between gap-3 rounded-lg border px-3 py-2" style="border-color:#DFDCF2">
+              <div v-for="(f, fIdx) in tipo.nuevosPlanos" :key="`n-${fIdx}`" class="flex items-center justify-between gap-3 rounded-lg border px-3 py-2" style="border-color:#C8D9B0">
                 <span class="text-sm text-gray-800 truncate">{{ f.name }}</span>
                 <button
                   type="button"
@@ -346,7 +359,7 @@
           <button
             type="button"
             class="text-xs px-3 py-1 rounded-lg border hover:opacity-80"
-            style="border-color: #CFCEF2; color: #0D0D0D"
+            style="border-color: #C8D9B0; color: #0D0D0D"
             @click="selectAllAmenities"
           >
             Seleccionar todo
@@ -354,7 +367,7 @@
           <button
             type="button"
             class="text-xs px-3 py-1 rounded-lg border hover:opacity-80"
-            style="border-color: #CFCEF2; color: #0D0D0D"
+            style="border-color: #C8D9B0; color: #0D0D0D"
             @click="clearAmenities"
           >
             Limpiar
@@ -367,7 +380,7 @@
           v-for="group in amenityGroups"
           :key="group.title"
           class="rounded-xl border bg-white p-4"
-          style="border-color: #CFCEF2"
+          style="border-color: #C8D9B0"
         >
           <div class="mb-3">
             <h3 class="text-sm sm:text-base font-semibold" style="color: #0D0D0D">{{ group.title }}</h3>
@@ -379,7 +392,7 @@
               v-for="item in group.items"
               :key="item.key"
               class="flex items-start gap-3 p-3 rounded-lg border cursor-pointer hover:bg-gray-50 transition-colors"
-              style="border-color: #DFDCF2"
+              style="border-color: #C8D9B0"
             >
               <input
                 type="checkbox"
@@ -387,7 +400,7 @@
                 :checked="isAmenitySelected(item.key)"
                 @change="toggleAmenity(item.key)"
               />
-              <span class="mt-0.5 w-5 h-5 shrink-0" style="color: #79358D" v-html="getAmenityIconSvg(item.key)"></span>
+              <span class="mt-0.5 w-5 h-5 shrink-0" style="color: #D92211" v-html="getAmenityIconSvg(item.key)"></span>
               <span class="text-sm text-gray-800 leading-snug">{{ item.label }}</span>
             </label>
           </div>
@@ -413,7 +426,7 @@
           type="button"
           @click="fileInputOficinaActual?.click()"
           class="w-full sm:w-auto px-4 py-2 border-2 border-dashed rounded-lg transition-colors font-medium hover:opacity-70 text-sm sm:text-base"
-          style="border-color: #79358d; color: #79358d"
+          style="border-color: #D92211; color: #D92211"
         >
           + Agregar fotos oficina actual
         </button>
@@ -448,7 +461,7 @@
           type="button"
           @click="fileInputOficinaRemodelada?.click()"
           class="w-full sm:w-auto px-4 py-2 border-2 border-dashed rounded-lg transition-colors font-medium hover:opacity-70 text-sm sm:text-base"
-          style="border-color: #79358d; color: #79358d"
+          style="border-color: #D92211; color: #D92211"
         >
           + Agregar fotos oficina remodelada
         </button>
@@ -483,7 +496,7 @@
           type="button"
           @click="fileInput?.click()"
           class="w-full sm:w-auto px-4 py-2 border-2 border-dashed rounded-lg transition-colors font-medium hover:opacity-70 text-sm sm:text-base"
-          style="border-color: #79358d; color: #79358d"
+          style="border-color: #D92211; color: #D92211"
         >
           + Agregar fotos
         </button>
@@ -501,12 +514,56 @@
       </div>
     </div>
 
+    <!-- Videos del proyecto (URLs o rutas) -->
+    <div class="mt-4 sm:mt-6">
+      <label class="block text-xs sm:text-sm font-medium mb-2 sm:mb-3" style="color: #0D0D0D">
+        Videos del proyecto
+      </label>
+      <p class="text-xs text-gray-500 mb-3">Añade URLs de vídeos (enlace directo .mp4 o ruta en storage) o de YouTube/Vimeo.</p>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <input
+          v-model="newVideoUrl"
+          type="url"
+          placeholder="https://... o ruta del vídeo"
+          class="flex-1 min-w-[200px] px-3 py-2 border rounded-lg text-sm"
+          style="border-color: #C8D9B0"
+          @keydown.enter.prevent="addVideo"
+        />
+        <button
+          type="button"
+          @click="addVideo"
+          class="px-4 py-2 rounded-lg font-medium text-sm transition-colors hover:opacity-70"
+          style="background-color: #D92211; color: white"
+        >
+          + Añadir vídeo
+        </button>
+      </div>
+      <div v-if="formData.videos && formData.videos.length > 0" class="space-y-2">
+        <div
+          v-for="(url, index) in formData.videos"
+          :key="index"
+          class="flex items-center gap-2 py-2 px-3 rounded-lg border text-sm"
+          style="border-color: #C8D9B0; background: #FAFAFA"
+        >
+          <span class="flex-1 truncate text-gray-700" :title="url">{{ url }}</span>
+          <button
+            type="button"
+            @click="removeVideo(index)"
+            class="shrink-0 w-7 h-7 flex items-center justify-center rounded text-red-600 hover:bg-red-50"
+            title="Quitar vídeo"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4">
       <button
         type="button"
         @click="$emit('cancel')"
         class="w-full sm:w-auto px-6 py-2 border-2 rounded-lg transition-colors font-semibold hover:opacity-70"
-        style="border-color: #CFCEF2; color: #0D0D0D"
+        style="border-color: #C8D9B0; color: #0D0D0D"
       >
         Cancelar
       </button>
@@ -514,7 +571,7 @@
         type="submit"
         :disabled="loading"
         class="w-full sm:w-auto px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90 disabled:opacity-50"
-        style="background-color: #79358D"
+        style="background-color: #D92211"
       >
         {{ loading ? 'Guardando...' : (proyecto?.id ? 'Actualizar' : 'Crear') }}
       </button>
@@ -555,6 +612,7 @@ const uploadedPhotosOficinaActual = ref<Array<{ file: File; preview: string }>>(
 const existingPhotosOficinaActual = ref<string[]>([])
 const uploadedPhotosOficinaRemodelada = ref<Array<{ file: File; preview: string }>>([])
 const existingPhotosOficinaRemodelada = ref<string[]>([])
+const newVideoUrl = ref('')
 const uploading = ref(false)
 let placesAutocomplete: any = null
 let placesListener: any = null
@@ -582,10 +640,12 @@ const formData = ref<Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>>({
   alquiler: false,
   precio_alquiler_mes: undefined,
   mostrar_en_landing: false,
+  consulta_vinculante_urbanistica: false,
   caracteristicas: '',
   fotos: [],
   fotos_oficina_actual: [],
   fotos_oficina_remodelada: [],
+  videos: [],
   comodidades: [],
   unidades_tipos: []
 })
@@ -618,10 +678,13 @@ watch(() => props.proyecto, (newProyecto) => {
       monto_restante: newProyecto.monto_restante || 0,
       alquiler: newProyecto.alquiler || false,
       precio_alquiler_mes: newProyecto.precio_alquiler_mes,
+      mostrar_en_landing: newProyecto.mostrar_en_landing || false,
+      consulta_vinculante_urbanistica: newProyecto.consulta_vinculante_urbanistica || false,
       caracteristicas: newProyecto.caracteristicas || '',
       fotos: Array.isArray(newProyecto.fotos) ? newProyecto.fotos : [],
       fotos_oficina_actual: Array.isArray(newProyecto.fotos_oficina_actual) ? newProyecto.fotos_oficina_actual : [],
       fotos_oficina_remodelada: Array.isArray(newProyecto.fotos_oficina_remodelada) ? newProyecto.fotos_oficina_remodelada : [],
+      videos: Array.isArray(newProyecto.videos) ? newProyecto.videos : [],
       comodidades: Array.isArray(newProyecto.comodidades) ? newProyecto.comodidades : [],
       unidades_tipos: Array.isArray(newProyecto.unidades_tipos) ? (newProyecto.unidades_tipos as UnidadTipo[]) : []
     }
@@ -658,10 +721,12 @@ watch(() => props.proyecto, (newProyecto) => {
       alquiler: false,
       precio_alquiler_mes: undefined,
       mostrar_en_landing: false,
+      consulta_vinculante_urbanistica: false,
       caracteristicas: '',
       fotos: [],
       fotos_oficina_actual: [],
       fotos_oficina_remodelada: [],
+      videos: [],
       comodidades: [],
       unidades_tipos: []
     }
@@ -671,6 +736,7 @@ watch(() => props.proyecto, (newProyecto) => {
     uploadedPhotos.value = []
     uploadedPhotosOficinaActual.value = []
     uploadedPhotosOficinaRemodelada.value = []
+    newVideoUrl.value = ''
 
     unidadTipos.value = [
       { nombre: 'Tipo 1', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
@@ -775,6 +841,21 @@ const handleFileSelect = (event: Event) => {
 
 const removePhoto = (index: number) => {
   uploadedPhotos.value.splice(index, 1)
+}
+
+const addVideo = () => {
+  const url = (newVideoUrl.value || '').trim()
+  if (!url) return
+  const list = Array.isArray(formData.value.videos) ? [...formData.value.videos] : []
+  list.push(url)
+  formData.value.videos = list
+  newVideoUrl.value = ''
+}
+
+const removeVideo = (index: number) => {
+  const list = Array.isArray(formData.value.videos) ? [...formData.value.videos] : []
+  list.splice(index, 1)
+  formData.value.videos = list
 }
 
 const removeExistingPhoto = (index: number) => {

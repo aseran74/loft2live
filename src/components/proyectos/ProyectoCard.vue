@@ -9,7 +9,7 @@
         loading="lazy"
       />
       <div class="absolute top-3 left-3 flex items-center gap-2">
-        <span class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style="background-color: rgba(121, 53, 141, 0.9); backdrop-filter: blur(4px)">
+        <span class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style="background: linear-gradient(135deg, #C8D9B0, #2793F2); backdrop-filter: blur(4px)">
           Activo
         </span>
         <span class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style="background-color: rgba(13, 13, 13, 0.7); backdrop-filter: blur(4px)">
@@ -34,16 +34,16 @@
       </h3>
 
       <!-- Información destacada -->
-      <div class="grid grid-cols-2 gap-3 mb-5 p-4 rounded-xl" style="background-color: #F7F6FB">
+      <div class="grid grid-cols-2 gap-3 mb-5 p-4 rounded-xl" style="background-color: rgba(200, 216, 175, 0.3)">
         <div>
           <div class="text-xs text-gray-600 mb-1">Objetivo inversión</div>
-          <div class="text-lg font-bold" style="color: #79358D">
+          <div class="text-lg font-bold" style="color: #2793F2">
             {{ formatCurrency(proyecto.objetivo_inversion_total) }}
           </div>
         </div>
         <div>
           <div class="text-xs text-gray-600 mb-1">Precio por unidad</div>
-          <div class="text-lg font-bold" style="color: #79358D">
+          <div class="text-lg font-bold" style="color: #2793F2">
             {{ formatCurrency(proyecto.precio_unidad) }}
           </div>
         </div>
@@ -51,26 +51,26 @@
 
       <div class="space-y-2.5 mb-5">
         <div class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 flex-shrink-0" style="color: #79358D" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: #2793F2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
           <span class="text-gray-700">{{ proyecto.localizacion }}</span>
         </div>
         <div class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 flex-shrink-0" style="color: #79358D" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: #2793F2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           <span class="text-gray-700">{{ proyecto.num_lofts }} lofts</span>
         </div>
         <div class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 flex-shrink-0" style="color: #79358D" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: #2793F2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
           <span class="text-gray-700">{{ proyecto.tipo_inversion }}</span>
         </div>
         <div v-if="proyecto.alquiler && proyecto.precio_alquiler_mes" class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 flex-shrink-0" style="color: #79358D" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: #2793F2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           <span class="text-gray-700">También disponible para alquiler: {{ formatCurrency(proyecto.precio_alquiler_mes) }}/mes</span>
@@ -81,27 +81,27 @@
       <div class="mb-5">
         <div class="flex justify-between text-sm mb-2" style="color: #0D0D0D">
           <span class="font-medium">{{ formatCurrency(proyecto.monto_restante || 0) }} restantes</span>
-          <span class="font-bold" style="color: #79358D">{{ proyecto.porcentaje_llegado }}%</span>
+          <span class="font-bold" style="color: #2793F2">{{ proyecto.porcentaje_llegado }}%</span>
         </div>
-        <div class="w-full rounded-full h-3 overflow-hidden" style="background-color: #DFDCF2">
+        <div class="w-full rounded-full h-3 overflow-hidden" style="background-color: #C8D9B0">
           <div 
             class="h-full rounded-full transition-all duration-500" 
-            :style="`width: ${proyecto.porcentaje_llegado}%; background: linear-gradient(90deg, #79358d 0%, #9d5fb3 100%)`"
+            :style="`width: ${proyecto.porcentaje_llegado}%; background: linear-gradient(90deg, #C8D9B0 0%, #2793F2 100%)`"
           ></div>
         </div>
       </div>
 
-      <div class="flex gap-3 pt-4 border-t" style="border-color: #DFDCF2">
+      <div class="flex gap-3 pt-4 border-t" style="border-color: #C8D9B0">
         <button 
           class="flex-1 px-5 py-3 text-white rounded-lg transition-all font-semibold hover:opacity-90 hover:shadow-lg" 
-          style="background-color: #79358D"
+          style="background: linear-gradient(135deg, #C8D9B0, #2793F2)"
           @click="$emit('invertir', proyecto)"
         >
           Invertir ahora
         </button>
         <button 
           class="px-5 py-3 border-2 rounded-lg transition-all font-semibold hover:opacity-70 hover:shadow-md" 
-          style="border-color: #CFCEF2; color: #0D0D0D"
+          style="border-color: #C8D9B0; color: #0D0D0D"
           @click="$emit('ver-detalles', proyecto)"
         >
           Ver detalles

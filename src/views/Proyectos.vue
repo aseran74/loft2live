@@ -10,7 +10,7 @@
           <button
             @click="showForm = true; selectedProyecto = undefined"
             class="px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-            style="background-color: #79358D"
+            style="background-color: #D92211"
           >
             + Nuevo Proyecto
           </button>
@@ -24,7 +24,7 @@
               <button
                 type="button"
                 class="text-sm font-semibold hover:opacity-80"
-                style="color:#79358D"
+                style="color:#D92211"
                 @click="resetFilters"
               >
                 Limpiar filtros
@@ -32,7 +32,7 @@
             </div>
 
             <!-- Precio por loft (pantalla completa) -->
-            <div class="mt-4 rounded-2xl border p-5" style="border-color:#DFDCF2">
+            <div class="mt-4 rounded-2xl border p-5" style="border-color:#C8D9B0">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
                   <h3 class="text-base font-bold" style="color:#0D0D0D">Precio por loft</h3>
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                  <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:#F7F7FB; color:#0D0D0D; border:1px solid #DFDCF2">
+                  <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:#F2F2F2; color:#0D0D0D; border:1px solid #C8D9B0">
                     {{ formatCurrency(precioMinValue) }} – {{ formatCurrency(precioMaxValue) }}
                   </span>
                 </div>
@@ -91,7 +91,7 @@
               <span v-if="mapErrorMessage" class="text-xs text-gray-500">({{ mapErrorMessage }})</span>
             </div>
 
-            <div class="rounded-xl overflow-hidden border" style="border-color:#DFDCF2">
+            <div class="rounded-xl overflow-hidden border" style="border-color:#C8D9B0">
               <div class="relative">
                 <!-- Fallback: lista de enlaces -->
                 <div
@@ -107,7 +107,7 @@
                       v-for="p in filteredProyectos"
                       :key="p.id"
                       class="text-sm font-semibold hover:opacity-80"
-                      style="color:#79358D"
+                      style="color:#D92211"
                       :href="getMapsOpenUrl(p.localizacion)"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -184,14 +184,14 @@
         >
           <div class="p-5">
             <div class="flex items-center justify-between mb-4">
-              <span class="px-3 py-1 rounded-full text-sm font-semibold" style="background-color: #DFDCF2; color: #79358d">
+              <span class="px-3 py-1 rounded-full text-sm font-semibold" style="background-color: #C8D9B0; color: #D92211">
                 Activo
               </span>
               <div class="flex gap-2">
                 <button
                   @click="editProyecto(proyecto)"
                   class="text-sm px-3 py-1 rounded transition-colors"
-                  style="background-color: #CFCEF2; color: #0D0D0D"
+                  style="background-color: #C8D9B0; color: #0D0D0D"
                 >
                   Editar
                 </button>
@@ -245,10 +245,10 @@
                 <span>{{ formatCurrency(proyecto.monto_restante || 0) }} restantes</span>
                 <span>{{ proyecto.porcentaje_llegado }}%</span>
               </div>
-              <div class="w-full rounded-full h-2" style="background-color: #DFDCF2">
+              <div class="w-full rounded-full h-2" style="background-color: #C8D9B0">
                 <div
                   class="h-2 rounded-full"
-                  :style="`width: ${proyecto.porcentaje_llegado}%; background-color: #79358D`"
+                  :style="`width: ${proyecto.porcentaje_llegado}%; background-color: #D92211`"
                 ></div>
               </div>
             </div>
@@ -256,7 +256,7 @@
             <button
               @click="viewDetails(proyecto)"
               class="w-full px-4 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-              style="background-color: #79358D"
+              style="background-color: #D92211"
             >
               Ver detalles
             </button>

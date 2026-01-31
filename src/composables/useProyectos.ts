@@ -117,6 +117,11 @@ export function useProyectos() {
           ? updateData.fotos_oficina_remodelada
           : updateData.fotos_oficina_remodelada === null || updateData.fotos_oficina_remodelada === '' ? [] : [updateData.fotos_oficina_remodelada]
       }
+      if (updateData.videos !== undefined) {
+        updateData.videos = Array.isArray(updateData.videos)
+          ? updateData.videos
+          : updateData.videos === null || updateData.videos === '' ? [] : [updateData.videos]
+      }
 
       // Asegurar que comodidades sea un array válido
       if (updateData.comodidades !== undefined) {

@@ -21,7 +21,7 @@
             <button
               type="button"
               class="px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-80 transition-opacity"
-              style="background-color: #DFDCF2; color: #79358D"
+              style="background-color: #C8D9B0; color: #D92211"
               @click="resetFilters"
             >
               Limpiar filtros
@@ -29,18 +29,18 @@
           </div>
 
           <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div class="rounded-xl border p-4" style="border-color:#DFDCF2">
+            <div class="rounded-xl border p-4" style="border-color:#C8D9B0">
               <label class="block text-xs text-gray-600 mb-2">Localización</label>
               <input
                 v-model="queryLocalizacion"
                 type="text"
                 class="w-full px-3 py-2 rounded-lg border bg-white text-sm"
-                style="border-color:#CFCEF2"
+                style="border-color:#C8D9B0"
                 placeholder="Málaga, Madrid, Valencia…"
               />
             </div>
 
-            <div class="rounded-xl border p-4 lg:col-span-2" style="border-color:#DFDCF2">
+            <div class="rounded-xl border p-4 lg:col-span-2" style="border-color:#C8D9B0">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
                   <div class="text-xs text-gray-600">Precio por loft</div>
@@ -76,9 +76,9 @@
             </div>
           </div>
 
-          <div class="mt-5 pt-4 border-t flex items-center justify-between" style="border-color: #DFDCF2">
+          <div class="mt-5 pt-4 border-t flex items-center justify-between" style="border-color: #C8D9B0">
             <div class="text-sm text-gray-600">
-              Mostrando <span class="font-bold text-lg" style="color:#79358D">{{ filtered.length }}</span>
+              Mostrando <span class="font-bold text-lg" style="color:#D92211">{{ filtered.length }}</span>
               <span class="text-gray-500"> de {{ proyectos.length }} oportunidades disponibles</span>
             </div>
             <div v-if="filtered.length > 0" class="text-xs text-gray-500">
@@ -94,7 +94,7 @@
             <span v-if="mapErrorMessage" class="text-xs text-gray-500">({{ mapErrorMessage }})</span>
           </div>
 
-          <div class="rounded-xl overflow-hidden border" style="border-color:#DFDCF2">
+          <div class="rounded-xl overflow-hidden border" style="border-color:#C8D9B0">
             <div class="relative">
               <div
                 v-show="mapState !== 'ready'"
@@ -109,7 +109,7 @@
                     v-for="p in filtered"
                     :key="p.id"
                     class="text-sm font-semibold hover:opacity-80"
-                    style="color:#79358D"
+                    style="color:#D92211"
                     :href="getMapsOpenUrl(p.localizacion)"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -130,7 +130,7 @@
 
         <!-- Lista -->
         <div v-if="loading" class="text-center py-16">
-          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style="border-color: #79358D"></div>
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style="border-color: #D92211"></div>
           <p class="mt-4 text-gray-600">Cargando inversiones…</p>
         </div>
         <div v-else-if="error" class="bg-red-50 border-2 border-red-200 text-red-700 px-6 py-4 rounded-xl mb-6">
@@ -150,7 +150,7 @@
           <button
             @click="resetFilters"
             class="px-6 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-            style="background-color: #79358D"
+            style="background-color: #D92211"
           >
             Limpiar filtros
           </button>
@@ -178,7 +178,7 @@
               <button
                 type="button"
                 class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90"
-                style="background-color:#79358D"
+                style="background-color:#D92211"
                 @click="goSignin"
               >
                 Iniciar sesión
@@ -186,7 +186,7 @@
             </div>
 
             <div class="mt-6 space-y-3">
-              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
+              <details class="rounded-xl border p-4" style="border-color:#C8D9B0">
                 <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Cómo invierto en un proyecto?</summary>
                 <p class="mt-2 text-sm text-gray-600">
                   Selecciona una oportunidad, revisa el detalle y pulsa “Iniciar sesión para invertir”. Si ya estás autenticado,
@@ -194,21 +194,21 @@
                 </p>
               </details>
 
-              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
+              <details class="rounded-xl border p-4" style="border-color:#C8D9B0">
                 <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Qué significa “precio por loft”?</summary>
                 <p class="mt-2 text-sm text-gray-600">
                   Es el importe orientativo por unidad/loft. En algunos proyectos hay tipos de unidad con precios diferentes (planos incluidos).
                 </p>
               </details>
 
-              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
+              <details class="rounded-xl border p-4" style="border-color:#C8D9B0">
                 <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Qué ventajas fiscales puedo simular?</summary>
                 <p class="mt-2 text-sm text-gray-600">
                   En el detalle del proyecto puedes abrir el “Simulador desgravación (Ley Startups)” y ver un cálculo orientativo por años.
                 </p>
               </details>
 
-              <details class="rounded-xl border p-4" style="border-color:#DFDCF2">
+              <details class="rounded-xl border p-4" style="border-color:#C8D9B0">
                 <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Los proyectos se actualizan en tiempo real?</summary>
                 <p class="mt-2 text-sm text-gray-600">
                   Sí. La lista y el detalle se alimentan de los datos del proyecto publicados en Supabase (y se reflejan en la landing/inversiones).

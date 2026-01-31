@@ -31,38 +31,38 @@
               v-if="busquedaDropdownOpen"
               class="absolute top-full left-0 mt-2 w-48 rounded-xl border border-gray-200 bg-white shadow-xl py-2 z-50"
             >
-              <router-link
-                to="/inversiones"
-                class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 transition-colors"
-                @click="closeBusquedaDropdown"
-              >
-                Compra
-              </router-link>
-              <router-link
-                to="/alquileres"
-                class="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 transition-colors"
-                @click="closeBusquedaDropdown"
-              >
-                Alquiler
-              </router-link>
+          <router-link
+            to="/inversiones"
+            class="block px-4 py-2 text-sm transition-colors dropdown-nav-link"
+            @click="closeBusquedaDropdown"
+          >
+            Compra
+          </router-link>
+          <router-link
+            to="/alquileres"
+            class="block px-4 py-2 text-sm transition-colors dropdown-nav-link"
+            @click="closeBusquedaDropdown"
+          >
+            Alquiler
+          </router-link>
             </div>
           </div>
-          <router-link to="/inversiones#preguntas" class="inline-flex items-center gap-2 transition-colors font-medium text-gray-900 hover:opacity-70">
-            <svg class="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <router-link to="/inversiones#preguntas" class="inline-flex items-center gap-2 transition-colors font-medium nav-link-blue">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9a4 4 0 1 1 7.5 2c-.9.8-1.5 1.3-1.5 2.5V14" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 17h.01" />
             </svg>
             <span>Preguntas frecuentes</span>
           </router-link>
-          <router-link to="/quienes-somos" class="inline-flex items-center gap-2 transition-colors font-medium text-gray-900 hover:opacity-70">
-            <svg class="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <router-link to="/quienes-somos" class="inline-flex items-center gap-2 transition-colors font-medium nav-link-blue">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 20a8 8 0 0 1 16 0" />
             </svg>
             <span>Quiénes somos</span>
           </router-link>
-          <router-link to="/blog" class="inline-flex items-center gap-2 transition-colors font-medium text-gray-900 hover:opacity-70">
-            <svg class="w-4 h-4 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <router-link to="/blog" class="inline-flex items-center gap-2 transition-colors font-medium nav-link-blue">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 0-2 2V4z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16" />
             </svg>
@@ -84,7 +84,7 @@
             v-if="!isAuthenticated"
             to="/signin"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition-opacity"
-            style="background-color:#79358D"
+            style="background-color: #2793F2"
           >
             <!-- Icono Google -->
             <svg class="w-4 h-4" viewBox="0 0 48 48" aria-hidden="true">
@@ -109,7 +109,7 @@
                   alt="Usuario"
                   class="h-9 w-9 object-cover"
                 />
-                <div v-else class="h-9 w-9 flex items-center justify-center text-xs font-bold" style="color:#79358D">
+                <div v-else class="h-9 w-9 flex items-center justify-center text-xs font-bold" style="color:#2793F2">
                   {{ userInitials }}
                 </div>
               </span>
@@ -231,7 +231,7 @@
             v-if="!isAuthenticated"
             to="/signin"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white"
-            style="background-color:#79358D"
+            style="background-color: #2793F2"
             @click="mobileMenuOpen = false"
           >
             <svg class="w-4 h-4" viewBox="0 0 48 48" aria-hidden="true">
@@ -342,3 +342,19 @@ onUnmounted(() => {
   document.removeEventListener('click', onClickOutside)
 })
 </script>
+
+<style scoped>
+.nav-link-blue {
+  color: #0D0D0D;
+}
+.nav-link-blue:hover {
+  color: #2793F2;
+}
+.dropdown-nav-link {
+  color: #0D0D0D;
+}
+.dropdown-nav-link:hover {
+  color: #2793F2;
+  background-color: rgba(39, 147, 242, 0.1);
+}
+</style>

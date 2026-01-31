@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-2xl border bg-white p-4 sm:p-6" style="border-color: #CFCEF2">
+  <div class="rounded-2xl border bg-white p-4 sm:p-6" style="border-color: #C8D9B0">
     <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h2 class="text-2xl font-bold" style="color: #0D0D0D">Simulador desgravación (Ley Startups)</h2>
@@ -11,7 +11,7 @@
         <button
           type="button"
           class="px-3 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-          style="background-color: #79358D"
+          style="background-color: #D92211"
           @click="applyPreset(years)"
         >
           Reparto automático
@@ -19,7 +19,7 @@
         <button
           type="button"
           class="px-3 py-2 rounded-lg text-sm font-semibold border hover:opacity-80"
-          style="border-color: #CFCEF2; color: #0D0D0D"
+          style="border-color: #C8D9B0; color: #0D0D0D"
           @click="mode = 'custom'"
         >
           Personalizar
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Descripción breve -->
-    <div class="mt-5 rounded-xl border p-4" style="border-color:#DFDCF2; background:#F7F7FB">
+    <div class="mt-5 rounded-xl border p-4" style="border-color:#C8D9B0; background:#F2F2F2">
       <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
         <div>
           <p class="text-sm font-semibold" style="color:#0D0D0D">📌 Ley Startups España</p>
@@ -43,7 +43,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-          style="background-color:#79358D"
+          style="background-color:#D92211"
         >
           Ver guía (N26)
         </a>
@@ -62,7 +62,7 @@
           min="0"
           step="0.01"
           class="w-full px-3 py-2 rounded-lg border focus:outline-none"
-          style="border-color: #CFCEF2"
+          style="border-color: #C8D9B0"
         />
         <p class="text-xs text-gray-500 mt-1">Sugerido desde el proyecto (precio/unidad).</p>
       </div>
@@ -75,7 +75,7 @@
             :key="y"
             type="button"
             class="px-2 py-2 rounded-lg text-sm font-semibold border"
-            :style="years === y ? 'border-color:#79358D;color:#79358D;background:#DFDCF2' : 'border-color:#CFCEF2;color:#0D0D0D;background:#fff'"
+            :style="years === y ? 'border-color:#D92211;color:#D92211;background:#C8D9B0' : 'border-color:#C8D9B0;color:#0D0D0D;background:#fff'"
             @click="setYears(y)"
           >
             {{ y }}
@@ -86,7 +86,7 @@
           <select
             v-model="mode"
             class="px-3 py-2 rounded-lg border text-sm bg-white"
-            style="border-color: #CFCEF2"
+            style="border-color: #C8D9B0"
           >
             <option value="preset">Automático</option>
             <option value="custom">Personalizado</option>
@@ -106,7 +106,7 @@
               max="100"
               step="0.01"
               class="w-full px-3 py-2 rounded-lg border focus:outline-none"
-              style="border-color: #CFCEF2"
+              style="border-color: #C8D9B0"
             />
           </div>
           <div>
@@ -117,7 +117,7 @@
               min="0"
               step="0.01"
               class="w-full px-3 py-2 rounded-lg border focus:outline-none"
-              style="border-color: #CFCEF2"
+              style="border-color: #C8D9B0"
             />
           </div>
         </div>
@@ -155,7 +155,7 @@
     </div>
 
     <!-- Recomendación automática (según IRPF anual) -->
-    <div class="mt-5 rounded-xl border p-4" style="border-color:#DFDCF2; background:#F7F7FB">
+    <div class="mt-5 rounded-xl border p-4" style="border-color:#C8D9B0; background:#F2F2F2">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h3 class="text-base font-semibold" style="color:#0D0D0D">Recomendación automática</h3>
@@ -167,7 +167,7 @@
         <button
           type="button"
           class="px-4 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-          style="background-color:#79358D"
+          style="background-color:#D92211"
           @click="applyRecommendation()"
         >
           Aplicar recomendación
@@ -175,15 +175,15 @@
       </div>
 
       <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div class="rounded-xl bg-white p-4 border" style="border-color:#DFDCF2">
+        <div class="rounded-xl bg-white p-4 border" style="border-color:#C8D9B0">
           <p class="text-xs text-gray-600">Deducción aprovechable (total)</p>
-          <p class="text-2xl font-bold" style="color:#79358D">{{ formatCurrency(recommended.totalUsedDeduction) }}</p>
+          <p class="text-2xl font-bold" style="color:#D92211">{{ formatCurrency(recommended.totalUsedDeduction) }}</p>
         </div>
-        <div class="rounded-xl bg-white p-4 border" style="border-color:#DFDCF2">
+        <div class="rounded-xl bg-white p-4 border" style="border-color:#C8D9B0">
           <p class="text-xs text-gray-600">Máx. deducción/año por tope</p>
           <p class="text-2xl font-bold" style="color:#0D0D0D">{{ formatCurrency(maxDeductionPerYearByCap) }}</p>
         </div>
-        <div class="rounded-xl bg-white p-4 border" style="border-color:#DFDCF2">
+        <div class="rounded-xl bg-white p-4 border" style="border-color:#C8D9B0">
           <p class="text-xs text-gray-600">Máx. deducción/año por IRPF</p>
           <p class="text-2xl font-bold" style="color:#0D0D0D">{{ formatCurrency(irpfAnnual) }}</p>
         </div>
@@ -210,7 +210,7 @@
           v-for="row in rows"
           :key="row.year"
           class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center rounded-xl border p-3"
-          style="border-color:#DFDCF2"
+          style="border-color:#C8D9B0"
         >
           <div class="md:col-span-2 text-sm font-semibold" style="color:#0D0D0D">Año {{ row.year }}</div>
 
@@ -223,7 +223,7 @@
               step="0.01"
               :disabled="mode === 'preset'"
               class="w-full px-3 py-2 rounded-lg border focus:outline-none disabled:opacity-70"
-              style="border-color:#CFCEF2"
+              style="border-color:#C8D9B0"
               @input="normalizeCustom()"
             />
           </div>
@@ -240,7 +240,7 @@
 
           <div class="md:col-span-3">
             <label class="block text-[11px] text-gray-500 mb-1">Deducción ({{ deductionRatePercent }}%)</label>
-            <div class="text-sm font-bold" style="color:#79358D">
+            <div class="text-sm font-bold" style="color:#D92211">
               {{ formatCurrency(row.deduction) }}
             </div>
           </div>
@@ -250,7 +250,7 @@
       <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div class="rounded-xl bg-gray-50 p-4">
           <p class="text-xs text-gray-600">Deducción total</p>
-          <p class="text-2xl font-bold" style="color:#79358D">{{ formatCurrency(totalDeduction) }}</p>
+          <p class="text-2xl font-bold" style="color:#D92211">{{ formatCurrency(totalDeduction) }}</p>
         </div>
         <div class="rounded-xl bg-gray-50 p-4">
           <p class="text-xs text-gray-600">Base total deducible</p>

@@ -29,12 +29,12 @@
       <!-- Precio destacado -->
       <div class="mb-4">
         <div class="flex items-baseline gap-2 mb-1">
-          <span class="text-3xl font-bold" style="color: #79358D">
+          <span class="text-3xl font-bold" style="color: #D92211">
             {{ formatCurrency(proyecto.precio_alquiler_mes || 0) }}
           </span>
           <span class="text-sm text-gray-600">/mes</span>
         </div>
-        <p class="text-sm font-semibold" style="color: #79358D">
+        <p class="text-sm font-semibold" style="color: #D92211">
           Precio flexliving todo incluido
         </p>
       </div>
@@ -45,14 +45,14 @@
 
       <div class="space-y-2 mb-5">
         <div class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 flex-shrink-0" style="color: #79358D" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: #D92211" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
           <span class="text-gray-700">{{ proyecto.localizacion }}</span>
         </div>
         <div class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 flex-shrink-0" style="color: #79358D" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 flex-shrink-0" style="color: #D92211" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           <span class="text-gray-700">{{ proyecto.num_lofts }} lofts disponibles</span>
@@ -62,7 +62,7 @@
       <!-- Amenidades mejoradas -->
       <div v-if="proyecto.comodidades && proyecto.comodidades.length > 0" class="mb-6">
         <h4 class="text-sm font-bold mb-3 flex items-center gap-2" style="color: #0D0D0D">
-          <svg class="w-4 h-4" style="color: #79358D" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" style="color: #D92211" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
           </svg>
           Amenidades ({{ proyecto.comodidades.length }})
@@ -74,30 +74,30 @@
             class="flex items-center gap-2 p-2 rounded-lg text-xs"
             style="background-color: #F7F6FB"
           >
-            <span class="w-4 h-4 flex-shrink-0" style="color: #79358D" v-html="getAmenityIconSvg(amenidad)"></span>
+            <span class="w-4 h-4 flex-shrink-0" style="color: #D92211" v-html="getAmenityIconSvg(amenidad)"></span>
             <span class="text-gray-700 truncate">{{ getAmenityLabel(amenidad) }}</span>
           </div>
           <div
             v-if="proyecto.comodidades.length > maxAmenities"
             class="flex items-center gap-2 p-2 rounded-lg text-xs font-semibold"
-            style="background-color: #DFDCF2; color: #79358D"
+            style="background-color: #C8D9B0; color: #D92211"
           >
             <span>+{{ proyecto.comodidades.length - maxAmenities }} más</span>
           </div>
         </div>
       </div>
 
-      <div class="flex gap-3 pt-4 border-t" style="border-color: #DFDCF2">
+      <div class="flex gap-3 pt-4 border-t" style="border-color: #C8D9B0">
         <button 
           class="flex-1 px-5 py-3 text-white rounded-lg transition-all font-semibold hover:opacity-90 hover:shadow-lg" 
-          style="background-color: #79358D"
+          style="background-color: #D92211"
           @click="$emit('alquilar', proyecto)"
         >
           Alquilar ahora
         </button>
         <button 
           class="px-5 py-3 border-2 rounded-lg transition-all font-semibold hover:opacity-70 hover:shadow-md" 
-          style="border-color: #CFCEF2; color: #0D0D0D"
+          style="border-color: #C8D9B0; color: #0D0D0D"
           @click="$emit('ver-detalles', proyecto)"
         >
           Ver detalles
