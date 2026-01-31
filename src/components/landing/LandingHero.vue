@@ -70,7 +70,7 @@ onUnmounted(() => {
       <video
         v-show="!videoEnded"
         class="hero-media hero-video"
-        src="/images/HEro2/Video3.mp4"
+        src="/images/HEro2/Video4.mp4"
         autoplay
         muted
         playsinline
