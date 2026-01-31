@@ -1,213 +1,201 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
+import { ref, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger)
 
-let ctx: gsap.Context | undefined;
+const wrapperRef = ref<HTMLElement | null>(null)
+const videoEnded = ref(false)
+const scrollProgress = ref(0)
+
+// Frames HEro2: 000-019, 022-046 (sin 020, 021)
+const HERO2_BASE = '/images/HEro2/Whisk_q2yjfgzhndo2ejyj1imxuwotyty5qtl1qtmx0sy_'
+const HERO2_FRAME_NUMBERS: number[] = []
+for (let i = 0; i <= 19; i++) HERO2_FRAME_NUMBERS.push(i)
+for (let i = 22; i <= 46; i++) HERO2_FRAME_NUMBERS.push(i)
+
+const hero2FrameUrls = HERO2_FRAME_NUMBERS.map(
+  (n) => `${HERO2_BASE}${String(n).padStart(3, '0')}.webp`
+)
+
+const currentFrameUrl = ref(hero2FrameUrls[0])
+// Opacidad del texto: aparece al hacer scroll tras el video
+const textOpacity = ref(0)
+
+let ctx: gsap.Context | undefined
+
+function onVideoEnded() {
+  videoEnded.value = true
+}
 
 onMounted(() => {
-  console.clear();
-  
+  // En móvil/tablet no hay video; permitir frames al hacer scroll desde el inicio
+  if (typeof window !== 'undefined' && window.innerWidth < 1025) {
+    videoEnded.value = true
+  }
+
   ctx = gsap.context(() => {
-      gsap.timeline({
-        scrollTrigger: {
-            trigger: ".wrapper",
-            start: "top top",
-            end: "+=150%",
-            pin: true,
-            scrub: true,
-            markers: false
+    if (!wrapperRef.value) return
+
+    ScrollTrigger.create({
+      trigger: wrapperRef.value,
+      start: 'top top',
+      end: '+=250%',
+      pin: true,
+      scrub: true,
+      onUpdate: (self) => {
+        scrollProgress.value = self.progress
+        const progress = self.progress
+        if (videoEnded.value) {
+          const frameIndex = Math.min(
+            Math.floor(progress * hero2FrameUrls.length),
+            hero2FrameUrls.length - 1
+          )
+          currentFrameUrl.value = hero2FrameUrls[frameIndex]
+          const textProgress = Math.max(0, (progress - 0.25) / 0.4)
+          textOpacity.value = Math.min(1, textProgress)
         }
-      })
-      .to(".image-container img", {
-        scale: 5,
-        opacity: 0,
-        z: 350,
-        transformOrigin: "center center",
-        ease: "power1.inOut"
-      })
-      .to(".section.hero", {
-        scale: 1.1,
-        transformOrigin: "center center",
-        ease: "power1.inOut"
-      }, "<")
-      .to(".hero-logo-fixed-container", {
-        opacity: 0,
-        scale: 1.5,
-        ease: "power1.inOut"
-      }, "-=0.5");
-  });
-});
+      }
+    })
+  })
+})
 
 onUnmounted(() => {
-  if (ctx) ctx.revert();
-});
+  if (ctx) ctx.revert()
+})
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="hero-logo-fixed-container">
-      <img src="/images/Logoblanco3.png" alt="Loft2live" class="hero-logo" />
-    </div>
+  <div ref="wrapperRef" class="wrapper">
+    <!-- Contenido fijo en viewport: video o frames + texto -->
+    <div class="hero-viewport">
+      <!-- Video: solo hasta que termine (escritorio) -->
+      <video
+        v-show="!videoEnded"
+        class="hero-media hero-video"
+        src="/images/Videodefi.mp4"
+        autoplay
+        muted
+        playsinline
+        aria-label="Vídeo hero"
+        @ended="onVideoEnded"
+      />
+      <!-- Imagen estática: móvil/tablet (no hay frames en esos tamaños por ahora, o podemos ocultar frames) -->
+      <img
+        v-show="!videoEnded"
+        src="/images/interiordefi.png"
+        alt=""
+        class="hero-media hero-image-desktop"
+      />
+      <img
+        v-show="!videoEnded"
+        src="/images/interiormovil2.png"
+        alt=""
+        class="hero-media hero-image-mobile-tablet"
+      />
 
-    <div class="content">
-      <section class="section hero" :style="{ backgroundImage: `url(/images/Ciudadnoche.png)` }">
-        <div class="hero-text">
-          <p class="hero-subtitle">Ha llegado la revolución al Flexliving</p>
-        </div>
-      </section>
-    </div>
-
-    <div class="image-container">
-      <img src="/images/interiordefi.png" alt="interior" class="hero-image hero-image-desktop">
-      <img src="/images/Interiormovil.png" alt="interior" class="hero-image hero-image-mobile">
+      <!-- Tras el video: frames HEro2 + texto en el mismo hero -->
+      <template v-if="videoEnded">
+        <img
+          :src="currentFrameUrl"
+          alt=""
+          class="hero-media hero-frame"
+          loading="eager"
+        />
+        <p
+          class="hero-subtitle"
+          :style="{ opacity: textOpacity }"
+        >
+          Ha llegado la revolución al Flexliving
+        </p>
+      </template>
     </div>
   </div>
 </template>
 
-<style>
-.wrapper,
-.content {
+<style scoped>
+.wrapper {
   position: relative;
-  width: 100%;
-  z-index: 1;
-}
-
-.content {
-  overflow-x: hidden;
-}
-
-.content .section {
   width: 100%;
   height: 100vh;
 }
 
-.content .section.hero {
-  /* background-image set inline */
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.hero-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 3;
-  padding-bottom: 4rem;
-}
-
-/* Contenedor fijo del logo: subido, sin animación */
-.hero-logo-fixed-container {
-  position: absolute;
-  top: 22%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  pointer-events: none;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-logo {
-  max-width: clamp(312px, 78vw, 936px);
-  width: auto;
-  height: auto;
-  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.5));
-}
-
-.hero-text {
-  position: relative;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 70rem;
-  text-align: center;
-  color: white;
-  font-family: 'Outfit', sans-serif;
-  padding: 0 2rem;
-}
-
-.hero-subtitle {
-  font-size: clamp(2.5rem, 8vw, 4.9rem); /* ~50% del tamaño anterior */
-  font-weight: 500;
-  margin-top: 8rem;
-  text-align: center;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-  line-height: 1.1;
-  max-width: 90%;
-}
-
-/* Tablet: logo centrado de forma explícita */
-@media (min-width: 641px) and (max-width: 1024px) {
-  .hero-logo-fixed-container {
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    transform: translateY(-50%);
-    width: 100%;
-    max-width: 100%;
-  }
-}
-
-/* Móvil: subtítulo centrado */
-@media (max-width: 640px) {
-  .hero-text {
-    padding: 0 1.5rem;
-  }
-
-  .hero-subtitle {
-    font-size: clamp(1.75rem, 9vw, 3.5rem); /* ~50% del tamaño anterior */
-    line-height: 1.15;
-    margin-top: 6rem;
-    text-align: center;
-  }
-
-  .hero-logo-fixed-container {
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    transform: translateY(-50%);
-  }
-}
-
-.image-container {
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  perspective: 500px;
   overflow: hidden;
 }
 
-.hero-image {
+.hero-media {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
 }
 
-/* Escritorio/tablet: solo imagen principal */
-.hero-image-mobile {
+.hero-video {
   display: none;
 }
 
-/* Móvil: Interiormovil.png */
+@media (min-width: 1025px) {
+  .hero-video {
+    display: block;
+  }
+  .hero-image-desktop {
+    display: none;
+  }
+}
+
+.hero-image-mobile-tablet {
+  display: none;
+}
+
 @media (max-width: 640px) {
   .hero-image-desktop {
     display: none;
   }
-  .hero-image-mobile {
+  .hero-image-mobile-tablet {
     display: block;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) and (orientation: landscape) {
+  .hero-image-desktop {
+    display: none;
+  }
+  .hero-image-mobile-tablet {
+    display: block;
+  }
+}
+
+.hero-subtitle {
+  position: relative;
+  z-index: 10;
+  font-size: clamp(2.5rem, 8vw, 4.9rem);
+  font-weight: 500;
+  text-align: center;
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+  max-width: 90%;
+  padding: 0 2rem;
+  margin: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .hero-subtitle {
+    font-size: clamp(1.75rem, 9vw, 3.5rem);
+    padding: 0 1.5rem;
   }
 }
 </style>
