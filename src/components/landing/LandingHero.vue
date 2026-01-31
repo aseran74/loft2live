@@ -9,14 +9,10 @@ const wrapperRef = ref<HTMLElement | null>(null)
 const videoEnded = ref(false)
 const scrollProgress = ref(0)
 
-// Frames HEro2: 000-019, 022-046 (sin 020, 021)
+// Frames HEro2 comprimidos: _000_1_11zon.webp a _081_82_11zon.webp (82 frames)
 const HERO2_BASE = '/images/HEro2/Whisk_q2yjfgzhndo2ejyj1imxuwotyty5qtl1qtmx0sy_'
-const HERO2_FRAME_NUMBERS: number[] = []
-for (let i = 0; i <= 19; i++) HERO2_FRAME_NUMBERS.push(i)
-for (let i = 22; i <= 46; i++) HERO2_FRAME_NUMBERS.push(i)
-
-const hero2FrameUrls = HERO2_FRAME_NUMBERS.map(
-  (n) => `${HERO2_BASE}${String(n).padStart(3, '0')}.webp`
+const hero2FrameUrls = Array.from({ length: 82 }, (_, i) =>
+  `${HERO2_BASE}${String(i).padStart(3, '0')}_${i + 1}_11zon.webp`
 )
 
 const currentFrameUrl = ref(hero2FrameUrls[0])
@@ -74,7 +70,7 @@ onUnmounted(() => {
       <video
         v-show="!videoEnded"
         class="hero-media hero-video"
-        src="/images/Videodefi.mp4"
+        src="/images/HEro2/Video3.mp4"
         autoplay
         muted
         playsinline
