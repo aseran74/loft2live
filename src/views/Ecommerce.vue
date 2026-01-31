@@ -26,7 +26,7 @@
             <router-link
               to="/proyectos/nuevo"
               class="flex items-center justify-between p-4 border-2 rounded-lg hover:shadow-md transition-all"
-              style="border-color: #D92211"
+              style="border-color: #2793F2"
             >
               <div>
                 <h3 class="font-semibold text-lg">Crear Proyecto</h3>

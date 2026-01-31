@@ -41,18 +41,18 @@ layer(base);
   --color-white: #ffffff;
   --color-black: #101828;
 
-  --color-brand-25: #f2f7ff;
-  --color-brand-50: #ecf3ff;
-  --color-brand-100: #dde9ff;
-  --color-brand-200: #c2d6ff;
-  --color-brand-300: #9cb9ff;
-  --color-brand-400: #7592ff;
-  --color-brand-500: #465fff;
-  --color-brand-600: #3641f5;
-  --color-brand-700: #2a31d8;
-  --color-brand-800: #252dae;
-  --color-brand-900: #262e89;
-  --color-brand-950: #161950;
+  --color-brand-25: #f0f8ff;
+  --color-brand-50: #e8f4fd;
+  --color-brand-100: #d1e9fa;
+  --color-brand-200: #a8d4f5;
+  --color-brand-300: #7bbcef;
+  --color-brand-400: #4da3e8;
+  --color-brand-500: #2793F2;
+  --color-brand-600: #1a7dd9;
+  --color-brand-700: #1568b8;
+  --color-brand-800: #135497;
+  --color-brand-900: #144476;
+  --color-brand-950: #0d2b4d;
 
   --color-blue-light-25: #f5fbff;
   --color-blue-light-50: #f0f9ff;
@@ -141,14 +141,14 @@ layer(base);
   --color-loft-1: #2793F2;   /* blue */
   --color-loft-2: #C8D9B0;   /* sage green */
   --color-loft-3: #260F0A;   /* dark brown */
-  --color-loft-4: #D92211;   /* red - primary accent */
+  --color-loft-4: #2793F2;   /* blue - primary accent */
   --color-loft-5: #F2F2F2;   /* light gray */
   --color-loft-50: #F2F2F2;
   --color-loft-100: #C8D9B0;
   --color-loft-200: #C8D9B0;
   --color-loft-bg: #F2F2F2;
   --color-loft-border: #C8D9B0;
-  --color-loft-accent: #D92211;
+  --color-loft-accent: #2793F2;
   --color-loft-text: #260F0A;
 
   --shadow-theme-md: 0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06);

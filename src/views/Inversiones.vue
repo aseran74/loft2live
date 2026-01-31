@@ -21,7 +21,7 @@
             <button
               type="button"
               class="px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-80 transition-opacity"
-              style="background-color: #C8D9B0; color: #D92211"
+              style="background-color: #C8D9B0; color: #2793F2"
               @click="resetFilters"
             >
               Limpiar filtros
@@ -78,7 +78,7 @@
 
           <div class="mt-5 pt-4 border-t flex items-center justify-between" style="border-color: #C8D9B0">
             <div class="text-sm text-gray-600">
-              Mostrando <span class="font-bold text-lg" style="color:#D92211">{{ filtered.length }}</span>
+              Mostrando <span class="font-bold text-lg" style="color:#2793F2">{{ filtered.length }}</span>
               <span class="text-gray-500"> de {{ proyectos.length }} oportunidades disponibles</span>
             </div>
             <div v-if="filtered.length > 0" class="text-xs text-gray-500">
@@ -109,7 +109,7 @@
                     v-for="p in filtered"
                     :key="p.id"
                     class="text-sm font-semibold hover:opacity-80"
-                    style="color:#D92211"
+                    style="color:#2793F2"
                     :href="getMapsOpenUrl(p.localizacion)"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -130,7 +130,7 @@
 
         <!-- Lista -->
         <div v-if="loading" class="text-center py-16">
-          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style="border-color: #D92211"></div>
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style="border-color: #2793F2"></div>
           <p class="mt-4 text-gray-600">Cargando inversiones…</p>
         </div>
         <div v-else-if="error" class="bg-red-50 border-2 border-red-200 text-red-700 px-6 py-4 rounded-xl mb-6">
@@ -150,7 +150,7 @@
           <button
             @click="resetFilters"
             class="px-6 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-            style="background-color: #D92211"
+            style="background-color: #2793F2"
           >
             Limpiar filtros
           </button>
@@ -178,7 +178,7 @@
               <button
                 type="button"
                 class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90"
-                style="background-color:#D92211"
+                style="background-color:#2793F2"
                 @click="goSignin"
               >
                 Iniciar sesión

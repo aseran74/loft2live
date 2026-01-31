@@ -10,7 +10,7 @@
           <button
             @click="showForm = true; selectedProyecto = undefined"
             class="px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-            style="background-color: #D92211"
+            style="background-color: #2793F2"
           >
             + Nuevo Proyecto
           </button>
@@ -24,7 +24,7 @@
               <button
                 type="button"
                 class="text-sm font-semibold hover:opacity-80"
-                style="color:#D92211"
+                style="color:#2793F2"
                 @click="resetFilters"
               >
                 Limpiar filtros
@@ -107,7 +107,7 @@
                       v-for="p in filteredProyectos"
                       :key="p.id"
                       class="text-sm font-semibold hover:opacity-80"
-                      style="color:#D92211"
+                      style="color:#2793F2"
                       :href="getMapsOpenUrl(p.localizacion)"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -184,7 +184,7 @@
         >
           <div class="p-5">
             <div class="flex items-center justify-between mb-4">
-              <span class="px-3 py-1 rounded-full text-sm font-semibold" style="background-color: #C8D9B0; color: #D92211">
+              <span class="px-3 py-1 rounded-full text-sm font-semibold" style="background-color: #C8D9B0; color: #2793F2">
                 Activo
               </span>
               <div class="flex gap-2">
@@ -248,7 +248,7 @@
               <div class="w-full rounded-full h-2" style="background-color: #C8D9B0">
                 <div
                   class="h-2 rounded-full"
-                  :style="`width: ${proyecto.porcentaje_llegado}%; background-color: #D92211`"
+                  :style="`width: ${proyecto.porcentaje_llegado}%; background-color: #2793F2`"
                 ></div>
               </div>
             </div>
@@ -256,7 +256,7 @@
             <button
               @click="viewDetails(proyecto)"
               class="w-full px-4 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-              style="background-color: #D92211"
+              style="background-color: #2793F2"
             >
               Ver detalles
             </button>

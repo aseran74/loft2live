@@ -10,7 +10,7 @@
               type="button"
               @click="goToList"
               class="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70"
-              style="color: #D92211"
+              style="color: #2793F2"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -25,7 +25,7 @@
             v-if="!isFormView"
             @click="goToNew"
             class="px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-            style="background-color: #D92211"
+            style="background-color: #2793F2"
           >
             + Nueva Noticia
           </button>
@@ -66,7 +66,7 @@
                         <router-link
                           :to="`/noticias/${entrada.id}`"
                           class="px-3 py-1.5 text-sm font-semibold rounded-lg transition-colors hover:opacity-90"
-                          style="background-color: #C8D9B0; color: #D92211"
+                          style="background-color: #C8D9B0; color: #2793F2"
                         >
                           Editar
                         </router-link>
@@ -143,7 +143,7 @@
                 type="submit"
                 :disabled="saving"
                 class="px-6 py-3 text-white rounded-lg font-semibold transition-colors hover:opacity-90 disabled:opacity-60"
-                style="background-color: #D92211"
+                style="background-color: #2793F2"
               >
                 {{ saving ? 'Guardando...' : (editingId ? 'Guardar cambios' : 'Crear noticia') }}
               </button>
@@ -186,7 +186,7 @@
             @click="doDelete"
             :disabled="deleting"
             class="px-4 py-2 rounded-lg font-semibold text-white hover:opacity-90 disabled:opacity-60"
-            style="background-color: #D92211"
+            style="background-color: #2793F2"
           >
             {{ deleting ? 'Eliminando...' : 'Eliminar' }}
           </button>

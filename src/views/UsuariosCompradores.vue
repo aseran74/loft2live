@@ -8,7 +8,7 @@
           <button
             @click="showForm = true; selectedComprador = undefined"
             class="px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-            style="background-color: #D92211"
+            style="background-color: #2793F2"
           >
             + Nuevo Comprador
           </button>

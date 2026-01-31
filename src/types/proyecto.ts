@@ -20,6 +20,7 @@ export interface Proyecto {
   fotos_oficina_actual?: string[]
   fotos_oficina_remodelada?: string[]
   videos?: string[]
+  street_view_embed?: string
   comodidades?: string[]
   unidades_tipos?: UnidadTipo[]
   created_at?: string

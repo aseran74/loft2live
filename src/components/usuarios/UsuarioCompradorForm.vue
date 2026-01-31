@@ -9,7 +9,7 @@
           type="text"
           required
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -21,7 +21,7 @@
           type="email"
           required
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -32,7 +32,7 @@
           v-model="formData.telefono"
           type="tel"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -43,7 +43,7 @@
           v-model="formData.direccion"
           type="text"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -53,7 +53,7 @@
         <select
           v-model="formData.proyecto_id"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         >
           <option value="">Seleccionar proyecto</option>
           <option v-for="proyecto in proyectos" :key="proyecto.id" :value="proyecto.id">
@@ -71,7 +71,7 @@
           step="0.01"
           min="0"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -82,7 +82,7 @@
           v-model="formData.fecha_inversion"
           type="datetime-local"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -92,7 +92,7 @@
         <select
           v-model="formData.estado"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         >
           <option value="pendiente">Pendiente</option>
           <option value="confirmado">Confirmado</option>
@@ -108,7 +108,7 @@
           v-model="formData.notas"
           rows="3"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         ></textarea>
       </div>
     </div>
@@ -126,7 +126,7 @@
         type="submit"
         :disabled="loading"
         class="px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90 disabled:opacity-50"
-        style="background-color: #D92211"
+        style="background-color: #2793F2"
       >
         {{ loading ? 'Guardando...' : (comprador?.id ? 'Actualizar' : 'Crear') }}
       </button>

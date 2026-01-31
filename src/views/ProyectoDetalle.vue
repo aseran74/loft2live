@@ -343,29 +343,45 @@
                   </span>
                 </div>
 
-                <!-- Street View -->
-                <div v-if="projectLocation" class="mt-8">
+                <!-- Street View: prioridad al iframe embed guardado en el proyecto -->
+                <div v-if="proyecto?.street_view_embed || projectLocation" class="mt-8">
                   <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Vista de calle</h2>
                   <div
-                    v-show="streetViewAvailable"
-                    ref="streetViewContainer"
+                    v-if="proyecto?.street_view_embed"
                     class="w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden border-2 shadow-md"
                     style="border-color: #C8D9B0"
-                  ></div>
-                  <div
-                    v-if="!streetViewChecked"
-                    class="h-48 rounded-xl border-2 flex items-center justify-center text-gray-500"
-                    style="border-color: #C8D9B0; background-color: #F2F2F2"
                   >
-                    Cargando vista de calle…
+                    <iframe
+                      :src="proyecto.street_view_embed"
+                      class="w-full h-full"
+                      style="border: 0"
+                      allowfullscreen
+                      loading="lazy"
+                      referrerpolicy="no-referrer-when-downgrade"
+                    />
                   </div>
-                  <div
-                    v-else-if="!streetViewAvailable"
-                    class="h-48 rounded-xl border-2 flex items-center justify-center text-gray-500"
-                    style="border-color: #C8D9B0; background-color: #F2F2F2"
-                  >
-                    No hay vista de calle disponible para esta ubicación
-                  </div>
+                  <template v-else>
+                    <div
+                      v-show="streetViewAvailable"
+                      ref="streetViewContainer"
+                      class="w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden border-2 shadow-md"
+                      style="border-color: #C8D9B0"
+                    ></div>
+                    <div
+                      v-if="!streetViewChecked"
+                      class="h-48 rounded-xl border-2 flex items-center justify-center text-gray-500"
+                      style="border-color: #C8D9B0; background-color: #F2F2F2"
+                    >
+                      Cargando vista de calle…
+                    </div>
+                    <div
+                      v-else-if="!streetViewAvailable"
+                      class="h-48 rounded-xl border-2 flex items-center justify-center text-gray-500"
+                      style="border-color: #C8D9B0; background-color: #F2F2F2"
+                    >
+                      No hay vista de calle disponible para esta ubicación
+                    </div>
+                  </template>
                 </div>
 
                 <!-- Lugares cercanos (Google Places) -->

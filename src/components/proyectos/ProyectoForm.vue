@@ -11,7 +11,7 @@
           type="text"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -26,7 +26,7 @@
           step="0.01"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -42,8 +42,25 @@
           required
           autocomplete="off"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
+      </div>
+
+      <!-- Google Street View (iframe embed) -->
+      <div class="md:col-span-2">
+        <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
+          Vista de calle (Google Street View)
+        </label>
+        <textarea
+          v-model="formData.street_view_embed"
+          rows="3"
+          class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 resize-y font-mono"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
+          placeholder="Pega el iframe de Google Maps (Share > Embed a map > Vista de calle) o solo la URL src"
+        ></textarea>
+        <p class="mt-1 text-xs text-gray-500">
+          Ejemplo: &lt;iframe src="https://www.google.com/maps/embed?pb=..." ...&gt;&lt;/iframe&gt;
+        </p>
       </div>
 
       <!-- Permisos -->
@@ -55,7 +72,7 @@
           v-model="formData.permisos"
           rows="3"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 resize-y"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         ></textarea>
       </div>
 
@@ -68,7 +85,7 @@
           v-model="formData.caracteristicas"
           rows="4"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 resize-y"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
           placeholder="Descripción de las características del proyecto..."
         ></textarea>
       </div>
@@ -84,7 +101,7 @@
           min="1"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -99,7 +116,7 @@
           step="0.01"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -110,7 +127,7 @@
             v-model="formData.alquiler"
             type="checkbox"
             class="w-4 h-4 rounded border-gray-300"
-            style="accent-color: #D92211"
+            style="accent-color: #2793F2"
           />
           Disponible para alquiler
         </label>
@@ -123,7 +140,7 @@
             v-model="formData.mostrar_en_landing"
             type="checkbox"
             class="w-4 h-4 rounded border-gray-300"
-            style="accent-color: #D92211"
+            style="accent-color: #2793F2"
           />
           Mostrar en landing page
         </label>
@@ -136,7 +153,7 @@
             v-model="formData.consulta_vinculante_urbanistica"
             type="checkbox"
             class="w-4 h-4 rounded border-gray-300"
-            style="accent-color: #D92211"
+            style="accent-color: #2793F2"
           />
           Consulta vinculante urbanística
         </label>
@@ -153,7 +170,7 @@
           step="0.01"
           min="0"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -167,7 +184,7 @@
           type="number"
           step="0.01"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -180,7 +197,7 @@
           v-model="formData.tipo_inversion"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         >
           <option value="Quarterly Bullet">Quarterly Bullet</option>
           <option value="Monthly">Monthly</option>
@@ -200,7 +217,7 @@
           max="100"
           step="0.01"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -215,7 +232,7 @@
           min="1"
           required
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
     </div>
@@ -289,7 +306,7 @@
               <label class="block text-xs font-medium" style="color:#0D0D0D">Planos (PDF / imagen)</label>
               <label
                 class="inline-flex items-center px-3 py-2 rounded-lg text-xs font-semibold border cursor-pointer hover:opacity-80"
-                style="border-color:#D92211;color:#D92211"
+                style="border-color:#2793F2;color:#2793F2"
               >
                 + Adjuntar planos
                 <input
@@ -307,7 +324,7 @@
               <div v-for="(p, pIdx) in tipo.planos" :key="`e-${pIdx}`" class="flex items-center justify-between gap-3 rounded-lg border px-3 py-2" style="border-color:#C8D9B0">
                 <a
                   class="text-sm hover:opacity-80"
-                  style="color:#D92211"
+                  style="color:#2793F2"
                   :href="getPhotoUrl(p)"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -400,7 +417,7 @@
                 :checked="isAmenitySelected(item.key)"
                 @change="toggleAmenity(item.key)"
               />
-              <span class="mt-0.5 w-5 h-5 shrink-0" style="color: #D92211" v-html="getAmenityIconSvg(item.key)"></span>
+              <span class="mt-0.5 w-5 h-5 shrink-0" style="color: #2793F2" v-html="getAmenityIconSvg(item.key)"></span>
               <span class="text-sm text-gray-800 leading-snug">{{ item.label }}</span>
             </label>
           </div>
@@ -426,7 +443,7 @@
           type="button"
           @click="fileInputOficinaActual?.click()"
           class="w-full sm:w-auto px-4 py-2 border-2 border-dashed rounded-lg transition-colors font-medium hover:opacity-70 text-sm sm:text-base"
-          style="border-color: #D92211; color: #D92211"
+          style="border-color: #2793F2; color: #2793F2"
         >
           + Agregar fotos oficina actual
         </button>
@@ -461,7 +478,7 @@
           type="button"
           @click="fileInputOficinaRemodelada?.click()"
           class="w-full sm:w-auto px-4 py-2 border-2 border-dashed rounded-lg transition-colors font-medium hover:opacity-70 text-sm sm:text-base"
-          style="border-color: #D92211; color: #D92211"
+          style="border-color: #2793F2; color: #2793F2"
         >
           + Agregar fotos oficina remodelada
         </button>
@@ -496,7 +513,7 @@
           type="button"
           @click="fileInput?.click()"
           class="w-full sm:w-auto px-4 py-2 border-2 border-dashed rounded-lg transition-colors font-medium hover:opacity-70 text-sm sm:text-base"
-          style="border-color: #D92211; color: #D92211"
+          style="border-color: #2793F2; color: #2793F2"
         >
           + Agregar fotos
         </button>
@@ -533,7 +550,7 @@
           type="button"
           @click="addVideo"
           class="px-4 py-2 rounded-lg font-medium text-sm transition-colors hover:opacity-70"
-          style="background-color: #D92211; color: white"
+          style="background-color: #2793F2; color: white"
         >
           + Añadir vídeo
         </button>
@@ -571,7 +588,7 @@
         type="submit"
         :disabled="loading"
         class="w-full sm:w-auto px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90 disabled:opacity-50"
-        style="background-color: #D92211"
+        style="background-color: #2793F2"
       >
         {{ loading ? 'Guardando...' : (proyecto?.id ? 'Actualizar' : 'Crear') }}
       </button>
@@ -646,6 +663,7 @@ const formData = ref<Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>>({
   fotos_oficina_actual: [],
   fotos_oficina_remodelada: [],
   videos: [],
+  street_view_embed: '',
   comodidades: [],
   unidades_tipos: []
 })
@@ -685,6 +703,7 @@ watch(() => props.proyecto, (newProyecto) => {
       fotos_oficina_actual: Array.isArray(newProyecto.fotos_oficina_actual) ? newProyecto.fotos_oficina_actual : [],
       fotos_oficina_remodelada: Array.isArray(newProyecto.fotos_oficina_remodelada) ? newProyecto.fotos_oficina_remodelada : [],
       videos: Array.isArray(newProyecto.videos) ? newProyecto.videos : [],
+      street_view_embed: newProyecto.street_view_embed || '',
       comodidades: Array.isArray(newProyecto.comodidades) ? newProyecto.comodidades : [],
       unidades_tipos: Array.isArray(newProyecto.unidades_tipos) ? (newProyecto.unidades_tipos as UnidadTipo[]) : []
     }
@@ -727,6 +746,7 @@ watch(() => props.proyecto, (newProyecto) => {
       fotos_oficina_actual: [],
       fotos_oficina_remodelada: [],
       videos: [],
+      street_view_embed: '',
       comodidades: [],
       unidades_tipos: []
     }
@@ -935,9 +955,19 @@ const buildUnidadesTiposPayload = (): UnidadTipo[] => {
   }))
 }
 
+function extractStreetViewSrc(value: string | undefined): string {
+  if (!value || !value.trim()) return ''
+  const v = value.trim()
+  const srcMatch = v.match(/src=["']([^"']+)["']/i)
+  if (srcMatch) return srcMatch[1]
+  if (v.startsWith('http')) return v
+  return v
+}
+
 const handleSubmit = async () => {
   formData.value.fotos_oficina_actual = [...existingPhotosOficinaActual.value]
   formData.value.fotos_oficina_remodelada = [...existingPhotosOficinaRemodelada.value]
+  formData.value.street_view_embed = extractStreetViewSrc(formData.value.street_view_embed)
   const photosToUpload = uploadedPhotos.value.map(p => p.file)
   const photosOficinaActual = uploadedPhotosOficinaActual.value.map(p => p.file)
   const photosOficinaRemodelada = uploadedPhotosOficinaRemodelada.value.map(p => p.file)

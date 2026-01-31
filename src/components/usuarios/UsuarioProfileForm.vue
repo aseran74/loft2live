@@ -9,7 +9,7 @@
           type="text"
           required
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -21,7 +21,7 @@
           type="email"
           required
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -32,7 +32,7 @@
           v-model="formData.telefono"
           type="tel"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -43,7 +43,7 @@
           v-model="formData.direccion"
           type="text"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         />
       </div>
 
@@ -54,7 +54,7 @@
             v-model="formData.esta_interesado"
             type="checkbox"
             class="w-4 h-4 rounded"
-            style="accent-color: #D92211"
+            style="accent-color: #2793F2"
           />
           <span class="text-sm font-medium">Está interesado</span>
         </label>
@@ -67,7 +67,7 @@
           v-model="formData.analisis_rcp"
           rows="4"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
           placeholder="Análisis de riesgo, capacidad de pago, etc."
         ></textarea>
       </div>
@@ -79,7 +79,7 @@
           v-model="formData.notas"
           rows="3"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #D92211"
+          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
         ></textarea>
       </div>
     </div>
@@ -97,7 +97,7 @@
         type="submit"
         :disabled="loading"
         class="px-6 py-2 text-white rounded-lg transition-colors font-semibold hover:opacity-90 disabled:opacity-50"
-        style="background-color: #D92211"
+        style="background-color: #2793F2"
       >
         {{ loading ? 'Guardando...' : (usuario?.id ? 'Actualizar' : 'Crear') }}
       </button>

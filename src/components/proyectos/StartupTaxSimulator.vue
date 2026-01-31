@@ -11,7 +11,7 @@
         <button
           type="button"
           class="px-3 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-          style="background-color: #D92211"
+          style="background-color: #2793F2"
           @click="applyPreset(years)"
         >
           Reparto automático
@@ -43,7 +43,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center justify-center px-4 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-          style="background-color:#D92211"
+          style="background-color:#2793F2"
         >
           Ver guía (N26)
         </a>
@@ -75,7 +75,7 @@
             :key="y"
             type="button"
             class="px-2 py-2 rounded-lg text-sm font-semibold border"
-            :style="years === y ? 'border-color:#D92211;color:#D92211;background:#C8D9B0' : 'border-color:#C8D9B0;color:#0D0D0D;background:#fff'"
+            :style="years === y ? 'border-color:#2793F2;color:#2793F2;background:#C8D9B0' : 'border-color:#C8D9B0;color:#0D0D0D;background:#fff'"
             @click="setYears(y)"
           >
             {{ y }}
@@ -167,7 +167,7 @@
         <button
           type="button"
           class="px-4 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
-          style="background-color:#D92211"
+          style="background-color:#2793F2"
           @click="applyRecommendation()"
         >
           Aplicar recomendación
@@ -177,7 +177,7 @@
       <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div class="rounded-xl bg-white p-4 border" style="border-color:#C8D9B0">
           <p class="text-xs text-gray-600">Deducción aprovechable (total)</p>
-          <p class="text-2xl font-bold" style="color:#D92211">{{ formatCurrency(recommended.totalUsedDeduction) }}</p>
+          <p class="text-2xl font-bold" style="color:#2793F2">{{ formatCurrency(recommended.totalUsedDeduction) }}</p>
         </div>
         <div class="rounded-xl bg-white p-4 border" style="border-color:#C8D9B0">
           <p class="text-xs text-gray-600">Máx. deducción/año por tope</p>
@@ -240,7 +240,7 @@
 
           <div class="md:col-span-3">
             <label class="block text-[11px] text-gray-500 mb-1">Deducción ({{ deductionRatePercent }}%)</label>
-            <div class="text-sm font-bold" style="color:#D92211">
+            <div class="text-sm font-bold" style="color:#2793F2">
               {{ formatCurrency(row.deduction) }}
             </div>
           </div>
@@ -250,7 +250,7 @@
       <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div class="rounded-xl bg-gray-50 p-4">
           <p class="text-xs text-gray-600">Deducción total</p>
-          <p class="text-2xl font-bold" style="color:#D92211">{{ formatCurrency(totalDeduction) }}</p>
+          <p class="text-2xl font-bold" style="color:#2793F2">{{ formatCurrency(totalDeduction) }}</p>
         </div>
         <div class="rounded-xl bg-gray-50 p-4">
           <p class="text-xs text-gray-600">Base total deducible</p>

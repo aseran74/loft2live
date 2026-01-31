@@ -13,19 +13,19 @@
 
           <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="rounded-2xl border p-5" style="border-color:#C8D9B0">
-              <div class="text-sm font-semibold" style="color:#D92211">Misión</div>
+              <div class="text-sm font-semibold" style="color:#2793F2">Misión</div>
               <div class="mt-2 text-sm text-gray-700">
                 Facilitar la compra y venta de lofts con información clara, herramientas útiles y procesos ágiles.
               </div>
             </div>
             <div class="rounded-2xl border p-5" style="border-color:#C8D9B0">
-              <div class="text-sm font-semibold" style="color:#D92211">Visión</div>
+              <div class="text-sm font-semibold" style="color:#2793F2">Visión</div>
               <div class="mt-2 text-sm text-gray-700">
                 Ser la plataforma de referencia para invertir en lofts y aprovechar ventajas fiscales de forma segura.
               </div>
             </div>
             <div class="rounded-2xl border p-5" style="border-color:#C8D9B0">
-              <div class="text-sm font-semibold" style="color:#D92211">Valores</div>
+              <div class="text-sm font-semibold" style="color:#2793F2">Valores</div>
               <div class="mt-2 text-sm text-gray-700">
                 Transparencia, simplicidad, foco en el usuario y mejora continua.
               </div>
@@ -36,7 +36,7 @@
             <h2 class="text-2xl font-bold" style="color:#0D0D0D">Contacto</h2>
             <p class="mt-2 text-gray-600">
               ¿Quieres saber más o colaborar? Escríbenos a
-              <a class="font-semibold hover:opacity-80" style="color:#D92211" href="mailto:info@loftandlive.com">
+              <a class="font-semibold hover:opacity-80" style="color:#2793F2" href="mailto:info@loftandlive.com">
                 info@loftandlive.com
               </a>.
             </p>

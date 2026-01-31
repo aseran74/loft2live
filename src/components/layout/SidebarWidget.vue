@@ -8,7 +8,7 @@
     <router-link
       to="/"
       class="flex items-center justify-center p-3 font-medium text-white rounded-lg text-theme-sm hover:opacity-90"
-      style="background-color:#D92211"
+      style="background-color:#2793F2"
     >
       Ir a la landing
     </router-link>
