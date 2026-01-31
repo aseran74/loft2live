@@ -7,6 +7,18 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-vue': ['vue', 'vue-router'],
+          'vendor-supabase': ['@supabase/supabase-js'],
+          'vendor-gsap': ['gsap'],
+        },
+      },
+    },
+  },
   plugins: [
     vue(),
     vueJsx(),
