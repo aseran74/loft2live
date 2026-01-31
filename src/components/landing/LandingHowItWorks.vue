@@ -233,42 +233,6 @@
         </div>
       </div>
 
-      <!-- Video (debajo) con placeholder logo + play -->
-      <div class="video-section mt-16">
-        <div class="video-wrapper">
-          <video
-            ref="videoEl2"
-            class="section-video"
-            src="/Video-loft.mp4"
-            controls
-            playsinline
-            @play="showPlayOverlay2 = false"
-            @pause="showPlayOverlay2 = true"
-            @ended="showPlayOverlay2 = true"
-          >
-            Tu navegador no soporta la reproducción de video.
-          </video>
-          <div
-            v-show="showPlayOverlay2"
-            class="video-play-overlay"
-            role="button"
-            tabindex="0"
-            aria-label="Reproducir video"
-            @click="playVideo2"
-            @keydown.enter="playVideo2"
-          >
-            <div class="video-play-overlay-inner">
-              <img src="/images/Logoblanco3.png" alt="Loft2live" class="video-overlay-logo" />
-              <div class="video-play-button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="play-icon">
-                  <path d="M8 5v14l11-7L8 5z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- CTA Ahorro + Modelo compraventa + Tabla comparativa -->
       <div class="cta-buttons-row">
         <button
@@ -342,9 +306,7 @@ import LandingLeyMadridModal from './LandingLeyMadridModal.vue'
 gsap.registerPlugin(ScrollTrigger)
 
 const videoEl = ref<HTMLVideoElement | null>(null)
-const videoEl2 = ref<HTMLVideoElement | null>(null)
 const showPlayOverlay = ref(true)
-const showPlayOverlay2 = ref(true)
 const savingsModalOpen = ref(false)
 const contractModalOpen = ref(false)
 const leyMadridModalOpen = ref(false)
@@ -352,12 +314,6 @@ const leyMadridModalOpen = ref(false)
 function playVideo() {
   if (videoEl.value) {
     videoEl.value.play()
-  }
-}
-
-function playVideo2() {
-  if (videoEl2.value) {
-    videoEl2.value.play()
   }
 }
 

@@ -16,7 +16,10 @@ const hero2FrameUrls = Array.from({ length: 82 }, (_, i) =>
   `${HERO2_BASE}${String(i).padStart(3, '0')}_${i + 1}_11zon.webp`
 )
 
-const currentFrameUrl = ref(hero2FrameUrls[0])
+// Dos capas para crossfade suave entre frames
+const frameAUrl = ref(hero2FrameUrls[0])
+const frameBUrl = ref(hero2FrameUrls[0])
+const activeFrameLayer = ref<'a' | 'b'>('a')
 // Opacidad del texto: aparece al hacer scroll tras el video
 const textOpacity = ref(0)
 
@@ -61,7 +64,14 @@ onMounted(() => {
             Math.floor(progress * hero2FrameUrls.length),
             hero2FrameUrls.length - 1
           )
-          currentFrameUrl.value = hero2FrameUrls[frameIndex]
+          const newUrl = hero2FrameUrls[frameIndex]
+          if (activeFrameLayer.value === 'a') {
+            frameBUrl.value = newUrl
+            activeFrameLayer.value = 'b'
+          } else {
+            frameAUrl.value = newUrl
+            activeFrameLayer.value = 'a'
+          }
           const textProgress = Math.max(0, (progress - 0.25) / 0.4)
           textOpacity.value = Math.min(1, textProgress)
         }
@@ -106,12 +116,20 @@ onUnmounted(() => {
         class="hero-media hero-image-mobile-tablet"
       />
 
-      <!-- Tras el video: frames HEro2 + texto en el mismo hero -->
+      <!-- Tras el video: frames HEro2 con crossfade + texto en el mismo hero -->
       <template v-if="videoEnded">
         <img
-          :src="currentFrameUrl"
+          :src="frameAUrl"
           alt=""
-          class="hero-media hero-frame"
+          class="hero-media hero-frame hero-frame-a"
+          :class="{ 'hero-frame-visible': activeFrameLayer === 'a' }"
+          loading="eager"
+        />
+        <img
+          :src="frameBUrl"
+          alt=""
+          class="hero-media hero-frame hero-frame-b"
+          :class="{ 'hero-frame-visible': activeFrameLayer === 'b' }"
           loading="eager"
         />
         <p
@@ -150,6 +168,16 @@ onUnmounted(() => {
   height: 100%;
   object-fit: cover;
   object-position: center center;
+}
+
+/* Frames HEro2: crossfade suave entre fotos */
+.hero-frame {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.hero-frame.hero-frame-visible {
+  opacity: 1;
 }
 
 /* Video visible en todos los tamaños (móvil, tablet, escritorio) */
