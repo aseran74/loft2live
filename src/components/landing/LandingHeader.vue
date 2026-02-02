@@ -84,7 +84,7 @@
             v-if="!isAuthenticated"
             to="/signin"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition-opacity"
-            style="background-color: #2793F2"
+            style="background-color: var(--color-landing-primary)"
           >
             <!-- Icono Google -->
             <svg class="w-4 h-4" viewBox="0 0 48 48" aria-hidden="true">
@@ -109,7 +109,7 @@
                   alt="Usuario"
                   class="h-9 w-9 object-cover"
                 />
-                <div v-else class="h-9 w-9 flex items-center justify-center text-xs font-bold" style="color:#2793F2">
+                <div v-else class="h-9 w-9 flex items-center justify-center text-xs font-bold" style="color: var(--color-landing-primary)">
                   {{ userInitials }}
                 </div>
               </span>
@@ -231,7 +231,7 @@
             v-if="!isAuthenticated"
             to="/signin"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white"
-            style="background-color: #2793F2"
+            style="background-color: var(--color-landing-primary)"
             @click="mobileMenuOpen = false"
           >
             <svg class="w-4 h-4" viewBox="0 0 48 48" aria-hidden="true">
@@ -348,13 +348,13 @@ onUnmounted(() => {
   color: #0D0D0D;
 }
 .nav-link-blue:hover {
-  color: #2793F2;
+  color: var(--color-landing-primary);
 }
 .dropdown-nav-link {
   color: #0D0D0D;
 }
 .dropdown-nav-link:hover {
-  color: #2793F2;
-  background-color: rgba(39, 147, 242, 0.1);
+  color: var(--color-landing-primary);
+  background-color: rgba(var(--color-landing-primary-rgb), 0.1);
 }
 </style>

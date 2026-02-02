@@ -1,9 +1,9 @@
 <template>
-  <section class="py-12" style="background-color: #F2F2F2">
+  <section class="py-12" style="background-color: var(--color-landing-cream)">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
       <div class="text-center mb-10">
         <h2 class="text-3xl lg:text-4xl font-bold mb-3" style="color: #0D0D0D">
-          <span style="color: #2793F2">Beneficios</span>
+          <span style="color: var(--color-landing-primary)">Beneficios</span>
         </h2>
       </div>
 

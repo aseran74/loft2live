@@ -1,9 +1,9 @@
 <template>
-  <section id="oportunidades" class="py-12" style="background-color: #F2F2F2">
+  <section id="oportunidades" class="py-12" style="background-color: var(--color-landing-cream)">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
       <div class="text-center mb-10">
         <h2 class="text-3xl lg:text-4xl font-bold mb-3" style="color: #0D0D0D">
-          Oportunidades de <span style="color: #2793F2">inversión actual</span>
+          Oportunidades de <span style="color: var(--color-landing-primary)">inversión actual</span>
         </h2>
       </div>
 
@@ -33,7 +33,7 @@
         <router-link
           to="/inversiones"
           class="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-white hover:opacity-90"
-          style="background-color: #2793F2"
+          style="background-color: var(--color-landing-primary)"
         >
           Ver todas las inversiones
         </router-link>

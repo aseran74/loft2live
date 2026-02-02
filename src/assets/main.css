@@ -151,6 +151,16 @@ layer(base);
   --color-loft-accent: #2793F2;
   --color-loft-text: #260F0A;
 
+  /* Landing warm palette */
+  --color-landing-primary: #F26A2B;
+  --color-landing-primary-rgb: 242, 106, 43;
+  --color-landing-secondary: #B1184E;
+  --color-landing-secondary-rgb: 177, 24, 78;
+  --color-landing-accent: #F58B78;
+  --color-landing-highlight: #E2B24F;
+  --color-landing-cream: #FFF3ED;
+  --color-landing-deep: #8A0F3C;
+
   --shadow-theme-md: 0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06);
   --shadow-theme-lg: 0px 12px 16px -4px rgba(16, 24, 40, 0.08),
     0px 4px 6px -2px rgba(16, 24, 40, 0.03);

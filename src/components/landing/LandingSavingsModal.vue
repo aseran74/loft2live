@@ -193,7 +193,7 @@ onUnmounted(() => {
   justify-content: space-between;
   padding: 1.25rem 1.5rem;
   border-bottom: 1px solid #e5e7eb;
-  background: #2793F2;
+  background: var(--color-landing-primary);
   border-radius: 1.25rem 1.25rem 0 0;
 }
 
@@ -258,7 +258,7 @@ onUnmounted(() => {
 .savings-section-title {
   font-size: 1rem;
   font-weight: 700;
-  color: #2793F2;
+  color: var(--color-landing-primary);
   margin: 0 0 0.5rem 0;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -275,7 +275,7 @@ onUnmounted(() => {
   padding: 1rem;
   background: #f9fafb;
   border-radius: 0.75rem;
-  border-left: 4px solid #2793F2;
+  border-left: 4px solid var(--color-landing-primary);
 }
 
 .savings-subblock:last-child {
@@ -340,7 +340,7 @@ onUnmounted(() => {
 }
 
 .savings-table thead {
-  background: #2793F2;
+  background: var(--color-landing-primary);
   color: white;
 }
 
@@ -366,7 +366,7 @@ onUnmounted(() => {
 }
 
 .savings-table td:last-child {
-  color: #2793F2;
+  color: var(--color-landing-primary);
   font-weight: 500;
 }
 
@@ -384,7 +384,7 @@ onUnmounted(() => {
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: #2793F2;
+  background: var(--color-landing-primary);
   border: none;
   border-radius: 0.75rem;
   cursor: pointer;
