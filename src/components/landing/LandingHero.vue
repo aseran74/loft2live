@@ -24,6 +24,7 @@ const activeFrameLayer = ref<'a' | 'b'>('a')
 const textOpacity = ref(0)
 
 let ctx: gsap.Context | undefined
+let lastFrameIndex = -1
 
 function onVideoEnded() {
   videoEnded.value = true
@@ -60,10 +61,11 @@ onMounted(() => {
         scrollProgress.value = self.progress
         const progress = self.progress
         if (videoEnded.value) {
-          const frameIndex = Math.min(
-            Math.floor(progress * hero2FrameUrls.length),
-            hero2FrameUrls.length - 1
-          )
+        const frameIndex = Math.min(
+          Math.floor(progress * hero2FrameUrls.length),
+          hero2FrameUrls.length - 1
+        )
+        if (frameIndex !== lastFrameIndex) {
           const newUrl = hero2FrameUrls[frameIndex]
           if (activeFrameLayer.value === 'a') {
             frameBUrl.value = newUrl
@@ -72,6 +74,8 @@ onMounted(() => {
             frameAUrl.value = newUrl
             activeFrameLayer.value = 'a'
           }
+          lastFrameIndex = frameIndex
+        }
           const textProgress = Math.max(0, (progress - 0.25) / 0.4)
           textOpacity.value = Math.min(1, textProgress)
         }
@@ -158,6 +162,14 @@ onUnmounted(() => {
   position: relative;
   width: 100%;
   height: 100vh;
+  min-height: 100vh;
+}
+
+@supports (height: 100svh) {
+  .wrapper {
+    height: 100svh;
+    min-height: 100svh;
+  }
 }
 
 .hero-viewport {
@@ -184,6 +196,7 @@ onUnmounted(() => {
 .hero-frame {
   opacity: 0;
   transition: opacity 0.4s ease-out;
+  will-change: opacity;
 }
 
 .hero-frame.hero-frame-visible {
