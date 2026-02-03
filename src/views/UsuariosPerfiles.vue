@@ -80,6 +80,12 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                   <button
+                    @click="openMensaje(usuario)"
+                    class="text-blue-600 hover:text-blue-900"
+                  >
+                    Mensaje
+                  </button>
+                  <button
                     @click="editUsuario(usuario)"
                     class="text-indigo-600 hover:text-indigo-900"
                   >
@@ -98,17 +104,45 @@
         </div>
       </div>
     </div>
+
+    <MensajeModal
+      :open="mensajeModalOpen"
+      :destinatario="mensajeDestinatario"
+      :conversacion="mensajesConversacion"
+      @close="mensajeModalOpen = false"
+      @send="enviarMensaje"
+    />
   </admin-layout>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useUsuariosProfile } from '@/composables/useUsuarios'
+import { useAdminMensajes, type Mensaje } from '@/composables/useAdminMensajes'
 import AdminLayout from '@/components/layout/AdminLayout.vue'
 import UsuarioProfileForm from '@/components/usuarios/UsuarioProfileForm.vue'
+import MensajeModal from '@/components/admin/MensajeModal.vue'
 import type { UsuarioProfile } from '@/types/usuario'
 
 const { usuarios, loading, error, fetchUsuarios, createUsuario, updateUsuario, deleteUsuario } = useUsuariosProfile()
+const { enviarMensaje: enviarMensajeRpc, getConversacion } = useAdminMensajes()
+
+const mensajeModalOpen = ref(false)
+const mensajeDestinatario = ref('')
+const mensajePerfilId = ref('')
+const mensajesConversacion = ref<Mensaje[]>([])
+
+function openMensaje(u: UsuarioProfile) {
+  mensajeDestinatario.value = `${u.nombre} (${u.correo})`
+  mensajePerfilId.value = u.id!
+  getConversacion('perfil', u.id!).then((r) => { mensajesConversacion.value = r })
+  mensajeModalOpen.value = true
+}
+
+async function enviarMensaje(contenido: string) {
+  await enviarMensajeRpc({ to_perfil_id: mensajePerfilId.value, contenido })
+  mensajesConversacion.value = await getConversacion('perfil', mensajePerfilId.value)
+}
 
 const showForm = ref(false)
 const selectedUsuario = ref<UsuarioProfile | undefined>(undefined)

@@ -201,6 +201,12 @@
                       {{ formatCurrency(proyecto.precio_unidad) }}
                     </span>
                   </div>
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
+                    <span class="text-gray-600 mb-1 sm:mb-0">Ticket de inversión</span>
+                    <span class="font-semibold text-lg" style="color: #2793F2">
+                      {{ formatCurrency(ticketSize) }} ({{ ticketsRestantes }} restantes)
+                    </span>
+                  </div>
                   <div v-if="proyecto.permisos" class="py-3">
                     <span class="text-gray-600 block mb-2">Permisos</span>
                     <p class="text-gray-800 whitespace-pre-line">{{ proyecto.permisos }}</p>
@@ -229,6 +235,11 @@
                         <p class="text-sm text-gray-600 mt-1">
                           <span class="font-semibold" style="color:#0D0D0D">{{ formatCurrency(Number(u.precio || 0)) }}</span>
                           <span v-if="u.m2" class="ml-2 text-gray-600">· {{ u.m2 }} m²</span>
+                          <span v-if="u.disponibles != null && u.disponibles > 0" class="ml-2 text-gray-600">· {{ u.disponibles }} disponible(s)</span>
+                        </p>
+                        <p v-if="proyecto.vendido_cerrado && (u.precio_alquiler || u.alquilados != null)" class="text-sm text-gray-600 mt-2">
+                          <span v-if="u.precio_alquiler" class="font-medium">{{ formatCurrency(Number(u.precio_alquiler)) }}/mes</span>
+                          <span v-if="u.alquilados != null && u.alquilados > 0" class="ml-2">{{ u.alquilados }} alquilado(s)</span>
                         </p>
                       </div>
                     </div>
@@ -258,9 +269,22 @@
                 </div>
               </div>
 
-              <!-- Comodidades / complementos -->
+              <!-- Comprador 100% (solo si proyecto vendido y cerrado) -->
+              <div v-if="proyecto.vendido_cerrado && proyecto.id" class="mt-6">
+                <h2 class="text-2xl font-bold mb-4" style="color:#0D0D0D">Comprador 100% del inmueble</h2>
+                <div v-if="loadingComprador" class="rounded-xl border p-4 text-sm text-gray-500" style="border-color:#C8D9B0">Cargando...</div>
+                <div v-else-if="comprador100" class="rounded-xl border p-4 bg-white" style="border-color:#C8D9B0">
+                  <p class="text-base font-semibold" style="color:#0D0D0D">{{ comprador100.nombre }}</p>
+                  <p v-if="comprador100.correo" class="text-sm text-gray-600 mt-1">{{ comprador100.correo }}</p>
+                </div>
+                <div v-else class="rounded-xl border p-4 text-sm text-gray-500" style="border-color:#C8D9B0">
+                  No hay comprador con 100% del inmueble registrado.
+                </div>
+              </div>
+
+              <!-- Complementos -->
               <div class="mt-6">
-                <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Comodidades</h2>
+                <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Complementos</h2>
 
                 <div v-if="proyecto.comodidades && proyecto.comodidades.length > 0" class="space-y-4">
                   <div
@@ -289,7 +313,7 @@
                 </div>
 
                 <div v-else class="rounded-xl border p-4 text-sm text-gray-600" style="border-color: #C8D9B0">
-                  No hay comodidades registradas para este proyecto.
+                  No hay complementos registrados para este proyecto.
                 </div>
               </div>
 
@@ -737,7 +761,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useProyectos } from '@/composables/useProyectos'
 import type { Proyecto } from '@/types/proyecto'
@@ -775,6 +799,35 @@ let streetViewPanorama: any = null
 
 // Manejar navegación con teclado en lightbox
 let keyPressHandler: ((e: KeyboardEvent) => void) | null = null
+
+// Cargar comprador 100% cuando proyecto vendido y cerrado
+watch(
+  () => proyecto.value,
+  async (p) => {
+    if (!p?.id || !p.vendido_cerrado || !p.objetivo_inversion_total) {
+      comprador100.value = null
+      return
+    }
+    loadingComprador.value = true
+    comprador100.value = null
+    try {
+      const { data } = await supabase
+        .from('usuarios_compradores')
+        .select('nombre, correo, monto_invertido')
+        .eq('proyecto_id', p.id)
+        .gte('monto_invertido', Number(p.objetivo_inversion_total))
+        .limit(1)
+      if (data?.[0]) {
+        comprador100.value = { nombre: data[0].nombre || 'Sin nombre', correo: data[0].correo }
+      }
+    } catch {
+      comprador100.value = null
+    } finally {
+      loadingComprador.value = false
+    }
+  },
+  { immediate: true }
+)
 
 onMounted(async () => {
   const proyectoId = route.params.id as string
@@ -1031,6 +1084,10 @@ const mainPhotoPath = computed(() => {
   return p?.fotos?.[0] ?? p?.fotos_oficina_remodelada?.[0] ?? p?.fotos_oficina_actual?.[0] ?? ''
 })
 
+const ticketSize = computed(() => Number(proyecto.value?.precio_ticket) || 5000)
+const ticketsRestantes = computed(() =>
+  Math.max(0, Math.floor((Number(proyecto.value?.monto_restante) || 0) / ticketSize.value))
+)
 const valorInmueble = computed(() => Number(proyecto.value?.precio_unidad || 0))
 const ivaRecuperableOficina = computed(() =>
   Math.round(valorInmueble.value * 0.8 * 0.21)

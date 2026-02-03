@@ -5,17 +5,73 @@
     <section class="pt-24 pb-12" style="background-color:#F2F2F2">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div class="flex flex-col gap-2 mb-8">
-          <h1 class="text-3xl sm:text-4xl font-bold" style="color:#0D0D0D">Oportunidades de Inversión</h1>
+          <h1 class="text-3xl sm:text-4xl font-bold" style="color:#0D0D0D">Rentabilidades</h1>
           <p class="text-lg text-gray-600">
-            Descubre proyectos inmobiliarios con potencial de crecimiento. Invierte en lofts y aprovecha las ventajas fiscales.
+            Proyectos vendidos y cerrados. Consulta el historial de inversiones finalizadas.
           </p>
         </div>
 
+        <!-- Lo alquilado: ingresos y rentabilidad por ticket -->
+        <div v-if="proyectosConAlquileres.length > 0" class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+          <div class="px-6 py-4 border-b" style="border-color:#C8D9B0">
+            <h2 class="text-xl font-bold" style="color:#0D0D0D">Lo alquilado</h2>
+            <p class="text-sm text-gray-600 mt-1">
+              Lofts actualmente alquilados, ingresos mensuales y rentabilidad por ticket de 5.000 €
+            </p>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proyecto</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lofts alquilados</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ingresos / mes</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tickets</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rentabilidad por ticket</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr
+                  v-for="item in proyectosConAlquileres"
+                  :key="item.proyecto.id"
+                  class="hover:bg-gray-50"
+                >
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-semibold" style="color:#0D0D0D">{{ item.proyecto.nombre_proyecto }}</div>
+                    <div class="text-xs text-gray-500 mt-0.5" v-if="item.detalleAlquileres.length">
+                      <template v-for="(d, i) in item.detalleAlquileres" :key="i">
+                        {{ d.nombre }}: {{ d.alquilados }} × {{ formatCurrency(d.precio_alquiler) }}/mes
+                        <span v-if="i < item.detalleAlquileres.length - 1"> · </span>
+                      </template>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    {{ item.totalAlquilados }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold" style="color:#2793F2">
+                    {{ formatCurrency(item.ingresosMensualesTotales) }}/mes
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    {{ item.numTickets }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-bold" style="color:#0D0D0D">
+                    {{ formatCurrency(item.rentabilidadPorTicket) }}/mes
+                    <span class="text-xs font-normal text-gray-500">por ticket</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-6 py-3 bg-gray-50 text-xs text-gray-600">
+            Rentabilidad por ticket = Ingresos mensuales totales ÷ Número de tickets (objetivo inversión ÷ 5.000 €)
+          </div>
+        </div>
+
         <!-- Filtros -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+        <div v-if="proyectos.length > 0" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
           <div class="flex items-center justify-between gap-4 mb-4">
             <div>
-              <h2 class="text-xl font-bold mb-1" style="color:#0D0D0D">Búsqueda de inversiones</h2>
+              <h2 class="text-xl font-bold mb-1" style="color:#0D0D0D">Búsqueda</h2>
               <p class="text-sm text-gray-600">Filtra por localización y rango de precio por loft</p>
             </div>
             <button
@@ -79,7 +135,7 @@
           <div class="mt-5 pt-4 border-t flex items-center justify-between" style="border-color: #C8D9B0">
             <div class="text-sm text-gray-600">
               Mostrando <span class="font-bold text-lg" style="color:#2793F2">{{ filtered.length }}</span>
-              <span class="text-gray-500"> de {{ proyectos.length }} oportunidades disponibles</span>
+              <span class="text-gray-500"> de {{ proyectos.length }} proyectos cerrados</span>
             </div>
             <div v-if="filtered.length > 0" class="text-xs text-gray-500">
               Precio promedio: {{ formatCurrency(averagePrice) }}
@@ -88,7 +144,7 @@
         </div>
 
         <!-- Mapa -->
-        <div class="bg-white rounded-2xl shadow p-5 mb-6">
+        <div v-if="proyectos.length > 0" class="bg-white rounded-2xl shadow p-5 mb-6">
           <div class="flex items-center justify-between gap-4 mb-3">
             <h2 class="text-lg font-bold" style="color:#0D0D0D">Mapa</h2>
             <span v-if="mapErrorMessage" class="text-xs text-gray-500">({{ mapErrorMessage }})</span>
@@ -131,7 +187,7 @@
         <!-- Lista -->
         <div v-if="loading" class="text-center py-16">
           <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2" style="border-color: #2793F2"></div>
-          <p class="mt-4 text-gray-600">Cargando inversiones…</p>
+          <p class="mt-4 text-gray-600">Cargando rentabilidades…</p>
         </div>
         <div v-else-if="error" class="bg-red-50 border-2 border-red-200 text-red-700 px-6 py-4 rounded-xl mb-6">
           <div class="flex items-center gap-2">
@@ -145,15 +201,15 @@
           <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
-          <h3 class="text-xl font-bold mb-2" style="color: #0D0D0D">No se encontraron proyectos</h3>
-          <p class="text-gray-600 mb-4">Intenta ajustar los filtros de búsqueda</p>
-          <button
-            @click="resetFilters"
-            class="px-6 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
+          <h3 class="text-xl font-bold mb-2" style="color: #0D0D0D">No hay proyectos cerrados</h3>
+          <p class="text-gray-600 mb-4">Los proyectos vendidos y cerrados aparecerán aquí</p>
+          <router-link
+            to="/inversiones"
+            class="inline-block px-6 py-2 rounded-lg text-sm font-semibold text-white hover:opacity-90"
             style="background-color: #2793F2"
           >
-            Limpiar filtros
-          </button>
+            Ver oportunidades de inversión
+          </router-link>
         </div>
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <ProyectoCard
@@ -162,64 +218,12 @@
             :proyecto="p"
             :show-favorito="true"
             :is-favorito="isFavorito(p.id)"
+            :es-rentabilidad="true"
             @ver-detalles="goDetalle"
-            @invertir="goSignin"
+            @invertir="() => {}"
             @toggle-favorito="handleToggleFavorito"
           />
         </div>
-
-        <!-- Preguntas frecuentes -->
-        <section id="preguntas" class="mt-12">
-          <div class="bg-white rounded-2xl shadow p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <h2 class="text-2xl sm:text-3xl font-bold" style="color:#0D0D0D">Preguntas frecuentes</h2>
-                <p class="mt-2 text-gray-600">
-                  Resolvemos las dudas más comunes sobre cómo invertir y cómo funciona Loft2live.
-                </p>
-              </div>
-              <button
-                type="button"
-                class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90"
-                style="background-color:#2793F2"
-                @click="goSignin"
-              >
-                Iniciar sesión
-              </button>
-            </div>
-
-            <div class="mt-6 space-y-3">
-              <details class="rounded-xl border p-4" style="border-color:#C8D9B0">
-                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Cómo invierto en un proyecto?</summary>
-                <p class="mt-2 text-sm text-gray-600">
-                  Selecciona una oportunidad, revisa el detalle y pulsa “Iniciar sesión para invertir”. Si ya estás autenticado,
-                  podrás continuar desde el dashboard.
-                </p>
-              </details>
-
-              <details class="rounded-xl border p-4" style="border-color:#C8D9B0">
-                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Qué significa “precio por loft”?</summary>
-                <p class="mt-2 text-sm text-gray-600">
-                  Es el importe orientativo por unidad/loft. En algunos proyectos hay tipos de unidad con precios diferentes (planos incluidos).
-                </p>
-              </details>
-
-              <details class="rounded-xl border p-4" style="border-color:#C8D9B0">
-                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Qué ventajas fiscales puedo simular?</summary>
-                <p class="mt-2 text-sm text-gray-600">
-                  En el detalle del proyecto puedes abrir el “Simulador desgravación (Ley Startups)” y ver un cálculo orientativo por años.
-                </p>
-              </details>
-
-              <details class="rounded-xl border p-4" style="border-color:#C8D9B0">
-                <summary class="cursor-pointer font-semibold" style="color:#0D0D0D">¿Los proyectos se actualizan en tiempo real?</summary>
-                <p class="mt-2 text-sm text-gray-600">
-                  Sí. La lista y el detalle se alimentan de los datos del proyecto publicados en Supabase (y se reflejan en la landing/inversiones).
-                </p>
-              </details>
-            </div>
-          </div>
-        </section>
       </div>
     </section>
 
@@ -235,7 +239,7 @@ import LandingHeader from '@/components/landing/LandingHeader.vue'
 import LandingFooter from '@/components/landing/LandingFooter.vue'
 import ProyectoCard from '@/components/proyectos/ProyectoCard.vue'
 import type { Proyecto } from '@/types/proyecto'
-import { fetchPublicProyectos } from '@/utils/publicProyectos'
+import { fetchRentabilidades } from '@/utils/publicProyectos'
 import { loadGoogleMapsPlaces } from '@/utils/loadGoogleMaps'
 import { useAuth } from '@/composables/useAuth'
 import { useUserDashboard } from '@/composables/useUserDashboard'
@@ -291,6 +295,57 @@ const averagePrice = computed(() => {
   return Math.round(sum / filtered.value.length)
 })
 
+/** Proyectos con lofts alquilados: cantidad, ingresos mensuales, rentabilidad por ticket */
+const proyectosConAlquileres = computed(() => {
+  const items: Array<{
+    proyecto: Proyecto
+    totalAlquilados: number
+    ingresosMensualesTotales: number
+    numTickets: number
+    rentabilidadPorTicket: number
+    detalleAlquileres: Array<{ nombre: string; alquilados: number; precio_alquiler: number }>
+  }> = []
+
+  for (const p of proyectos.value) {
+    const tipos = (p.unidades_tipos || []) as Array<{
+      nombre?: string
+      alquilados?: number
+      precio_alquiler?: number
+    }>
+    let totalAlquilados = 0
+    let ingresosMensuales = 0
+    const detalleAlquileres: Array<{ nombre: string; alquilados: number; precio_alquiler: number }> = []
+
+    for (const t of tipos) {
+      const alq = Number(t.alquilados) || 0
+      const precio = Number(t.precio_alquiler) || 0
+      if (alq > 0 && precio > 0) {
+        totalAlquilados += alq
+        ingresosMensuales += alq * precio
+        detalleAlquileres.push({ nombre: t.nombre || 'Tipo', alquilados: alq, precio_alquiler: precio })
+      }
+    }
+
+    if (totalAlquilados === 0) continue
+
+    const ticketSize = Number(p.precio_ticket) || 5000
+    const objetivo = Number(p.objetivo_inversion_total) || 0
+    const numTickets = objetivo > 0 ? Math.floor(objetivo / ticketSize) : 0
+    const rentabilidadPorTicket = numTickets > 0 ? ingresosMensuales / numTickets : 0
+
+    items.push({
+      proyecto: p,
+      totalAlquilados,
+      ingresosMensualesTotales: Math.round(ingresosMensuales * 100) / 100,
+      numTickets,
+      rentabilidadPorTicket: Math.round(rentabilidadPorTicket * 100) / 100,
+      detalleAlquileres,
+    })
+  }
+
+  return items
+})
+
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(amount || 0)
 
@@ -303,9 +358,6 @@ const resetFilters = () => {
 const goDetalle = (p: Proyecto) => {
   if (!p.id) return
   router.push(`/inversiones/${p.id}`)
-}
-const goSignin = () => {
-  router.push('/signin')
 }
 
 // Mapa
@@ -349,7 +401,7 @@ const initMap = async () => {
     mapState.value = 'ready'
     await updateMarkers()
   } catch (e: any) {
-    console.warn('Mapa inversiones: error', e)
+    console.warn('Mapa rentabilidades: error', e)
     mapState.value = 'error'
     mapErrorMessage.value = e?.message || 'Mapa no disponible'
   }
@@ -407,14 +459,13 @@ async function load() {
   loading.value = true
   error.value = null
   try {
-    proyectos.value = await fetchPublicProyectos()
-    // init sliders
+    proyectos.value = await fetchRentabilidades()
     precioMinValue.value = priceRangeMin.value
     precioMaxValue.value = priceRangeMax.value
     await nextTick()
     await initMap()
   } catch (e: any) {
-    error.value = e?.message || 'Error cargando inversiones'
+    error.value = e?.message || 'Error cargando rentabilidades'
   } finally {
     loading.value = false
   }
@@ -445,4 +496,3 @@ watch(
 
 onUnmounted(() => clearMarkers())
 </script>
-

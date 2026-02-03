@@ -115,7 +115,7 @@ onUnmounted(() => {
   justify-content: space-between;
   padding: 1.25rem 1.5rem;
   border-bottom: 1px solid #e5e7eb;
-  background: #2793F2;
+  background: #0583F2;
   color: white;
 }
 
@@ -164,14 +164,14 @@ onUnmounted(() => {
 }
 
 .ley-modal-p strong {
-  color: #2793F2;
+  color: #0583F2;
 }
 
 .ley-modal-highlight {
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #2793F2;
+  color: #0583F2;
   font-style: italic;
 }
 

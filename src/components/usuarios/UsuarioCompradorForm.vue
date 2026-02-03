@@ -62,17 +62,48 @@
         </select>
       </div>
 
-      <!-- Monto invertido -->
-      <div>
-        <label class="block text-sm font-medium mb-2">Monto invertido (EUR)</label>
-        <input
-          v-model.number="formData.monto_invertido"
-          type="number"
-          step="0.01"
-          min="0"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
-        />
+      <!-- Lo que ha comprado -->
+      <div class="md:col-span-2">
+        <label class="block text-sm font-medium mb-2">Lo que ha comprado *</label>
+        <div class="space-y-4">
+          <label class="flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-colors" :class="formData.tipo_compra === 'tickets' ? 'border-2' : ''" style="border-color: #C8D9B0">
+            <input v-model="formData.tipo_compra" type="radio" value="tickets" class="mt-1" />
+            <div class="flex-1">
+              <span class="font-semibold" style="color:#0D0D0D">A) Nº de tickets</span>
+              <p class="text-xs text-gray-500 mt-0.5">Múltiplos de 5.000€ (1 ticket = 5.000€)</p>
+              <div v-if="formData.tipo_compra === 'tickets'" class="mt-3 flex items-center gap-3">
+                <input
+                  v-model.number="formData.num_tickets"
+                  type="number"
+                  min="1"
+                  step="1"
+                  class="w-24 px-3 py-2 border rounded-lg text-sm"
+                  style="border-color: #C8D9B0"
+                />
+                <span class="text-sm text-gray-600">= {{ formatCurrency((formData.num_tickets || 1) * 5000) }}</span>
+              </div>
+            </div>
+          </label>
+          <label class="flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-colors" :class="formData.tipo_compra === 'loft_completo' ? 'border-2' : ''" style="border-color: #C8D9B0">
+            <input v-model="formData.tipo_compra" type="radio" value="loft_completo" class="mt-1" />
+            <div class="flex-1">
+              <span class="font-semibold" style="color:#0D0D0D">B) Loft entero en propiedad</span>
+              <p class="text-xs text-gray-500 mt-0.5">Inversión por la unidad completa</p>
+              <div v-if="formData.tipo_compra === 'loft_completo'" class="mt-3">
+                <input
+                  v-model.number="formData.monto_invertido"
+                  type="number"
+                  step="1000"
+                  min="0"
+                  class="w-40 px-3 py-2 border rounded-lg text-sm"
+                  style="border-color: #C8D9B0"
+                  placeholder="Precio loft (EUR)"
+                />
+                <p class="text-xs text-gray-500 mt-1">Importe total de la unidad</p>
+              </div>
+            </div>
+          </label>
+        </div>
       </div>
 
       <!-- Fecha de inversión -->
@@ -162,13 +193,20 @@ const formData = ref<Omit<UsuarioComprador, 'id' | 'created_at' | 'updated_at'>>
   direccion: '',
   proyecto_id: '',
   monto_invertido: 0,
+  tipo_compra: 'tickets',
+  num_tickets: 1,
   fecha_inversion: '',
   estado: 'pendiente',
   notas: ''
 })
 
+const formatCurrency = (n: number) =>
+  new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n)
+
 watch(() => props.comprador, (newComprador) => {
   if (newComprador) {
+    const tipo = newComprador.tipo_compra || (newComprador.num_tickets ? 'tickets' : 'loft_completo')
+    const numTickets = newComprador.num_tickets ?? (tipo === 'tickets' && newComprador.monto_invertido ? Math.round(newComprador.monto_invertido / 5000) : 1)
     formData.value = {
       nombre: newComprador.nombre,
       telefono: newComprador.telefono || '',
@@ -176,6 +214,8 @@ watch(() => props.comprador, (newComprador) => {
       direccion: newComprador.direccion || '',
       proyecto_id: newComprador.proyecto_id || '',
       monto_invertido: newComprador.monto_invertido,
+      tipo_compra: tipo,
+      num_tickets: numTickets,
       fecha_inversion: newComprador.fecha_inversion || '',
       estado: newComprador.estado,
       notas: newComprador.notas || ''
@@ -184,6 +224,12 @@ watch(() => props.comprador, (newComprador) => {
 }, { immediate: true })
 
 const handleSubmit = () => {
-  emit('submit', formData.value)
+  const data = { ...formData.value }
+  if (data.tipo_compra === 'tickets' && data.num_tickets) {
+    data.monto_invertido = data.num_tickets * 5000
+  } else if (data.tipo_compra === 'loft_completo') {
+    data.num_tickets = undefined
+  }
+  emit('submit', data)
 }
 </script>

@@ -19,6 +19,8 @@ export interface UsuarioComprador {
   direccion?: string
   proyecto_id?: string
   monto_invertido: number
+  tipo_compra?: 'tickets' | 'loft_completo'
+  num_tickets?: number
   fecha_inversion?: string
   estado: 'pendiente' | 'confirmado' | 'completado' | 'cancelado'
   notas?: string

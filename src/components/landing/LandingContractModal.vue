@@ -193,7 +193,7 @@ onUnmounted(() => {
   justify-content: space-between;
   padding: 1.25rem 1.5rem;
   border-bottom: 1px solid #e5e7eb;
-  background: #2793F2;
+  background: #0583F2;
   border-radius: 1.25rem 1.25rem 0 0;
 }
 
@@ -235,7 +235,7 @@ onUnmounted(() => {
   margin: 0 0 1.25rem 0;
   padding: 1rem;
   background: #f0fdf4;
-  border-left: 4px solid #2793F2;
+  border-left: 4px solid #0583F2;
   border-radius: 0 0.5rem 0.5rem 0;
   color: #166534;
   font-size: 0.9rem;
@@ -259,7 +259,7 @@ onUnmounted(() => {
   margin: 0 0 0.75rem 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #2793F2;
+  color: #0583F2;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -284,7 +284,7 @@ onUnmounted(() => {
   padding: 1rem;
   background: #f9fafb;
   border-radius: 0.5rem;
-  border-left: 4px solid #2793F2;
+  border-left: 4px solid #0583F2;
 }
 
 .contract-clause:last-child {
@@ -318,7 +318,7 @@ onUnmounted(() => {
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: #2793F2;
+  background: #0583F2;
   border: none;
   border-radius: 0.75rem;
   cursor: pointer;

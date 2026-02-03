@@ -8,16 +8,57 @@
         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         loading="lazy"
       />
-      <div class="absolute top-3 left-3 flex items-center gap-2">
-        <span class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style="background: linear-gradient(135deg, #C8D9B0, #2793F2); backdrop-filter: blur(4px)">
-          Activo
-        </span>
+      <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span
+            v-if="esRentabilidad"
+            class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg"
+            style="background-color: rgba(13, 13, 13, 0.85); backdrop-filter: blur(4px)"
+          >
+            Vendido
+          </span>
+          <span
+            v-else
+            class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg"
+            style="background: linear-gradient(135deg, #C8D9B0, #2793F2); backdrop-filter: blur(4px)"
+          >
+            Activo
+          </span>
         <span class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style="background-color: rgba(13, 13, 13, 0.7); backdrop-filter: blur(4px)">
           {{ proyecto.porcentaje_llegado }}% completado
         </span>
+        </div>
+        <button
+          v-if="showFavorito && proyecto.id"
+          type="button"
+          @click.stop="$emit('toggle-favorito', proyecto.id)"
+          class="p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-colors"
+          :title="isFavorito ? 'Quitar de favoritos' : 'Añadir a favoritos'"
+        >
+          <svg
+            class="w-5 h-5"
+            :class="isFavorito ? 'text-red-500 fill-current' : 'text-gray-600'"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </button>
       </div>
     </div>
-    <div v-else class="h-56 sm:h-64 w-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+    <div v-else class="h-56 sm:h-64 w-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative">
+      <button
+        v-if="showFavorito && proyecto.id"
+        type="button"
+        @click.stop="$emit('toggle-favorito', proyecto.id)"
+        class="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-colors"
+        :title="isFavorito ? 'Quitar de favoritos' : 'Añadir a favoritos'"
+      >
+        <svg class="w-5 h-5" :class="isFavorito ? 'text-red-500 fill-current' : 'text-gray-600'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      </button>
       <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path
           stroke-linecap="round"
@@ -42,9 +83,9 @@
           </div>
         </div>
         <div>
-          <div class="text-xs text-gray-600 mb-1">Precio por unidad</div>
+          <div class="text-xs text-gray-600 mb-1">Ticket desde</div>
           <div class="text-lg font-bold" style="color: #2793F2">
-            {{ formatCurrency(proyecto.precio_unidad) }}
+            {{ formatCurrency(ticketSize) }}
           </div>
         </div>
       </div>
@@ -80,7 +121,7 @@
       <!-- Progress Bar mejorada -->
       <div class="mb-5">
         <div class="flex justify-between text-sm mb-2" style="color: #0D0D0D">
-          <span class="font-medium">{{ formatCurrency(proyecto.monto_restante || 0) }} restantes</span>
+          <span class="font-medium">{{ ticketsRestantes }} tickets de {{ formatCurrency(ticketSize) }} restantes</span>
           <span class="font-bold" style="color: #2793F2">{{ proyecto.porcentaje_llegado }}%</span>
         </div>
         <div class="w-full rounded-full h-3 overflow-hidden" style="background-color: #C8D9B0">
@@ -118,12 +159,21 @@ import { supabase } from '@/config/supabase'
 
 const props = defineProps<{
   proyecto: Proyecto
+  showFavorito?: boolean
+  isFavorito?: boolean
+  esRentabilidad?: boolean
 }>()
 
 defineEmits<{
   invertir: [proyecto: Proyecto]
   'ver-detalles': [proyecto: Proyecto]
+  'toggle-favorito': [proyectoId: string]
 }>()
+
+const ticketSize = computed(() => Number(props.proyecto.precio_ticket) || 5000)
+const ticketsRestantes = computed(() =>
+  Math.max(0, Math.floor((Number(props.proyecto.monto_restante) || 0) / ticketSize.value))
+)
 
 const coverUrl = computed(() => {
   const p = props.proyecto

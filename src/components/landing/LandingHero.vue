@@ -239,7 +239,7 @@ onUnmounted(() => {
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: #3C9EF3;
+  background: #0583F2;
   border-radius: 0.5rem;
   text-decoration: none;
   transition: opacity 0.2s, transform 0.2s;

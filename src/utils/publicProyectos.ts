@@ -25,7 +25,7 @@ export async function fetchPublicProyectos(): Promise<Proyecto[]> {
   const { data: rows, error: selectErr } = await supabase
     .from('proyectos')
     .select(
-      'id,nombre_proyecto,objetivo_inversion_total,localizacion,num_lofts,precio_unidad,tipo_inversion,porcentaje_llegado,monto_restante,alquiler,precio_alquiler_mes,mostrar_en_landing,consulta_vinculante_urbanistica,caracteristicas,fotos,fotos_oficina_actual,fotos_oficina_remodelada,videos,street_view_embed,comodidades,unidades_tipos,created_at,updated_at'
+      'id,nombre_proyecto,objetivo_inversion_total,localizacion,num_lofts,precio_unidad,precio_ticket,tipo_inversion,porcentaje_llegado,monto_restante,alquiler,precio_alquiler_mes,mostrar_en_landing,consulta_vinculante_urbanistica,caracteristicas,fotos,fotos_oficina_actual,fotos_oficina_remodelada,videos,street_view_embed,comodidades,unidades_tipos,created_at,updated_at'
     )
     .eq('mostrar_en_landing', true)
     .order('created_at', { ascending: false })
@@ -50,7 +50,7 @@ export async function fetchPublicProyectoById(id: string): Promise<Proyecto | nu
   const { data: row, error: selectErr } = await supabase
     .from('proyectos')
     .select(
-      'id,nombre_proyecto,objetivo_inversion_total,localizacion,num_lofts,precio_unidad,tipo_inversion,porcentaje_llegado,monto_restante,alquiler,precio_alquiler_mes,mostrar_en_landing,consulta_vinculante_urbanistica,caracteristicas,fotos,fotos_oficina_actual,fotos_oficina_remodelada,videos,street_view_embed,comodidades,unidades_tipos,created_at,updated_at'
+      'id,nombre_proyecto,objetivo_inversion_total,localizacion,num_lofts,precio_unidad,precio_ticket,tipo_inversion,porcentaje_llegado,monto_restante,alquiler,precio_alquiler_mes,mostrar_en_landing,consulta_vinculante_urbanistica,caracteristicas,fotos,fotos_oficina_actual,fotos_oficina_remodelada,videos,street_view_embed,comodidades,unidades_tipos,created_at,updated_at'
     )
     .eq('id', id)
     .maybeSingle()
@@ -59,3 +59,11 @@ export async function fetchPublicProyectoById(id: string): Promise<Proyecto | nu
   return (row as any as Proyecto) || null
 }
 
+/**
+ * Obtiene los proyectos vendidos y cerrados (Rentabilidades)
+ */
+export async function fetchRentabilidades(): Promise<Proyecto[]> {
+  const { data, error } = await supabase.rpc('public_rentabilidades_list')
+  if (!error) return (data as any as Proyecto[]) || []
+  throw error
+}

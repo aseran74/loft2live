@@ -35,6 +35,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/rentabilidades',
+      name: 'Rentabilidades',
+      component: () => import('../views/Rentabilidades.vue'),
+      meta: {
+        title: 'Rentabilidades',
+      },
+    },
+    {
       path: '/alquileres',
       name: 'Alquileres',
       component: () => import('../views/Alquileres.vue'),
@@ -59,11 +67,19 @@ const router = createRouter({
       },
     },
     {
+      path: '/mi-cuenta',
+      name: 'UserDashboard',
+      component: () => import('../views/UserDashboard.vue'),
+      meta: {
+        title: 'Mi cuenta',
+      },
+    },
+    {
       path: '/dashboard',
       name: 'Ecommerce',
       component: () => import('../views/Ecommerce.vue'),
       meta: {
-        title: 'eCommerce Dashboard',
+        title: 'Panel Admin',
       },
     },
     {
@@ -233,6 +249,30 @@ const router = createRouter({
       },
     },
     {
+      path: '/usuarios/registrados',
+      name: 'Usuarios Registrados',
+      component: () => import('../views/UsuariosRegistrados.vue'),
+      meta: {
+        title: 'Usuarios Registrados',
+      },
+    },
+    {
+      path: '/solicitudes',
+      name: 'Solicitudes Admin',
+      component: () => import('../views/SolicitudesAdmin.vue'),
+      meta: {
+        title: 'Solicitudes',
+      },
+    },
+    {
+      path: '/facturacion',
+      name: 'Facturación',
+      component: () => import('../views/Facturacion.vue'),
+      meta: {
+        title: 'Facturación',
+      },
+    },
+    {
       path: '/noticias',
       name: 'Noticias',
       component: () => import('../views/Noticias.vue'),
@@ -271,14 +311,14 @@ router.beforeEach(async (to, from, next) => {
   const isPublicRoute = publicRoutes.includes(to.path)
   
   // Rutas que requieren autenticación
-  const protectedRoutes = ['/proyectos', '/usuarios', '/dashboard', '/noticias']
+  const protectedRoutes = ['/proyectos', '/usuarios', '/dashboard', '/noticias', '/mi-cuenta', '/solicitudes', '/facturacion']
   const requiresAuth = protectedRoutes.some(route => to.path.startsWith(route))
   
   if (requiresAuth && !isPublicRoute) {
     try {
       // Importar dinámicamente para evitar problemas de inicialización
       const { useAuth } = await import('@/composables/useAuth')
-      const { isAuthenticated, loading } = useAuth()
+      const { isAuthenticated, isAdmin, loading } = useAuth()
       
       // Esperar a que termine la carga inicial
       let attempts = 0
@@ -289,6 +329,8 @@ router.beforeEach(async (to, from, next) => {
       
       if (!isAuthenticated.value) {
         next('/signin')
+      } else if ((to.path === '/dashboard' || to.path === '/solicitudes' || to.path === '/facturacion' || to.path === '/usuarios/registrados') && !isAdmin.value) {
+        next('/mi-cuenta')
       } else {
         next()
       }
@@ -297,13 +339,13 @@ router.beforeEach(async (to, from, next) => {
       next('/signin')
     }
   } else {
-    // Si está autenticado y va a signin/signup, redirigir al dashboard
+    // Si está autenticado y va a signin/signup, redirigir según rol
     if (to.path === '/signin' || to.path === '/signup') {
       try {
         const { useAuth } = await import('@/composables/useAuth')
-        const { isAuthenticated } = useAuth()
+        const { isAuthenticated, isAdmin } = useAuth()
         if (isAuthenticated.value) {
-          next('/dashboard')
+          next(isAdmin.value ? '/dashboard' : '/mi-cuenta')
         } else {
           next()
         }

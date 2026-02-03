@@ -221,6 +221,12 @@
                       {{ formatCurrency(proyecto.precio_unidad) }}
                     </span>
                   </div>
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
+                    <span class="text-gray-600 mb-1 sm:mb-0">Ticket de inversión</span>
+                    <span class="font-semibold text-lg" style="color: #2793F2">
+                      {{ formatCurrency(ticketSize) }} <span class="text-sm font-normal text-gray-600">({{ ticketsRestantes }} restantes)</span>
+                    </span>
+                  </div>
                   <div v-if="proyecto.alquiler && proyecto.precio_alquiler_mes" class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-200">
                     <span class="text-gray-600 mb-1 sm:mb-0">Precio alquiler</span>
                     <span class="font-semibold text-lg" style="color: #0D0D0D">
@@ -262,6 +268,7 @@
                             {{ formatCurrency(Number(u.precio || 0)) }}
                           </span>
                           <span v-if="u.m2" class="ml-2 text-gray-600">· {{ u.m2 }} m²</span>
+                          <span v-if="u.disponibles != null && u.disponibles > 0" class="ml-2 text-gray-600">· {{ u.disponibles }} disponible(s)</span>
                         </p>
                       </div>
                     </div>
@@ -291,9 +298,22 @@
                 </div>
               </div>
 
-              <!-- Comodidades / complementos -->
+              <!-- Comprador 100% (solo si proyecto vendido y cerrado) -->
+              <div v-if="proyecto.vendido_cerrado && proyecto.id" class="mt-6">
+                <h2 class="text-2xl font-bold mb-4" style="color:#0D0D0D">Comprador 100% del inmueble</h2>
+                <div v-if="loadingComprador" class="rounded-xl border p-4 text-sm text-gray-500" style="border-color:#C8D9B0">Cargando...</div>
+                <div v-else-if="comprador100" class="rounded-xl border p-4 bg-white" style="border-color:#C8D9B0">
+                  <p class="text-base font-semibold" style="color:#0D0D0D">{{ comprador100.nombre }}</p>
+                  <p v-if="comprador100.correo" class="text-sm text-gray-600 mt-1">{{ comprador100.correo }}</p>
+                </div>
+                <div v-else class="rounded-xl border p-4 text-sm text-gray-500" style="border-color:#C8D9B0">
+                  No hay comprador con 100% del inmueble registrado.
+                </div>
+              </div>
+
+              <!-- Complementos -->
               <div class="mt-6">
-                <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Comodidades</h2>
+                <h2 class="text-2xl font-bold mb-4" style="color: #0D0D0D">Complementos</h2>
 
                 <div v-if="proyecto.comodidades && proyecto.comodidades.length > 0" class="space-y-4">
                   <div
@@ -322,7 +342,7 @@
                 </div>
 
                 <div v-else class="rounded-xl border p-4 text-sm text-gray-600" style="border-color: #C8D9B0">
-                  No hay comodidades registradas para este proyecto.
+                  No hay complementos registrados para este proyecto.
                 </div>
               </div>
 
@@ -497,6 +517,10 @@
                     <span class="font-semibold" style="color: #0D0D0D">{{ proyecto.tipo_inversion }}</span>
                   </div>
                   <div class="flex justify-between">
+                    <span class="text-gray-600">Inversión mínima</span>
+                    <span class="font-semibold" style="color: #2793F2">{{ formatCurrency(ticketSize) }}/ticket</span>
+                  </div>
+                  <div class="flex justify-between">
                     <span class="text-gray-600">Lofts disponibles</span>
                     <span class="font-semibold" style="color: #0D0D0D">{{ proyecto.num_lofts }}</span>
                   </div>
@@ -533,15 +557,25 @@
                   Editar proyecto
                 </button>
 
-                <button
-                  v-else
-                  type="button"
-                  @click="router.push('/signin')"
-                  class="w-full px-6 py-3 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
-                  style="background: linear-gradient(135deg, #C8D9B0, #2793F2)"
-                >
-                  Iniciar sesión para invertir
-                </button>
+                <template v-else>
+                  <button
+                    type="button"
+                    @click="router.push('/signin')"
+                    class="w-full px-6 py-3 text-white rounded-lg transition-colors font-semibold hover:opacity-90"
+                    style="background: linear-gradient(135deg, #C8D9B0, #2793F2)"
+                  >
+                    Iniciar sesión para invertir
+                  </button>
+                  <button
+                    v-if="isAuthenticated"
+                    type="button"
+                    @click="solicitudModalOpen = true"
+                    class="w-full px-6 py-3 border-2 rounded-lg transition-colors font-semibold hover:opacity-90"
+                    style="border-color: #C8D9B0; color: #2793F2"
+                  >
+                    Solicitar información
+                  </button>
+                </template>
 
                 <div
                   class="w-full px-6 py-3 rounded-lg border-2 text-center font-semibold"
@@ -818,12 +852,101 @@
       </div>
     </div>
   </Teleport>
+
+  <!-- Modal Solicitar información -->
+  <Teleport to="body">
+    <div
+      v-if="solicitudModalOpen"
+      class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto"
+      @click.self="solicitudModalOpen = false"
+    >
+      <div class="bg-white rounded-2xl shadow-xl max-w-lg w-full p-6 my-8" @click.stop>
+        <h3 class="text-xl font-bold mb-4" style="color: #0D0D0D">Solicitar información</h3>
+        <p class="text-sm text-gray-600 mb-4">
+          {{ proyecto?.nombre_proyecto ? `Sobre: ${proyecto.nombre_proyecto}` : 'Consulta general' }}
+        </p>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+            <input
+              v-model="solicitudForm.telefono"
+              type="tel"
+              class="w-full px-4 py-3 rounded-lg border"
+              style="border-color: #C8D9B0"
+              placeholder="+34 600 000 000"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">¿Cuándo quiere que le llame el comercial?</label>
+            <input
+              v-model="solicitudForm.fecha_hora_llamada"
+              type="datetime-local"
+              class="w-full px-4 py-3 rounded-lg border"
+              style="border-color: #C8D9B0"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de consulta</label>
+            <select
+              v-model="solicitudForm.tipo_consulta"
+              class="w-full px-4 py-3 rounded-lg border"
+              style="border-color: #C8D9B0"
+            >
+              <option value="">Selecciona una opción</option>
+              <option value="Información general">Información general</option>
+              <option value="Visita al proyecto">Visita al proyecto</option>
+              <option value="Inversión">Inversión</option>
+              <option value="Alquiler">Alquiler</option>
+              <option value="Documentación">Documentación</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Consulta</label>
+            <textarea
+              v-model="solicitudForm.mensaje"
+              rows="4"
+              class="w-full px-4 py-3 rounded-lg border resize-y"
+              style="border-color: #C8D9B0"
+              placeholder="Escribe tu consulta..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="flex gap-3 justify-end mt-6">
+          <button
+            type="button"
+            @click="solicitudModalOpen = false"
+            class="px-4 py-2 rounded-lg font-semibold"
+            style="border-color: #C8D9B0; border: 2px solid; color: #0D0D0D"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            @click="submitSolicitud"
+            :disabled="!solicitudForm.mensaje.trim()"
+            class="px-4 py-2 rounded-lg font-semibold text-white disabled:opacity-50"
+            style="background: #2793F2"
+          >
+            Enviar
+          </button>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useProyectos } from '@/composables/useProyectos'
+import { useAuth } from '@/composables/useAuth'
+import { useUserDashboard } from '@/composables/useUserDashboard'
 import type { Proyecto } from '@/types/proyecto'
 import { supabase } from '@/config/supabase'
 import { loadGoogleMapsPlaces } from '@/utils/loadGoogleMaps'
@@ -864,7 +987,16 @@ const currentPhotoIndex = ref(0)
 const reformaLightboxOpen = ref(false)
 const currentReformaPhotoIndex = ref(0)
 const casoExitoModalOpen = ref(false)
+const solicitudModalOpen = ref(false)
+const solicitudForm = ref({
+  telefono: '',
+  fecha_hora_llamada: '' as string,
+  tipo_consulta: '',
+  mensaje: ''
+})
 const facturacionAnual = ref<number>(80000)
+const { isAuthenticated } = useAuth()
+const { crearSolicitud } = useUserDashboard()
 const mapContainer = ref<HTMLDivElement | null>(null)
 const streetViewContainer = ref<HTMLDivElement | null>(null)
 const mapState = ref<'idle' | 'loading' | 'ready' | 'error'>('idle')
@@ -875,6 +1007,8 @@ const streetViewChecked = ref(false)
 const nearbyPlacesCategories = ref<
   Array<{ type: string; label: string; places: Array<{ name: string; lat?: number; lng?: number }> }>
 >([])
+const comprador100 = ref<{ nombre: string; correo?: string } | null>(null)
+const loadingComprador = ref(false)
 let map: any = null
 let geocoder: any = null
 let marker: any = null
@@ -889,6 +1023,35 @@ const resolveProyectoId = (): string | null => {
   const fromRoute = route.params.id as string
   return fromRoute || null
 }
+
+// Cargar comprador 100% cuando proyecto vendido y cerrado
+watch(
+  () => proyecto.value,
+  async (p) => {
+    if (!p?.id || !p.vendido_cerrado || !p.objetivo_inversion_total) {
+      comprador100.value = null
+      return
+    }
+    loadingComprador.value = true
+    comprador100.value = null
+    try {
+      const { data } = await supabase
+        .from('usuarios_compradores')
+        .select('nombre, correo, monto_invertido')
+        .eq('proyecto_id', p.id)
+        .gte('monto_invertido', Number(p.objetivo_inversion_total))
+        .limit(1)
+      if (data?.[0]) {
+        comprador100.value = { nombre: data[0].nombre || 'Sin nombre', correo: data[0].correo }
+      }
+    } catch {
+      comprador100.value = null
+    } finally {
+      loadingComprador.value = false
+    }
+  },
+  { immediate: true }
+)
 
 onMounted(async () => {
   const proyectoId = resolveProyectoId()
@@ -1146,6 +1309,10 @@ const mainPhotoPath = computed(() => {
   return p?.fotos?.[0] ?? p?.fotos_oficina_remodelada?.[0] ?? p?.fotos_oficina_actual?.[0] ?? ''
 })
 
+const ticketSize = computed(() => Number(proyecto.value?.precio_ticket) || 5000)
+const ticketsRestantes = computed(() =>
+  Math.max(0, Math.floor((Number(proyecto.value?.monto_restante) || 0) / ticketSize.value))
+)
 const valorInmueble = computed(() => Number(proyecto.value?.precio_unidad || 0))
 const ivaRecuperableOficina = computed(() =>
   Math.round(valorInmueble.value * 0.8 * 0.21)
@@ -1262,6 +1429,24 @@ const editProyecto = () => {
       path: '/proyectos',
       query: { edit: proyecto.value.id },
     })
+  }
+}
+
+const submitSolicitud = async () => {
+  const msg = solicitudForm.value.mensaje?.trim()
+  if (!msg) return
+  try {
+    await crearSolicitud(proyecto.value?.id || null, {
+      mensaje: msg,
+      telefono: solicitudForm.value.telefono?.trim() || undefined,
+      fecha_hora_llamada: solicitudForm.value.fecha_hora_llamada || null,
+      tipo_consulta: solicitudForm.value.tipo_consulta?.trim() || undefined
+    })
+    solicitudModalOpen.value = false
+    solicitudForm.value = { telefono: '', fecha_hora_llamada: '', tipo_consulta: '', mensaje: '' }
+  } catch (e) {
+    console.error('Error al enviar solicitud:', e)
+    alert('No se pudo enviar la solicitud. Inténtalo de nuevo.')
   }
 }
 

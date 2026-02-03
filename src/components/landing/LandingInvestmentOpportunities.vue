@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
       <div class="text-center mb-10">
         <h2 class="text-3xl lg:text-4xl font-bold mb-3" style="color: #0D0D0D">
-          Oportunidades de <span style="color: #2793F2">inversión actual</span>
+          Oportunidades de <span style="color: #0583F2">inversión actual</span>
         </h2>
       </div>
 
@@ -21,11 +21,14 @@
 
       <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ProyectoCard
-          v-for="proyecto in proyectos.slice(0, 4)"
+          v-for="proyecto of proyectos.slice(0, 4)"
           :key="proyecto.id"
           :proyecto="proyecto"
+          :show-favorito="true"
+          :is-favorito="proyecto.id ? isFavorito(proyecto.id) : false"
           @invertir="handleInvertir"
           @ver-detalles="handleVerDetalles"
+          @toggle-favorito="handleToggleFavorito"
         />
       </div>
 
@@ -33,7 +36,7 @@
         <router-link
           to="/inversiones"
           class="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-white hover:opacity-90"
-          style="background-color: #2793F2"
+          style="background-color: #0583F2"
         >
           Ver todas las inversiones
         </router-link>
@@ -48,8 +51,21 @@ import { useRouter, RouterLink } from 'vue-router'
 import ProyectoCard from '@/components/proyectos/ProyectoCard.vue'
 import type { Proyecto } from '@/types/proyecto'
 import { fetchPublicProyectos } from '@/utils/publicProyectos'
+import { useAuth } from '@/composables/useAuth'
+import { useUserDashboard } from '@/composables/useUserDashboard'
 
 const router = useRouter()
+const { isAuthenticated } = useAuth()
+const { isFavorito, addFavorito, removeFavorito, fetchFavoritos } = useUserDashboard()
+
+async function handleToggleFavorito(proyectoId: string) {
+  try {
+    if (isFavorito(proyectoId)) await removeFavorito(proyectoId)
+    else await addFavorito(proyectoId)
+  } catch (e) {
+    console.error('Error al actualizar favorito:', e)
+  }
+}
 
 const proyectos = ref<Proyecto[]>([])
 const loading = ref(false)
@@ -57,6 +73,7 @@ const error = ref<string | null>(null)
 
 onMounted(() => {
   load()
+  if (isAuthenticated.value) fetchFavoritos()
 })
 
 const handleInvertir = (proyecto: Proyecto) => {

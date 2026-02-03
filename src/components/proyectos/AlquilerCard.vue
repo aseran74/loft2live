@@ -26,11 +26,11 @@
     </div>
 
     <div class="p-6">
-      <!-- Precio destacado -->
+      <!-- Precio destacado (desde el mínimo de los tipos) -->
       <div class="mb-4">
         <div class="flex items-baseline gap-2 mb-1">
           <span class="text-3xl font-bold" style="color: #2793F2">
-            {{ formatCurrency(proyecto.precio_alquiler_mes || 0) }}
+            {{ precioDesdeFormatted }}
           </span>
           <span class="text-sm text-gray-600">/mes</span>
         </div>
@@ -51,21 +51,32 @@
           </svg>
           <span class="text-gray-700">{{ proyecto.localizacion }}</span>
         </div>
-        <div class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 flex-shrink-0" style="color: #2793F2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-          <span class="text-gray-700">{{ proyecto.num_lofts }} lofts disponibles</span>
+        <!-- Lofts por tipo: resta (disponibles - alquilados) y precio según tipo -->
+        <div class="space-y-1.5">
+          <div
+            v-for="tipo in tiposEnAlquiler"
+            :key="tipo.nombre"
+            class="flex items-center justify-between gap-2 text-sm"
+          >
+            <span class="text-gray-700">{{ tipo.nombre }}: {{ tipo.disponiblesParaAlquiler }} lofts</span>
+            <span class="font-semibold" style="color: #2793F2">{{ formatCurrency(tipo.precio_alquiler!) }}/mes</span>
+          </div>
+          <div v-if="totalLoftsDisponibles > 0" class="flex items-center gap-2 text-sm text-gray-500 pt-0.5">
+            <svg class="w-4 h-4 flex-shrink-0" style="color: #2793F2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span>{{ totalLoftsDisponibles }} lofts disponibles en total</span>
+          </div>
         </div>
       </div>
 
-      <!-- Amenidades mejoradas -->
+      <!-- Complementos -->
       <div v-if="proyecto.comodidades && proyecto.comodidades.length > 0" class="mb-6">
         <h4 class="text-sm font-bold mb-3 flex items-center gap-2" style="color: #0D0D0D">
           <svg class="w-4 h-4" style="color: #2793F2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
           </svg>
-          Amenidades ({{ proyecto.comodidades.length }})
+          Complementos ({{ proyecto.comodidades.length }})
         </h4>
         <div class="grid grid-cols-2 gap-2">
           <div
@@ -109,7 +120,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Proyecto } from '@/types/proyecto'
+import type { Proyecto, UnidadTipo } from '@/types/proyecto'
 import { supabase } from '@/config/supabase'
 import { amenityGroups, getAmenityIconSvg, getAmenityLabel } from '@/utils/amenities'
 
@@ -123,6 +134,33 @@ defineEmits<{
 }>()
 
 const maxAmenities = 6
+
+// Solo tipos con (disponibles - alquilados) > 0 y precio_alquiler (proyectos vendidos y cerrados)
+type TipoEnAlquiler = UnidadTipo & { disponiblesParaAlquiler: number }
+const tiposEnAlquiler = computed((): TipoEnAlquiler[] => {
+  const tipos = props.proyecto?.unidades_tipos || []
+  return tipos
+    .map((u) => {
+      const disp = Number(u.disponibles ?? 0)
+      const alq = Number(u.alquilados ?? 0)
+      const disponiblesParaAlquiler = Math.max(0, disp - alq)
+      const precio = Number(u.precio_alquiler ?? 0)
+      if (disponiblesParaAlquiler <= 0 || precio <= 0) return null
+      return { ...u, disponiblesParaAlquiler }
+    })
+    .filter((t): t is TipoEnAlquiler => t != null)
+})
+
+const totalLoftsDisponibles = computed(() =>
+  tiposEnAlquiler.value.reduce((acc, t) => acc + t.disponiblesParaAlquiler, 0)
+)
+
+const precioDesdeFormatted = computed(() => {
+  const precios = tiposEnAlquiler.value.map((t) => Number(t.precio_alquiler ?? 0)).filter((n) => n > 0)
+  if (precios.length === 0) return '—'
+  const min = Math.min(...precios)
+  return formatCurrency(min)
+})
 
 const coverUrl = computed(() => {
   const path = props.proyecto?.fotos?.[0]

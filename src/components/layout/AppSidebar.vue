@@ -24,13 +24,13 @@
           v-if="isExpanded || isHovered || isMobileOpen"
           src="/images/Logodefi.png"
           alt="Loft2live"
-          class="h-16 w-auto"
+          class="h-24 w-auto"
         />
         <img
           v-else
           src="/images/Logodefi.png"
           alt="Loft2live"
-          class="h-10 w-10 object-contain"
+          class="h-14 w-14 object-contain"
         />
       </router-link>
     </div>
@@ -212,6 +212,7 @@ import {
 import SidebarWidget from "./SidebarWidget.vue";
 import BoxCubeIcon from "@/icons/BoxCubeIcon.vue";
 import DocsIcon from "@/icons/DocsIcon.vue";
+import LayoutDashboardIcon from "@/icons/LayoutDashboardIcon.vue";
 import { useSidebar } from "@/composables/useSidebar";
 
 const route = useRoute();
@@ -223,17 +224,26 @@ const menuGroups = [
     title: "Menu",
     items: [
       {
+        icon: LayoutDashboardIcon,
+        name: "Dashboard",
+        path: "/dashboard",
+        pro: false,
+      },
+      {
         icon: BoxCubeIcon,
         name: "Proyectos",
         subItems: [
           { name: "Ver Proyectos", path: "/proyectos", pro: false },
           { name: "Crear Proyecto", path: "/proyectos/nuevo", pro: false },
+          { name: "Rentabilidades", path: "/rentabilidades", pro: false },
+          { name: "Facturación", path: "/facturacion", pro: false },
         ],
       },
       {
         icon: UserCircleIcon,
         name: "Usuarios",
         subItems: [
+          { name: "Registrados", path: "/usuarios/registrados", pro: false },
           { name: "Perfiles", path: "/usuarios/perfiles", pro: false },
           { name: "Compradores", path: "/usuarios/compradores", pro: false },
         ],
@@ -245,6 +255,12 @@ const menuGroups = [
           { name: "Ver Noticias", path: "/noticias", pro: false },
           { name: "Crear Noticia", path: "/noticias/nuevo", pro: false },
         ],
+      },
+      {
+        icon: DocsIcon,
+        name: "Solicitudes",
+        path: "/solicitudes",
+        pro: false,
       },
     ],
   },

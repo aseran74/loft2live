@@ -35,7 +35,7 @@ export type AmenityGroup = {
 
 export const amenityGroups: AmenityGroup[] = [
   {
-    title: 'Comodidades',
+    title: 'Complementos',
     items: [
       { key: 'wifi_high_speed', label: 'Wi‑Fi de alta velocidad (muy estable, incluso con red mesh)' },
       { key: 'common_areas_lounge', label: 'Zonas comunes amuebladas (salón / lounge)' },

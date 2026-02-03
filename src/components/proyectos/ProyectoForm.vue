@@ -15,19 +15,72 @@
         />
       </div>
 
-      <!-- Objetivo de inversión total -->
-      <div>
-        <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
-          Objetivo de inversión total (EUR) *
-        </label>
-        <input
-          v-model.number="formData.objetivo_inversion_total"
-          type="number"
-          step="0.01"
-          required
-          class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
-        />
+      <!-- Precios: compra, reforma, licencias, comisión → Objetivo de inversión total y tickets 5000€ -->
+      <div class="md:col-span-2 rounded-xl border p-4 space-y-4" style="border-color: #C8D9B0; background: rgba(200, 217, 176, 0.08)">
+        <h3 class="text-sm sm:text-base font-semibold" style="color: #0D0D0D">Precios del proyecto (datos persistentes)</h3>
+        <p class="text-xs text-gray-500">Objetivo de inversión total = compra + reforma + licencias + comisión (%).</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs font-medium mb-1" style="color: #0D0D0D">Compra (EUR)</label>
+            <input
+              v-model.number="formData.precio_compra"
+              type="number"
+              step="0.01"
+              min="0"
+              class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2"
+              style="border-color: #C8D9B0"
+              placeholder="0"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1" style="color: #0D0D0D">Reforma (EUR)</label>
+            <input
+              v-model.number="formData.precio_reforma"
+              type="number"
+              step="0.01"
+              min="0"
+              class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2"
+              style="border-color: #C8D9B0"
+              placeholder="0"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1" style="color: #0D0D0D">Licencias (EUR)</label>
+            <input
+              v-model.number="formData.precio_permisos"
+              type="number"
+              step="0.01"
+              min="0"
+              class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2"
+              style="border-color: #C8D9B0"
+              placeholder="0"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1" style="color: #0D0D0D">Comisión (%)</label>
+            <input
+              v-model.number="formData.comision_porcentaje"
+              type="number"
+              step="0.01"
+              min="0"
+              max="100"
+              class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2"
+              style="border-color: #C8D9B0"
+              placeholder="2"
+            />
+            <p class="mt-1 text-xs text-gray-500">Por defecto 2%. Se suma al total.</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-baseline gap-6 pt-3 border-t" style="border-color: #C8D9B0">
+          <div>
+            <span class="block text-xs text-gray-500 mb-0.5">Objetivo de inversión total (EUR) *</span>
+            <span class="text-lg font-semibold" style="color: #0D0D0D">{{ objetivoInversionTotalFormatted }}</span>
+          </div>
+          <div>
+            <span class="block text-xs text-gray-500 mb-0.5">Tickets de 5.000 €</span>
+            <span class="text-lg font-semibold" style="color: #2793F2">{{ numTickets5000 }}</span>
+          </div>
+        </div>
       </div>
 
       <!-- Localización -->
@@ -105,19 +158,50 @@
         />
       </div>
 
-      <!-- Precio unidad -->
+      <!-- Precio unidad (por defecto: precio del tipo más barato de los 4) -->
       <div>
         <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
           Precio unidad (EUR) *
         </label>
+        <template v-if="precioUnidadMinTipos != null">
+          <div
+            class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg bg-gray-50"
+            style="border-color: #C8D9B0"
+          >
+            {{ formatEur(precioUnidadMinTipos) }}
+          </div>
+          <p class="mt-1 text-xs text-gray-500">Por defecto: precio del loft más barato de los 4 tipos</p>
+        </template>
+        <template v-else>
+          <input
+            v-model.number="formData.precio_unidad"
+            type="number"
+            step="0.01"
+            min="0"
+            required
+            class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
+            style="border-color: #C8D9B0; focus:ring-color: #2793F2"
+            placeholder="0"
+          />
+          <p class="mt-1 text-xs text-gray-500">Si no hay tipos con precio, indícalo aquí. Si hay tipos, se usará el más barato.</p>
+        </template>
+      </div>
+
+      <!-- Precio ticket (inversión mínima por ticket) -->
+      <div>
+        <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
+          Ticket de inversión (EUR)
+        </label>
         <input
-          v-model.number="formData.precio_unidad"
+          v-model.number="formData.precio_ticket"
           type="number"
-          step="0.01"
-          required
+          step="1000"
+          min="1000"
           class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
           style="border-color: #C8D9B0; focus:ring-color: #2793F2"
+          placeholder="5000"
         />
+        <p class="mt-1 text-xs text-gray-500">Importe mínimo por inversión (ej: 5000€). Por defecto 5000€.</p>
       </div>
 
       <!-- Alquiler disponible -->
@@ -146,6 +230,20 @@
         </label>
       </div>
 
+      <!-- Proyecto vendido y cerrado -->
+      <div>
+        <label class="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
+          <input
+            v-model="formData.vendido_cerrado"
+            type="checkbox"
+            class="w-4 h-4 rounded border-gray-300"
+            style="accent-color: #2793F2"
+          />
+          Proyecto vendido y cerrado
+        </label>
+        <p class="mt-1 text-xs text-gray-500">Los proyectos marcados pasan a la sección Rentabilidades</p>
+      </div>
+
       <!-- Consulta vinculante urbanística -->
       <div>
         <label class="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
@@ -157,21 +255,6 @@
           />
           Consulta vinculante urbanística
         </label>
-      </div>
-
-      <!-- Precio alquiler mensual -->
-      <div v-if="formData.alquiler">
-        <label class="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style="color: #0D0D0D">
-          Precio alquiler (EUR/mes)
-        </label>
-        <input
-          v-model.number="formData.precio_alquiler_mes"
-          type="number"
-          step="0.01"
-          min="0"
-          class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2"
-          style="border-color: #C8D9B0; focus:ring-color: #2793F2"
-        />
       </div>
 
       <!-- Gasto estimado comunidad -->
@@ -245,7 +328,7 @@
             Unidades disponibles (hasta 4 tipos)
           </label>
           <p class="text-xs text-gray-500 mt-1">
-            Define variantes (p.ej. ático con terraza) con su precio, m² y planos (PDF/imagen).
+            Define variantes (p.ej. ático, tipo 2) con nombre, precio, m², nº disponibles y planos.
           </p>
         </div>
       </div>
@@ -266,7 +349,7 @@
             </span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             <div>
               <label class="block text-xs font-medium mb-1" style="color:#0D0D0D">Nombre</label>
               <input
@@ -274,7 +357,7 @@
                 type="text"
                 class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none"
                 style="border-color:#C8D9B0"
-                placeholder="Ej: Estándar / Ático / Terraza"
+                placeholder="Ej: Ático / Tipo 2 / Bajo"
               />
             </div>
             <div>
@@ -297,6 +380,46 @@
                 step="0.01"
                 class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none"
                 style="border-color:#C8D9B0"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-medium mb-1" style="color:#0D0D0D">Nº disponibles</label>
+              <input
+                v-model.number="tipo.disponibles"
+                type="number"
+                min="0"
+                step="1"
+                class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none"
+                style="border-color:#C8D9B0"
+                placeholder="Ej: 10"
+              />
+            </div>
+          </div>
+
+          <!-- Alquiler (solo si proyecto vendido y cerrado) -->
+          <div v-if="formData.vendido_cerrado" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-lg p-3" style="background: rgba(39, 147, 242, 0.08)">
+            <div>
+              <label class="block text-xs font-medium mb-1" style="color:#0D0D0D">Precio alquiler (EUR/mes)</label>
+              <input
+                v-model.number="tipo.precio_alquiler"
+                type="number"
+                min="0"
+                step="0.01"
+                class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none"
+                style="border-color:#C8D9B0"
+                placeholder="Ej: 1200"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-medium mb-1" style="color:#0D0D0D">Nº alquilados</label>
+              <input
+                v-model.number="tipo.alquilados"
+                type="number"
+                min="0"
+                step="1"
+                class="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none"
+                style="border-color:#C8D9B0"
+                placeholder="Ej: 5"
               />
             </div>
           </div>
@@ -359,17 +482,28 @@
           </div>
         </div>
       </div>
+
+      <!-- Comprador 100% (solo proyecto vendido y cerrado, al editar) -->
+      <div v-if="formData.vendido_cerrado && proyecto?.id" class="mt-6 rounded-xl border p-4" style="border-color:#C8D9B0">
+        <h3 class="text-base font-semibold mb-3" style="color:#0D0D0D">Comprador 100% del inmueble</h3>
+        <div v-if="loadingComprador" class="text-sm text-gray-500">Cargando...</div>
+        <div v-else-if="comprador100" class="flex items-center gap-2">
+          <span class="text-sm font-medium" style="color:#0D0D0D">{{ comprador100.nombre }}</span>
+          <span v-if="comprador100.correo" class="text-xs text-gray-500">({{ comprador100.correo }})</span>
+        </div>
+        <p v-else class="text-sm text-gray-500">Ningún comprador con 100% del inmueble registrado.</p>
+      </div>
     </div>
 
-    <!-- Comodidades / Complementos -->
+    <!-- Complementos -->
     <div class="mt-4 sm:mt-6">
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-3">
         <div>
           <label class="block text-xs sm:text-sm font-medium" style="color: #0D0D0D">
-            Comodidades / complementos
+            Complementos
           </label>
           <p class="text-xs text-gray-500 mt-1">
-            Selecciona las comodidades disponibles en este proyecto.
+            Selecciona los complementos disponibles en este proyecto.
           </p>
         </div>
         <div class="flex gap-2">
@@ -638,17 +772,27 @@ type UnidadTipoForm = {
   nombre: string
   precio: number
   m2: number | null
+  disponibles: number | null
+  precio_alquiler: number | null
+  alquilados: number | null
   planos: string[]
   nuevosPlanos: File[]
 }
+
+const TICKET_EUROS = 5000
 
 const formData = ref<Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>>({
   nombre_proyecto: '',
   objetivo_inversion_total: 0,
   localizacion: '',
   permisos: '',
+  precio_compra: undefined,
+  precio_reforma: undefined,
+  precio_permisos: undefined,
+  comision_porcentaje: 2,
   num_lofts: 0,
   precio_unidad: 0,
+  precio_ticket: 5000,
   gasto_estimado_comunidad: 0,
   tipo_inversion: 'Quarterly Bullet',
   porcentaje_llegado: 0,
@@ -657,6 +801,7 @@ const formData = ref<Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>>({
   alquiler: false,
   precio_alquiler_mes: undefined,
   mostrar_en_landing: false,
+  vendido_cerrado: false,
   consulta_vinculante_urbanistica: false,
   caracteristicas: '',
   fotos: [],
@@ -668,16 +813,55 @@ const formData = ref<Omit<Proyecto, 'id' | 'created_at' | 'updated_at'>>({
   unidades_tipos: []
 })
 
+// Objetivo de inversión total = compra + reforma + licencias + comisión (% sobre la base)
+// total = (compra + reforma + licencias) * (1 + comision/100); tickets = total / 5000
+const totalConComision = computed(() => {
+  const compra = Number(formData.value.precio_compra) || 0
+  const reforma = Number(formData.value.precio_reforma) || 0
+  const licencias = Number(formData.value.precio_permisos) || 0
+  const comision = Number(formData.value.comision_porcentaje) || 0
+  const base = compra + reforma + licencias
+  return base * (1 + comision / 100)
+})
+const objetivoInversionTotalFormatted = computed(() => {
+  const t = totalConComision.value
+  if (t > 0) return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(t)
+  const obj = formData.value.objetivo_inversion_total
+  if (obj != null && obj > 0) return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(obj)
+  return '—'
+})
+const numTickets5000 = computed(() => {
+  const t = totalConComision.value > 0 ? totalConComision.value : (formData.value.objetivo_inversion_total || 0)
+  if (t <= 0) return '—'
+  return Math.floor(t / TICKET_EUROS)
+})
+
+// Precio unidad = precio del tipo más barato de los 4 (por defecto)
+const precioUnidadMinTipos = computed(() => {
+  const precios = unidadTipos.value
+    .map((t) => Number(t.precio) || 0)
+    .filter((n) => n > 0)
+  if (precios.length === 0) return null
+  return Math.min(...precios)
+})
+
+const formatEur = (n: number) =>
+  new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n)
+
 const unidadTipos = ref<UnidadTipoForm[]>([
-  { nombre: 'Tipo 1', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
-  { nombre: 'Tipo 2', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
-  { nombre: 'Tipo 3', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
-  { nombre: 'Tipo 4', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
+  { nombre: 'Tipo 1', precio: 0, m2: null, disponibles: null, precio_alquiler: null, alquilados: null, planos: [], nuevosPlanos: [] },
+  { nombre: 'Tipo 2', precio: 0, m2: null, disponibles: null, precio_alquiler: null, alquilados: null, planos: [], nuevosPlanos: [] },
+  { nombre: 'Tipo 3', precio: 0, m2: null, disponibles: null, precio_alquiler: null, alquilados: null, planos: [], nuevosPlanos: [] },
+  { nombre: 'Tipo 4', precio: 0, m2: null, disponibles: null, precio_alquiler: null, alquilados: null, planos: [], nuevosPlanos: [] },
 ])
 
 const hasAnyUnidadTipo = computed(() => {
-  return unidadTipos.value.some((t) => (t.precio || 0) > 0 || (t.m2 || 0) > 0 || (t.planos?.length || 0) > 0 || (t.nuevosPlanos?.length || 0) > 0)
+  return unidadTipos.value.some((t) => (t.precio || 0) > 0 || (t.m2 || 0) > 0 || (t.disponibles || 0) > 0 || (t.precio_alquiler || 0) > 0 || (t.alquilados || 0) > 0 || (t.planos?.length || 0) > 0 || (t.nuevosPlanos?.length || 0) > 0)
 })
+
+// Comprador 100% (solo proyectos vendidos)
+const comprador100 = ref<{ nombre: string; correo?: string } | null>(null)
+const loadingComprador = ref(false)
 
 // Cargar datos del proyecto si existe
 watch(() => props.proyecto, (newProyecto) => {
@@ -687,8 +871,13 @@ watch(() => props.proyecto, (newProyecto) => {
       objetivo_inversion_total: newProyecto.objetivo_inversion_total,
       localizacion: newProyecto.localizacion,
       permisos: newProyecto.permisos || '',
+      precio_compra: newProyecto.precio_compra ?? undefined,
+      precio_reforma: newProyecto.precio_reforma ?? undefined,
+      precio_permisos: newProyecto.precio_permisos ?? undefined,
+      comision_porcentaje: Number(newProyecto.comision_porcentaje) ?? 2,
       num_lofts: newProyecto.num_lofts,
       precio_unidad: newProyecto.precio_unidad,
+      precio_ticket: Number(newProyecto.precio_ticket) || 5000,
       gasto_estimado_comunidad: newProyecto.gasto_estimado_comunidad || 0,
       tipo_inversion: newProyecto.tipo_inversion,
       porcentaje_llegado: newProyecto.porcentaje_llegado,
@@ -697,6 +886,7 @@ watch(() => props.proyecto, (newProyecto) => {
       alquiler: newProyecto.alquiler || false,
       precio_alquiler_mes: newProyecto.precio_alquiler_mes,
       mostrar_en_landing: newProyecto.mostrar_en_landing || false,
+      vendido_cerrado: newProyecto.vendido_cerrado || false,
       consulta_vinculante_urbanistica: newProyecto.consulta_vinculante_urbanistica || false,
       caracteristicas: newProyecto.caracteristicas || '',
       fotos: Array.isArray(newProyecto.fotos) ? newProyecto.fotos : [],
@@ -719,6 +909,9 @@ watch(() => props.proyecto, (newProyecto) => {
         nombre: u.nombre || `Tipo ${idx + 1}`,
         precio: Number(u.precio || 0),
         m2: u.m2 === null || u.m2 === undefined || u.m2 === '' ? null : Number(u.m2),
+        disponibles: u.disponibles === null || u.disponibles === undefined || u.disponibles === '' ? null : Number(u.disponibles),
+        precio_alquiler: u.precio_alquiler == null || u.precio_alquiler === '' ? null : Number(u.precio_alquiler),
+        alquilados: u.alquilados == null || u.alquilados === '' ? null : Number(u.alquilados),
         planos: Array.isArray(u.planos) ? u.planos : [],
         nuevosPlanos: [],
       }
@@ -730,8 +923,13 @@ watch(() => props.proyecto, (newProyecto) => {
       objetivo_inversion_total: 0,
       localizacion: '',
       permisos: '',
+      precio_compra: undefined,
+      precio_reforma: undefined,
+      precio_permisos: undefined,
+      comision_porcentaje: 2,
       num_lofts: 0,
       precio_unidad: 0,
+      precio_ticket: 5000,
       gasto_estimado_comunidad: 0,
       tipo_inversion: 'Quarterly Bullet',
       porcentaje_llegado: 0,
@@ -740,6 +938,7 @@ watch(() => props.proyecto, (newProyecto) => {
       alquiler: false,
       precio_alquiler_mes: undefined,
       mostrar_en_landing: false,
+      vendido_cerrado: false,
       consulta_vinculante_urbanistica: false,
       caracteristicas: '',
       fotos: [],
@@ -759,13 +958,43 @@ watch(() => props.proyecto, (newProyecto) => {
     newVideoUrl.value = ''
 
     unidadTipos.value = [
-      { nombre: 'Tipo 1', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
-      { nombre: 'Tipo 2', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
-      { nombre: 'Tipo 3', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
-      { nombre: 'Tipo 4', precio: 0, m2: null, planos: [], nuevosPlanos: [] },
+      { nombre: 'Tipo 1', precio: 0, m2: null, disponibles: null, precio_alquiler: null, alquilados: null, planos: [], nuevosPlanos: [] },
+      { nombre: 'Tipo 2', precio: 0, m2: null, disponibles: null, precio_alquiler: null, alquilados: null, planos: [], nuevosPlanos: [] },
+      { nombre: 'Tipo 3', precio: 0, m2: null, disponibles: null, precio_alquiler: null, alquilados: null, planos: [], nuevosPlanos: [] },
+      { nombre: 'Tipo 4', precio: 0, m2: null, disponibles: null, precio_alquiler: null, alquilados: null, planos: [], nuevosPlanos: [] },
     ]
+    comprador100.value = null
   }
 }, { immediate: true })
+
+// Cargar comprador 100% cuando proyecto vendido y tiene id
+watch(
+  () => [props.proyecto?.id, props.proyecto?.vendido_cerrado, props.proyecto?.objetivo_inversion_total],
+  async ([id, vendido, objetivo]) => {
+    if (!id || !vendido || !objetivo) {
+      comprador100.value = null
+      return
+    }
+    loadingComprador.value = true
+    comprador100.value = null
+    try {
+      const { data } = await supabase
+        .from('usuarios_compradores')
+        .select('nombre, correo, monto_invertido')
+        .eq('proyecto_id', id)
+        .gte('monto_invertido', Number(objetivo))
+        .limit(1)
+      if (data?.[0]) {
+        comprador100.value = { nombre: data[0].nombre || 'Sin nombre', correo: data[0].correo }
+      }
+    } catch {
+      comprador100.value = null
+    } finally {
+      loadingComprador.value = false
+    }
+  },
+  { immediate: true }
+)
 
 const isAmenitySelected = (key: AmenityKey) => {
   return Array.isArray(formData.value.comodidades) && formData.value.comodidades.includes(key)
@@ -951,6 +1180,9 @@ const buildUnidadesTiposPayload = (): UnidadTipo[] => {
     nombre: (t.nombre || `Tipo ${idx + 1}`).trim(),
     precio: Number(t.precio || 0),
     m2: t.m2 === null ? undefined : Number(t.m2 || 0),
+    disponibles: t.disponibles === null || t.disponibles === undefined ? undefined : Number(t.disponibles || 0),
+    precio_alquiler: t.precio_alquiler == null ? undefined : Number(t.precio_alquiler || 0),
+    alquilados: t.alquilados == null ? undefined : Number(t.alquilados || 0),
     planos: Array.isArray(t.planos) ? t.planos : [],
   }))
 }
@@ -965,6 +1197,16 @@ function extractStreetViewSrc(value: string | undefined): string {
 }
 
 const handleSubmit = async () => {
+  // Objetivo de inversión total = suma de compra + reforma + licencias + comisión
+  const total = totalConComision.value
+  if (total > 0) {
+    formData.value.objetivo_inversion_total = Math.round(total * 100) / 100
+  }
+  // Precio unidad = precio del tipo más barato de los 4 (por defecto)
+  const minPrecio = precioUnidadMinTipos.value
+  if (minPrecio != null && minPrecio > 0) {
+    formData.value.precio_unidad = minPrecio
+  }
   formData.value.fotos_oficina_actual = [...existingPhotosOficinaActual.value]
   formData.value.fotos_oficina_remodelada = [...existingPhotosOficinaRemodelada.value]
   formData.value.street_view_embed = extractStreetViewSrc(formData.value.street_view_embed)

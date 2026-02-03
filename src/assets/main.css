@@ -137,19 +137,20 @@ layer(base);
 
   --color-theme-purple-500: #7a5af8;
 
-  /* LoftAndLive brand palette - Genie Chatbot theme */
-  --color-loft-1: #2793F2;   /* blue */
-  --color-loft-2: #C8D9B0;   /* sage green */
-  --color-loft-3: #260F0A;   /* dark brown */
-  --color-loft-4: #2793F2;   /* blue - primary accent */
-  --color-loft-5: #F2F2F2;   /* light gray */
-  --color-loft-50: #F2F2F2;
-  --color-loft-100: #C8D9B0;
-  --color-loft-200: #C8D9B0;
+  /* LoftAndLive / PERFORM-INFORM-TRANSFORM – Landing theme (Hex swatches) */
+  /* 1: #F2CEE9 pink  2: #5E9FF2 light blue  3: #0583F2 primary blue  4: #A67D65 terracotta  5: #0D0D0D dark */
+  --color-loft-1: #F2CEE9;   /* pink/lavender */
+  --color-loft-2: #5E9FF2;   /* light blue */
+  --color-loft-3: #0583F2;   /* primary blue */
+  --color-loft-4: #A67D65;   /* terracotta/brown */
+  --color-loft-5: #0D0D0D;   /* dark text */
+  --color-loft-50: #F2CEE9;
+  --color-loft-100: #5E9FF2;
+  --color-loft-200: #0583F2;
   --color-loft-bg: #F2F2F2;
-  --color-loft-border: #C8D9B0;
-  --color-loft-accent: #2793F2;
-  --color-loft-text: #260F0A;
+  --color-loft-border: #5E9FF2;
+  --color-loft-accent: #0583F2;
+  --color-loft-text: #0D0D0D;
 
   --shadow-theme-md: 0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06);
   --shadow-theme-lg: 0px 12px 16px -4px rgba(16, 24, 40, 0.08),

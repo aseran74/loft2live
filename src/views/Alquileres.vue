@@ -7,7 +7,7 @@
         <div class="flex flex-col gap-2 mb-8">
           <h1 class="text-3xl sm:text-4xl font-bold" style="color:#0D0D0D">Alquileres Flexliving</h1>
           <p class="text-lg text-gray-600">
-            Encuentra lofts disponibles para alquiler con todas las comodidades incluidas. Precio flexliving todo incluido.
+            Encuentra lofts disponibles para alquiler con todos los complementos incluidos. Precio flexliving todo incluido.
           </p>
         </div>
 
@@ -178,8 +178,8 @@ import FullScreenLayout from '@/components/layout/FullScreenLayout.vue'
 import LandingHeader from '@/components/landing/LandingHeader.vue'
 import LandingFooter from '@/components/landing/LandingFooter.vue'
 import AlquilerCard from '@/components/proyectos/AlquilerCard.vue'
-import type { Proyecto } from '@/types/proyecto'
-import { fetchPublicProyectos } from '@/utils/publicProyectos'
+import type { Proyecto, UnidadTipo } from '@/types/proyecto'
+import { fetchRentabilidades } from '@/utils/publicProyectos'
 import { loadGoogleMapsPlaces } from '@/utils/loadGoogleMaps'
 
 const router = useRouter()
@@ -192,22 +192,42 @@ const queryLocalizacion = ref('')
 const precioMinValue = ref(900)
 const precioMaxValue = ref(1300)
 
-// Filtrar solo proyectos con alquiler disponible
+// Solo proyectos vendidos y cerrados; con al menos un tipo con (disponibles - alquilados) > 0 y precio_alquiler
+function tiposDisponiblesAlquiler(proyecto: Proyecto): UnidadTipo[] {
+  const tipos = proyecto.unidades_tipos || []
+  return tipos.filter((u) => {
+    const disp = Number(u.disponibles ?? 0)
+    const alq = Number(u.alquilados ?? 0)
+    const disponiblesParaAlquiler = Math.max(0, disp - alq)
+    const precio = Number(u.precio_alquiler ?? 0)
+    return disponiblesParaAlquiler > 0 && precio > 0
+  })
+}
+
+// fetchRentabilidades() ya devuelve solo proyectos vendidos y cerrados; filtramos por tipos con lofts en alquiler
 const alquileres = computed(() => {
-  return proyectos.value.filter((p) => p.alquiler === true && p.precio_alquiler_mes)
+  return proyectos.value.filter((p) => tiposDisponiblesAlquiler(p).length > 0)
+})
+
+// Rango de precios según precio_alquiler de los tipos (no precio_alquiler_mes del proyecto)
+const preciosAlquilerTipos = computed(() => {
+  const precios: number[] = []
+  for (const p of alquileres.value) {
+    for (const u of tiposDisponiblesAlquiler(p)) {
+      const pr = Number(u.precio_alquiler ?? 0)
+      if (pr > 0) precios.push(pr)
+    }
+  }
+  return precios
 })
 
 const priceRangeMin = computed(() => {
-  const values = alquileres.value
-    .map((p) => Number(p.precio_alquiler_mes || 0))
-    .filter((n) => Number.isFinite(n) && n > 0)
+  const values = preciosAlquilerTipos.value.filter((n) => Number.isFinite(n) && n > 0)
   return values.length ? Math.min(...values) : 900
 })
 
 const priceRangeMax = computed(() => {
-  const values = alquileres.value
-    .map((p) => Number(p.precio_alquiler_mes || 0))
-    .filter((n) => Number.isFinite(n) && n > 0)
+  const values = preciosAlquilerTipos.value.filter((n) => Number.isFinite(n) && n > 0)
   return values.length ? Math.max(...values) : 1300
 })
 
@@ -219,17 +239,25 @@ const filtered = computed(() => {
   return alquileres.value.filter((p) => {
     const loc = (p.localizacion || '').toLowerCase()
     if (q && !loc.includes(q)) return false
-    const price = Number(p.precio_alquiler_mes || 0)
-    if (price && price < min) return false
-    if (price && price > max) return false
-    return true
+    const tipos = tiposDisponiblesAlquiler(p)
+    const algunPrecioEnRango = tipos.some((u) => {
+      const price = Number(u.precio_alquiler ?? 0)
+      return price >= min && price <= max
+    })
+    return algunPrecioEnRango
   })
 })
 
 const averagePrice = computed(() => {
   if (filtered.value.length === 0) return 0
-  const sum = filtered.value.reduce((acc, p) => acc + Number(p.precio_alquiler_mes || 0), 0)
-  return Math.round(sum / filtered.value.length)
+  const precios: number[] = []
+  for (const p of filtered.value) {
+    for (const u of tiposDisponiblesAlquiler(p)) {
+      const pr = Number(u.precio_alquiler ?? 0)
+      if (pr > 0) precios.push(pr)
+    }
+  }
+  return precios.length ? Math.round(precios.reduce((a, b) => a + b, 0) / precios.length) : 0
 })
 
 const formatCurrency = (amount: number) =>
@@ -327,12 +355,15 @@ const updateMarkers = async () => {
   for (const p of filtered.value) {
     const pos = await geocodeAddress(p.localizacion)
     if (!pos) continue
+    const tipos = tiposDisponiblesAlquiler(p)
+    const precios = tipos.map((u) => Number(u.precio_alquiler ?? 0)).filter((n) => n > 0)
+    const precioMin = precios.length ? Math.min(...precios) : 0
     const marker = new g.maps.Marker({ map, position: pos, title: p.nombre_proyecto })
     const info = new g.maps.InfoWindow({
       content: `<div style="padding:10px; max-width:260px;">
         <div style="font-weight:700; margin-bottom:6px;">${p.nombre_proyecto}</div>
         <div style="color:#666; font-size:12px; margin-bottom:6px;">${p.localizacion}</div>
-        <div style="font-size:12px;"><b>Alquiler:</b> ${formatCurrency(Number(p.precio_alquiler_mes || 0))}/mes</div>
+        <div style="font-size:12px;"><b>Alquiler:</b> desde ${formatCurrency(precioMin)}/mes</div>
       </div>`,
     })
     marker.addListener('click', () => info.open(map, marker))
@@ -349,7 +380,7 @@ async function load() {
   loading.value = true
   error.value = null
   try {
-    proyectos.value = await fetchPublicProyectos()
+    proyectos.value = await fetchRentabilidades()
     // init sliders
     precioMinValue.value = priceRangeMin.value
     precioMaxValue.value = priceRangeMax.value

@@ -84,7 +84,7 @@
             v-if="!isAuthenticated"
             to="/signin"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white hover:opacity-90 transition-opacity"
-            style="background-color: #2793F2"
+            style="background-color: #0583F2"
           >
             <!-- Icono Google -->
             <svg class="w-4 h-4" viewBox="0 0 48 48" aria-hidden="true">
@@ -109,7 +109,7 @@
                   alt="Usuario"
                   class="h-9 w-9 object-cover"
                 />
-                <div v-else class="h-9 w-9 flex items-center justify-center text-xs font-bold" style="color:#2793F2">
+                <div v-else class="h-9 w-9 flex items-center justify-center text-xs font-bold" style="color:#0583F2">
                   {{ userInitials }}
                 </div>
               </span>
@@ -129,11 +129,11 @@
               </div>
               <div class="mt-3 border-t border-gray-200 pt-3 flex flex-col gap-2">
                 <router-link
-                  to="/dashboard"
+                  :to="isAdmin ? '/dashboard' : '/mi-cuenta'"
                   class="px-3 py-2 rounded-lg text-sm font-medium text-gray-900 hover:bg-gray-100"
                   @click="closeDropdown"
                 >
-                  Ir al dashboard
+                  {{ isAdmin ? 'Panel admin' : 'Mi cuenta' }}
                 </router-link>
                 <button
                   type="button"
@@ -231,7 +231,7 @@
             v-if="!isAuthenticated"
             to="/signin"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white"
-            style="background-color: #2793F2"
+            style="background-color: #0583F2"
             @click="mobileMenuOpen = false"
           >
             <svg class="w-4 h-4" viewBox="0 0 48 48" aria-hidden="true">
@@ -241,6 +241,14 @@
               <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a11.96 11.96 0 0 1-4.085 5.565l.003-.002 6.191 5.238C36.973 39.205 44 34 44 24c0-1.341-.138-2.651-.389-3.917Z" />
             </svg>
             Iniciar sesión
+          </router-link>
+          <router-link
+            v-if="isAuthenticated"
+            :to="isAdmin ? '/dashboard' : '/mi-cuenta'"
+            class="inline-flex items-center gap-2 transition-colors text-gray-900 hover:opacity-70"
+            @click="mobileMenuOpen = false"
+          >
+            {{ isAdmin ? 'Panel admin' : 'Mi cuenta' }}
           </router-link>
           <button
             v-if="isAuthenticated"
@@ -269,7 +277,7 @@ const dropdownRef = ref<HTMLElement | null>(null)
 const busquedaDropdownRef = ref<HTMLElement | null>(null)
 
 const router = useRouter()
-const { currentUser, userProfile, isAuthenticated, signOut } = useAuth()
+const { currentUser, userProfile, isAuthenticated, isAdmin, signOut } = useAuth()
 
 const logoStyle = computed(() => {
   return {
@@ -348,13 +356,13 @@ onUnmounted(() => {
   color: #0D0D0D;
 }
 .nav-link-blue:hover {
-  color: #2793F2;
+  color: #0583F2;
 }
 .dropdown-nav-link {
   color: #0D0D0D;
 }
 .dropdown-nav-link:hover {
-  color: #2793F2;
-  background-color: rgba(39, 147, 242, 0.1);
+  color: #0583F2;
+  background-color: rgba(5, 131, 242, 0.1);
 }
 </style>
