@@ -9,7 +9,7 @@
         loading="lazy"
       />
       <div class="absolute top-3 right-3">
-        <span class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style="background-color: rgba(121, 53, 141, 0.9); backdrop-filter: blur(4px)">
+        <span class="px-3 py-1.5 rounded-full text-xs font-bold text-white shadow-lg" style="background: linear-gradient(135deg, #C8D9B0, #2793F2); backdrop-filter: blur(4px)">
           Disponible
         </span>
       </div>
@@ -83,7 +83,7 @@
             v-for="(amenidad, idx) in displayedAmenities"
             :key="idx"
             class="flex items-center gap-2 p-2 rounded-lg text-xs"
-            style="background-color: #F7F6FB"
+            style="background-color: #F2F2F2"
           >
             <span class="w-4 h-4 flex-shrink-0" style="color: #2793F2" v-html="getAmenityIconSvg(amenidad)"></span>
             <span class="text-gray-700 truncate">{{ getAmenityLabel(amenidad) }}</span>
@@ -101,7 +101,7 @@
       <div class="flex gap-3 pt-4 border-t" style="border-color: #C8D9B0">
         <button 
           class="flex-1 px-5 py-3 text-white rounded-lg transition-all font-semibold hover:opacity-90 hover:shadow-lg" 
-          style="background-color: #2793F2"
+          style="background: linear-gradient(135deg, #C8D9B0, #2793F2)"
           @click="$emit('alquilar', proyecto)"
         >
           Alquilar ahora
